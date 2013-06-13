@@ -1,0 +1,12 @@
+
+<h1>Menus overzicht</h1>
+
+<ul>
+    <li><a href="/admin/menu/toevoegen">Toevoegen</a></li>    
+</ul>
+<?php foreach ($this->menus as $menu) {
+    echo  "<p>".$menu['slug']. " <a href='/admin/menu/wijzigen/id/" . $menu['id']. "'>Wijzig</a>"." ";
+    echo  "<a href='/admin/menu/verwijderen/id/" . $menu['id']. "'>Verwijder</a>"."</p>";
+    echo  '<hr/>';
+}
+

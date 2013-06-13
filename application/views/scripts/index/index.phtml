@@ -1,0 +1,17 @@
+<div>
+    <ul>
+<?php 
+        foreach($this->categories as $category) { ?>
+        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'category' => $category['categorieId']),NULL,TRUE); ?>"><?php echo $category['label'];?></a></li>
+<?php } ?>    
+    </ul>
+</div>
+<?php
+if($this->producten)
+    foreach($this->producten as $product) { ?>
+        <div id="productDiv">
+            <span><?php echo $product['label'];?></span><br>
+            <span><?php echo 'prijs : '.$product['price'];?></span><br> 
+            <a href="/index/detail/id/<?php echo $product['productId']; ?>">Detail</a>
+        </div>
+<?php } ?>

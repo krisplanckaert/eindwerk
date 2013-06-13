@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+    <head>
+        <title>ZF Shop</title>
+        <link href="/css/style.css" rel="stylesheet" />
+        <meta charset="UTF-8" />
+    </head>
+    <body class="normalpage">
+        <section id="page">
+            <div id="bodywrap">
+                <section id="top">
+                    <nav>
+                        <h1 id="sitename">
+                            <a href="#">Portfolio | Premium CSS Template </a>
+                        </h1>
+                        <?php echo $this->navigation()->menu(); ?>
+                    </nav>
+                </section>
+                <section id="container">
+                    <div id="contents">
+                        <header>
+                            <div id="right">
+                                <div id="login">
+                                    <span style="float:right"><?php echo $this->auth(); ?></span>
+                                </div><hr />
+                                <div id="winkelmand">
+                                    <span style="float:left">
+<?php                                       if($this->winkelmanden) { ?>
+                                                <h1>Winkelmand</h1>
+                                                <table id="tbl_winkelmand">
+                                                    <tr>
+                                                        <th>Naam</th>
+                                                        <th>Prijs</th>
+                                                        <th>Aantal</th>
+                                                    </tr>
+<?php                                               foreach($this->winkelmanden as $winkelmand) { ?>
+                                                        <tr>
+                                                            <td class="td_winkelmand"><?= $winkelmand['naam'];?></td>
+                                                            <td class="td_winkelmand"><?= $winkelmand['prijs'];?></td>
+                                                            <td class="td_winkelmand"><?= $winkelmand['aantal'];?></td>
+                                                        </tr>
+<?php                                               } ?>
+                                                </table>
+<?php                                       } ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </header>
+                        <section id="content">
+                            <?php echo $this->layout()->content; ?>
+                        </section>
+
+                        <footer>Footer</footer>
+                        <br class="clear" />
+                    </div>
+                </section>
+            </div>
+        </section>
+    </body>
+</html>

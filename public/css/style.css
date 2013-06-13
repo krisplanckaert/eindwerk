@@ -1,0 +1,95 @@
+body{background:#FFD400;background: url("/images/htmlbg.jpg") repeat-x scroll left top transparent;}
+
+body.normalpage {background:url(/images/normalhtml.jpg) left top repeat-x;}
+body.normalpage #page {background:url(/images/normalheader.jpg) center top no-repeat; height:245px;}
+
+ul{list-style-type: none;padding:18px 18px 18px 250px;}
+ul li {
+    display : inline-block;    
+    font-family: Verdana,Geneva,sans-serif;
+    font-size: 162.5%;
+    padding:0px 20px;
+}
+
+#page {width:100%; height:120px; background: url(/images/headerbg.jpg) center top no-repeat; margin: 0; padding: 0;}
+body #page {background:url(/images/normalheader.jpg) center top no-repeat; }
+
+#container{ background: url("/images/wrapbg.png") no-repeat scroll center top transparent;}
+
+header #logo{float:left;width:500px;border:1px solid black;}
+header #login{margin:20px; padding:20px;overflow: auto;}
+header #winkelmand{margin:20px; padding:20px;overflow: auto;}
+header #right{float:right;}
+
+section#content{float:left;width:500px;}
+
+section#content li{display:inline-block;border:1px solid red;margin-left:20px;}
+section#content li:first-child{margin-left:0;}
+footer{float:left;width:800px;background:#000;color:white;}
+
+#top nav {
+    font-family: 'TeXGyreAdventor',Arial,sans-serif;
+    height: 74px;
+    margin: 0 auto;
+    width: 980px;
+}
+
+.clear{clear:both;}
+/* Hide */
+.hidden{display:none;}
+
+#contents { margin:0 26px 0 26px; padding:45px 0px 0 0px; background:url(/images/wraptop.jpg) 0 30px repeat-x; min-height:300px; }
+
+#sitename a {
+    background: url("/images/portfoliologo.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 42px;
+    overflow: hidden;
+    text-indent: -5000px;
+    width: 170px;
+}
+
+#bodywrap {
+    margin: 0 auto;
+    width: 1032px;
+    padding: 0;
+}
+
+section, header, footer, article, nav {
+    display: block;
+}
+
+#top {
+    height: 120px;
+}
+
+body {
+    color: #333333;
+    font-family: Verdana,Geneva,sans-serif;
+    font-size: 62.5%;
+}
+
+#sitename {
+    display: block;
+    float: left;
+    padding: 18px 0 0;
+}
+#productDiv{
+    float:left;border:1px solid black;margin:10px; padding:30px;
+}
+
+#tbl_winkelmand {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.td_winkelmand {
+    width:50px;
+    border:1px solid black;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}

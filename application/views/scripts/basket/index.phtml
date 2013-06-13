@@ -1,0 +1,9 @@
+
+<h1>Winkelmand overzicht</h1>
+
+<?php foreach ($this->winkelmanden as $winkelmand) {
+    echo  "<p>".$winkelmand['naam']. " <a href='/winkelmand/wijzigen/id/" . $winkelmand['id']. "'>Wijzig</a>"." ";
+    echo  "<a href='/winkelmand/verwijderen/id/" . $winkelmand['id']. "'>Verwijder</a>"."</p>";
+    echo  '<hr/>';
+}
+
