@@ -7,6 +7,9 @@ class Admin_Form_Menu extends Zend_Form {
         $this->setMethod(Zend_Form::METHOD_POST);
         //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
+
+        // element label
+        $this->addElement(new Zend_Form_Element_Text('menuId',array('hidden'=>true)));
         
         // element label
         $this->addElement(new Zend_Form_Element_Text('label',array(
@@ -32,13 +35,17 @@ class Admin_Form_Menu extends Zend_Form {
             'filters' => array('StringTrim')
             )));
 
-        // element controller
-        $this->addElement(new Zend_Form_Element_Text('locale',array(
-            'label'=>"Locale",
-            'required'=>true,
-            // filters
-            'filters' => array('StringTrim')
-            )));
+        //locale
+        $localeModel = new Application_Model_Locale();
+        $locale = $localeModel->getAll();
+        foreach($locale as $k => $v) {
+            $this->addElement(new Zend_Form_Element_Text($v['localeId'], array(
+                'label' => 'Locale',
+                'belongsto' => 'description',
+                'filters' => array('StringTrim'),
+                //'validator' => 'NotEmpty',
+             )));
+        }
         
         // element controller
         $this->addElement(new Zend_Form_Element_Text('slug',array(
@@ -52,9 +59,8 @@ class Admin_Form_Menu extends Zend_Form {
         $rolesModel = new Application_Model_Role();
         $rolesList = $rolesModel->getRolesList();
         //Zend_Debug::dump($rolesList);exit;
-        $roles = new Zend_Form_Element_MultiCheckbox('ID_Roles', array(
+        $roles = new Zend_Form_Element_MultiCheckbox('rolesId', array(
             'label' => 'Role',
-            'required' => true,
         ));
         $roles->setMultiOptions($rolesList);
         $this->addElement($roles);
@@ -70,7 +76,14 @@ class Admin_Form_Menu extends Zend_Form {
         
     }
     
-       
+    public function populate($values) {
+        parent::populate($values);
+        $allElements = $this->getElements();
+        $allElements[1]->setValue($values['description'][1]);
+        $allElements[2]->setValue($values['description'][2]);
+        //die('populate');
+        
+    }
         
 }
 

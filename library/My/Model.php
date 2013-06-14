@@ -10,7 +10,6 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     protected $datagrid;
     protected $enableDatagrid = FALSE;
     
-    
     protected $data;
     
     protected $appName;
@@ -24,7 +23,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
      /**
      * @var int
      */
-    protected $authUserId;    
+    protected $authUserRow;    
     
     /**
      * Selected language, nl/fr
@@ -32,7 +31,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
      */
     protected $selectedLang;    
     
-    
+    protected $localeFields;
     /**
      * 
      * Retrieve active rows => ID_Status = 1
@@ -45,7 +44,13 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     	$this->db = $this->getAdapter();
 
         $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
-       
+        /*$userModel = new Application_Model_User();
+        $fields = array(
+            'username' => $this->authUser
+        );
+        $this->authUserRow = $userModel->getOneByFields($fields);*/
+        
+        
         $session = new Zend_Session_Namespace('translation');
    	    if (isset($session->translate) && !empty($session->translate)){
          	$this->selectedLang = $session->translate;       	
@@ -213,7 +218,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     public function insert($data,$autoCompleteFields = true) {
     	if ($autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
-            $data['creationUserId'] = (int)$this->userId;
+            $data['creationUserId'] = 2;
             $data['creationDate'] = $currentTime;
     	}
         return parent::insert($data);
@@ -228,7 +233,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
        }
        if ($this->autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
-            $data['changeUserId'] = (int) $this->userId;
+            $data['changeUserId'] = (int) $this->authUserRow['userId'];
             $data['changeDate'] = $currentTime;
        }
        return parent::update($data,$primaryKey . ' = ' . (int)$id); 	
@@ -252,6 +257,29 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         return parent::update($data, $where);
     }
     
+    public function getLocales($result) {
+        $locale = Zend_Registry::get('Zend_Locale');
+        $localeModel = new Application_Model_Locale();
+        $localeRow = $localeModel->getOneByField('locale',$locale);        
+
+        $thisClass = get_class($this);
+        $childLocaleModelName = $thisClass.'Locale'; 
+        $childLocaleModel = new $childLocaleModelName;
+        
+        $parent = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1));
+
+        $parentKey = $parent.'Id';
+        $where = $parentKey.'='.$result[$parentKey];
+        $locales = $childLocaleModel->getAll($where);
+        foreach($this->localeFields as $localeField) {
+            foreach($locales as $locale) {
+                $test[$locale['localeId']] = $locale[$localeField];
+            }
+            $result[$localeField] = $test;
+        }
+        return $result;
+    }
+    
     public function getLocale($result) {
         $locale = Zend_Registry::get('Zend_Locale');
         $localeModel = new Application_Model_Locale();
@@ -264,11 +292,18 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $parent = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1));
 
         $parentKey = $parent.'Id';
-        foreach($result as $k => $v) {
-            $where = $parentKey.'='.$v[$parentKey].' and localeId = ' . $localeRow['localeId'];
+        if(!isset($result[$parentKey])) {
+            foreach($result as $k => $v) {
+                $where = $parentKey.'='.$v[$parentKey].' and localeId = ' . $localeRow['localeId'];
+                $childLocale = $childLocaleModel->getAll($where);
+                $result[$k]['locale'] = $childLocale[0];
+            } 
+        } else {
+            $where = $parentKey.'='.$result[$parentKey].' and localeId = ' . $localeRow['localeId'];
             $childLocale = $childLocaleModel->getAll($where);
-            $result[$k]['locale'] = $childLocale[0];
-        } 
+            $result['locale'] = $childLocale[0];
+            
+        }
         return $result;
     }
 
@@ -277,5 +312,55 @@ abstract class My_Model extends Zend_Db_Table_Abstract
          $where  = $this->getAdapter()->quoteInto($this->_primary . '= ?', $id);
          $this->delete($where);   
     }    
+    
+    public function save($data, $id=null) {
+        if (!empty($id)) {
+            $modelData = $data;
+            if(is_array($this->localeFields)) {
+                foreach($this->localeFields as $localeFields) {
+                    unset($modelData[$localeFields]);
+                }
+            }
+            $this->update($modelData,$id);
+        } else {
+            $id = $this->insert($data);
+        }
+        $thisClass = get_class($this);
+        if(!strstr($thisClass, 'locale')) {
+            $childLocaleModelName = $thisClass.'Locale'; 
+            $childLocaleModel = new $childLocaleModelName;
+            foreach($this->localeFields as $localeFields) {
+                if(isset($data[$localeFields])) {
+                    foreach($data[$localeFields] as $k => $v) {
+                        $fields = array(
+                            $this->_primary[1] => $data[$this->_primary[1]],
+                            'localeId' => $k,
+                        );
+                        $childLocaleRow = $childLocaleModel->getOneByFields($fields);
+                        if($childLocaleRow) {
+                            $childLocaleData = array(
+                                $localeFields => $v,
+                            );
+                            $localePrimary = $childLocaleModel->getPrimary();
+                            $childLocaleModel->save($childLocaleData, $childLocaleRow[$childLocaleModel->getPrimary()]);
+                        } else {
+                            //Zend_Debug::dump($data);
+                            $childLocaleData = array(
+                                $this->_primary[1] => $data[$this->_primary[1]],
+                                $localeFields => $v,
+                                'localeId' => $k,
+                                'translated' => true,
+                            );
+                            $childLocaleModel->save($childLocaleData);
+                        }
+                    }
+                }
+            }
+        } 
+    }
+    
+    public function getPrimary() {
+        return $this->_primary[1];
+    }
 
 }

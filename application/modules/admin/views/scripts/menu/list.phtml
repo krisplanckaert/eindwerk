@@ -1,0 +1,42 @@
+<?php 
+$this->placeholder('mainTitle')->set($this->translate('Menu'));
+
+$module = 'admin';
+$controller = 'menu';
+?>
+ <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+    <img src="/base/images/icons/create.png">
+</a>
+<table>
+    <tr>
+        <th><?php echo $this->translate('Label');?></th>
+        <th><?php echo $this->translate('Module');?></th>
+        <th><?php echo $this->translate('Controller');?></th>
+        <th><?php echo $this->translate('Action');?></th>
+        <th><?php echo $this->translate('Slug');?></th>
+        <th><?php echo $this->translate('Status');?></th>
+    </tr>
+<?php if($this->rows) { ?>
+<?php   foreach($this->rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['label']?></td>
+                <td><?php echo $row['module']?></td>
+                <td><?php echo $row['controller']?></td>
+                <td><?php echo $row['action']?></td>
+                <td><?php echo $row['slug']?></td>
+                <td><?php echo $row['status']?></td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'menuId' => $row['menuId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/edit.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'menuId' => $row['menuId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/cross.png">
+                    </a>
+                </td>
+            </tr>
+<?php   } ?>            
+
+<?php } else $this->translate('leeg bestand'); ?>            
+</table>

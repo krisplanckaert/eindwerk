@@ -1,11 +1,12 @@
 <?php
 
-class Admin_MenuController extends Zend_Controller_Action
+class Admin_MenuController extends My_Controller_Action
 {
 
     public function init()
     {
-        /* Initialize action controller here */        
+        $this->model = new Application_Model_Menu();
+        parent::init();
         
     }
 
@@ -18,45 +19,42 @@ class Admin_MenuController extends Zend_Controller_Action
         $this->view->menus = $menus;
     }
     
-    public function wijzigenAction()
+    public function changeAction()
     {
-        $id = (int) $this->_getParam('id'); //$_GET['id];
-                
+        $menuId = (int) $this->_getParam('menuId'); //$_GET['id];
+
         $menuModel = new Application_Model_Menu();
-        $menu = $menuModel->find($id)->current(); 
+        $menu = $menuModel->find($menuId)->current(); 
                
-        $form = new Admin_Form_Menu($id);
+        $form = new Admin_Form_Menu($menuId);
         $menuArr = $menu->toArray();
-        //$menuArr['ID_Roles'] = array('1', '2');
+        $menuArr = $menuModel->getLocales($menuArr);
+
         $menuRoleModel = new Application_Model_Menurole();
-        $where = 'id_menu='.$id;
+        $where = 'menuId='.$menuId;
         $menuRoles = $menuRoleModel->getAll($where);
         foreach($menuRoles as $menuRole) {
-            $menuArr['ID_Roles'][] = $menuRole['id_role'];
+            $menuArr['rolesId'][] = $menuRole['roleId'];
         }
-        $form->populate($menuArr);
+        //Zend_Debug::dump($menuArr);
                 
         $this->view->form = $form;
+        $this->view->form->populate((array)$menuArr);
         
         if ($this->getRequest()->isPost()){
             $postParams= $this->getRequest()->getPost();
-            //Zend_Debug::dump($postParams);exit;
             if ($this->view->form->isValid($postParams)) {                                                           
                   
                 unset($postParams['toevoegen']);
+                //Zend_Debug::dump($postParams);exit;
+                $this->toevoegenMenuRoles($postParams, $menuId);                
+                //Zend_Debug::dump($postParams);exit;
+                unset($postParams['rolesId']);
+                $menuModel->save($postParams, $menuId);
                 
-                $this->toevoegenMenuRoles($postParams, $id);
-
-                unset($postParams['ID_Roles']);
-                $menuModel->wijzigen($postParams, $id);
-                
-                /*$this->_redirect('/menu/index');*/
-                
-                $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'list')));
             }  
-            
         }
-        
     }
 
     public function toevoegenAction()
@@ -86,32 +84,39 @@ class Admin_MenuController extends Zend_Controller_Action
         $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'index')));
     }
 
-    public function toevoegenMenuRoles($postParams, $id_menu) {
+    public function toevoegenMenuRoles($postParams, $menuId) {
         $menuRolesModel = new Application_Model_Menurole();
         //Zend_Debug::dump($postParams);exit;
-        $where = 'id_menu='.$id_menu;
+        $where = 'menuId='.$menuId;
         $menuRoles = $menuRolesModel->getAll($where);
         foreach($menuRoles as $menuRole) {
-            if(!in_array($menuRole['id_role'], $postParams['ID_Roles'])) {
-                $where = 'id_menu='.$id_menu.' and id_role='.$menuRole['id_role'];
+            if(!isset($postParams['rolesId']) || !in_array($menuRole['roleId'], $postParams['rolesId'])) {
+                $where = 'menuId='.$menuId.' and roleId='.$menuRole['roleId'];
                 $menuRolesModel->delete($where);
             }
         }
-        
-        foreach($postParams['ID_Roles'] as $id_role) {
-            $fields = array(
-                'id_menu' => $id_menu,
-                'id_role' => $id_role,
-            );
-            $menuRole = $menuRolesModel->getOneByFields($fields);
-            if(!$menuRole) {
-                $data = array(
-                    'id_menu' => $id_menu,
-                    'id_role' => $id_role,
+        if(isset($postParams['rolesId'])) {
+            foreach($postParams['rolesId'] as $roleId) {
+                Zend_Debug::dump($roleId);
+                $fields = array(
+                    'menuId' => $menuId,
+                    'roleId' => $roleId,
                 );
-                $menuRolesModel->insert($data);
+                $menuRole = $menuRolesModel->getOneByFields($fields);
+                if(!$menuRole) {
+                    $data = array(
+                        'menuId' => $menuId,
+                        'roleId' => $roleId,
+                    );
+                    $menuRolesModel->insert($data);
+                } 
             }
         }
+    }
+
+    public function listAction() {
+       $this->view->rows = $this->model->getAll();
+       
     }
 }
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50150
 File Encoding         : 65001
 
-Date: 2013-06-14 06:30:26
+Date: 2013-06-14 21:33:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -169,13 +169,14 @@ CREATE TABLE `locale` (
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `locale_ibfk_1` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `locale_ibfk_2` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of locale
 -- ----------------------------
 INSERT INTO `locale` VALUES ('1', 'nl_BE', 'NL', '2', null, '0000-00-00 00:00:00', '2013-06-13 08:54:25');
 INSERT INTO `locale` VALUES ('2', 'en_US', 'EN', '2', null, '0000-00-00 00:00:00', '2013-06-13 08:54:27');
+INSERT INTO `locale` VALUES ('3', 'fr_FR', 'FR', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `menu`
@@ -204,47 +205,48 @@ CREATE TABLE `menu` (
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES ('1', 'home', 'index', 'index', 'default', 'home', '1', '1', null, '0000-00-00 00:00:00', '2013-06-12 16:19:26');
-INSERT INTO `menu` VALUES ('2', 'basket', 'index', 'basket', 'default', 'basket', '1', '1', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `menu` VALUES ('2', 'basket', 'index', 'basket', 'default', 'basket', '1', '1', null, '0000-00-00 00:00:00', '2013-06-14 21:08:28');
 INSERT INTO `menu` VALUES ('3', 'highlight', 'highlight', 'index', 'default', 'highlight', '1', '1', null, '0000-00-00 00:00:00', '2013-06-13 21:27:38');
-INSERT INTO `menu` VALUES ('4', 'menu', 'index', 'menu', 'admin', 'menu', '1', '1', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `menu` VALUES ('5', 'role', 'index', 'role', 'admin', 'role', '1', '1', null, '0000-00-00 00:00:00', '2013-06-13 21:47:34');
+INSERT INTO `menu` VALUES ('4', 'menu', 'list', 'menu', 'admin', 'menu', '1', '1', null, '0000-00-00 00:00:00', '2013-06-14 08:15:53');
+INSERT INTO `menu` VALUES ('5', 'role', 'list', 'role', 'admin', 'role', '1', '1', null, '0000-00-00 00:00:00', '2013-06-14 08:15:55');
 
 -- ----------------------------
 -- Table structure for `menulocale`
 -- ----------------------------
 DROP TABLE IF EXISTS `menulocale`;
 CREATE TABLE `menulocale` (
-  `menulocaleId` int(11) NOT NULL AUTO_INCREMENT,
+  `menuLocaleId` int(11) NOT NULL AUTO_INCREMENT,
   `menuId` int(11) NOT NULL,
-  `label` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
   `localeId` int(11) NOT NULL,
   `translated` tinyint(4) DEFAULT NULL,
   `creationUserId` int(11) NOT NULL,
   `changeUserId` int(11) DEFAULT NULL,
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`menulocaleId`),
+  PRIMARY KEY (`menuLocaleId`),
   KEY `menuId` (`menuId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `menulocale_ibfk_1` FOREIGN KEY (`menuId`) REFERENCES `menu` (`menuId`),
   CONSTRAINT `menulocale_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menulocale_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menulocale
 -- ----------------------------
 INSERT INTO `menulocale` VALUES ('3', '1', 'Home', '1', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('4', '1', 'Home', '2', '1', '2', null, '0000-00-00 00:00:00', '2013-06-14 06:28:52');
-INSERT INTO `menulocale` VALUES ('5', '2', 'Winkelmand', '1', '1', '2', null, '0000-00-00 00:00:00', '2013-06-14 06:29:04');
-INSERT INTO `menulocale` VALUES ('6', '2', 'Basket', '2', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('5', '2', 'Winkelmand', '1', '1', '2', null, '0000-00-00 00:00:00', '2013-06-14 21:19:05');
+INSERT INTO `menulocale` VALUES ('6', '2', 'Basket', '2', '1', '2', null, '0000-00-00 00:00:00', '2013-06-14 21:19:05');
 INSERT INTO `menulocale` VALUES ('7', '3', 'In de kijker', '1', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('8', '3', 'Highlight', '2', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('9', '4', 'Menu', '1', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('10', '4', 'Menu', '2', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('11', '5', 'Rechten', '1', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('12', '5', 'Roles', '2', '1', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('13', '2', '', '3', '1', '2', null, '2013-06-14 21:06:57', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `menurole`
@@ -267,19 +269,19 @@ CREATE TABLE `menurole` (
   CONSTRAINT `menurole_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `role` (`roleId`),
   CONSTRAINT `menurole_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menurole_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menurole
 -- ----------------------------
 INSERT INTO `menurole` VALUES ('1', '1', '1', '0000-00-00 00:00:00', '2013-06-12 16:19:48', '2', null);
-INSERT INTO `menurole` VALUES ('2', '2', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `menurole` VALUES ('3', '1', '4', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
-INSERT INTO `menurole` VALUES ('4', '2', '4', '0000-00-00 00:00:00', '2013-06-13 19:18:00', '2', null);
 INSERT INTO `menurole` VALUES ('5', '3', '1', '0000-00-00 00:00:00', '2013-06-13 21:25:40', '2', null);
 INSERT INTO `menurole` VALUES ('6', '3', '4', '0000-00-00 00:00:00', '2013-06-13 21:25:41', '2', null);
 INSERT INTO `menurole` VALUES ('7', '4', '4', '0000-00-00 00:00:00', '2013-06-13 21:36:46', '2', null);
 INSERT INTO `menurole` VALUES ('9', '5', '4', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('12', '2', '1', '2013-06-14 21:23:03', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('13', '2', '3', '2013-06-14 21:29:27', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `order`
