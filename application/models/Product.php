@@ -7,7 +7,7 @@ class Application_Model_Product extends My_Model
     
     public function getProductsByCategory($categoryId) {
         $select = $this->select()
-                ->from(array('p'=>'product'))
+                ->from(array('p' => $this->getTableName()))
                 ->join(array('pc' => 'categoryproduct'), 'pc.productId=p.productId',null)
                 ->where('pc.categoryId='.$categoryId);
         $result = $this->fetchAll($select);

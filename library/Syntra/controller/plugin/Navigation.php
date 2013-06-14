@@ -27,6 +27,7 @@ class Syntra_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstrac
             $roleId = $user['roleId'];
         }
         $menus = $menuroleModel->getMenuByRole($roleId, $locale);
+        
         foreach($menus as $menu) {
             $page = new Zend_Navigation_Page_Mvc(array(
                'label' => $menu['label'],
@@ -39,7 +40,25 @@ class Syntra_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstrac
             $container->addPage($page);     
         }
         
+        $pageModel = new Application_Model_Page();
+        $pages = $pageModel->getAllPages();
+        
+        foreach($pages as $page) {
+            //Zend_Debug::dump($page);exit;
+            $page = new Zend_Navigation_Page_Mvc(array(
+               'label' => $page['locale']['title'],
+               'action' => 'index',
+               'controller' => 'page',
+               'module' => 'default',
+               'params' => array('slug' => $page['slug'],
+                                 'lang' => $locale)
+            ));
+            //Zend_Debug::dump($page);exit;
+            $container->addPage($page);  
+        }
+            
         Zend_registry::set('Zend_Navigation' ,$container);
+        
         return $container;
                 
     }

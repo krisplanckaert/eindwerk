@@ -110,9 +110,12 @@ abstract class My_Model extends Zend_Db_Table_Abstract
 
  // -------------------------
  // CRUD
-    public function getOne($id,$colName = 'ID')
+    public function getOne($id,$colName = null)
     {
     	$where  = '';
+        if(!$colName) {
+            $colName = $this->_primary;
+        }
     	$where .= $colName . ' = ' .(int)$id;
         $row = parent::fetchRow($where);            
         if (!$row) {
@@ -139,13 +142,18 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     public function getOneByFields(array $fields,$operator = 'AND'){
     	$where = '0=0'; 
     	foreach($fields as $k=>$v){
-            $where .= ' '. $operator . ' ' . $k . '=' . $this->db->quote($v);
-    	}
+            if($v===NULL) {
+                $where .= ' '. $operator . ' ' . $k . ' is null';
+            } else {
+                $where .= ' '. $operator . ' ' . $k . '=' . $this->db->quote($v);
+            }
+   	}
     	$row = parent::fetchRow($where);            
         if (!$row) {
             return FALSE; 
         }
-        return $row->toArray();    	
+        $return = $row->toArray();   
+        return $return;
     }    
     
     public function getAll($where=null,$order=null)
@@ -214,7 +222,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     
     public function updateById(array $data,$id,$primaryKey = '')
     {    	
-       $primaryKey = !empty($primaryKey) ? $primaryKey : $this->_id;
+       $primaryKey = !empty($primaryKey) ? $primaryKey : $this->_primary[1];
        if (empty($id)){
             return FALSE;
        }
@@ -243,5 +251,31 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     	}
         return parent::update($data, $where);
     }
+    
+    public function getLocale($result) {
+        $locale = Zend_Registry::get('Zend_Locale');
+        $localeModel = new Application_Model_Locale();
+        $localeRow = $localeModel->getOneByField('locale',$locale);        
+        
+        $thisClass = get_class($this);
+        $childLocaleModelName = $thisClass.'Locale'; 
+        $childLocaleModel = new $childLocaleModelName;
+        
+        $parent = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1));
+
+        $parentKey = $parent.'Id';
+        foreach($result as $k => $v) {
+            $where = $parentKey.'='.$v[$parentKey].' and localeId = ' . $localeRow['localeId'];
+            $childLocale = $childLocaleModel->getAll($where);
+            $result[$k]['locale'] = $childLocale[0];
+        } 
+        return $result;
+    }
+
+    public function remove($id)
+    {
+         $where  = $this->getAdapter()->quoteInto($this->_primary . '= ?', $id);
+         $this->delete($where);   
+    }    
 
 }

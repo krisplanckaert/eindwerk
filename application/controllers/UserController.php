@@ -31,6 +31,9 @@ class UserController extends Zend_Controller_Action
                 //login uitvoeren
                 $result = $auth->authenticate($authAdapter);
                 if($result->isValid()) {
+                    //Alle artikels die in de winkelmand zitten linken aan die gebruiker
+                    $basketModel = new Application_Model_Basket();
+                    $basketModel->linkUser();
                     $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'index')));
                     //echo 'U bent ingelogd!';
                 } else {

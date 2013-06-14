@@ -24,20 +24,23 @@ class Syntra_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 	}
  
 	public function preDispatch(Zend_Controller_Request_Abstract $request){
-            //die('Syntra_Controller_Pugin_Layout');
-		if(isset($this->_moduleLayouts[$request->getModuleName()])){
-                    //$return = $this->_moduleLayouts[$request->getModuleName()];
-                    //Zend_Debug::dump($return);exit;
-			$config = $this->_moduleLayouts[$request->getModuleName()];
- 
-			$layout = Zend_Layout::getMvcInstance();
-			if($layout->getMvcEnabled()){
-				$layout->setLayoutPath($config['layoutPath']);
- 
-				if($config['layout'] !== null){
-					$layout->setLayout($config['layout']);
-				}
-			}
+            if(isset($this->_moduleLayouts[$request->getModuleName()])){
+                $config = $this->_moduleLayouts[$request->getModuleName()];
+                $layout = Zend_Layout::getMvcInstance();
+                if($layout->getMvcEnabled()){
+                    $layout->setLayoutPath($config['layoutPath']);
+                    if($config['layout'] !== null){
+                        $layout->setLayout($config['layout']);
+                    }
                 }
+            }
+            $layout = Zend_Layout::getMvcInstance();
+            $view = $layout->getView();
+            $localeModel = new Application_Model_Locale();
+            $locales = $localeModel->getAll();
+            $view->locales = $locales;
+            
+            $basketModel = new Application_Model_Basket();
+            $view->basket = $basketModel->getBasket();
 	}
 }

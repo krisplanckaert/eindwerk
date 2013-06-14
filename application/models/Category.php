@@ -3,17 +3,15 @@
 class Application_Model_Category extends My_Model
 {
     protected $_name = 'category';
-    protected $_primary = 'categorieId';
+    protected $_primary = 'categoryId';
     
-    public function init()
-    {
-    	$this->db = $this->getAdapter();
-    }    
 
     public function getAllCategories() {
         $select = $this->select()
                 ->where('status=1');
-        $result = $this->fetchAll($select);
+        $result = $this->fetchAll($select)->toArray();
+        $result = $this->getLocale($result);
+        //Zend_Debug::dump($result);exit;
         return $result;
     }
 }

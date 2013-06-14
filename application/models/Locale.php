@@ -1,9 +1,7 @@
 <?php
-//class Application_Model_Winkelmand extends Zend_Db_Table_Abstract
+
 class Application_Model_Locale extends My_Model
 {
-    //private $db; 
-    
     protected $_name = 'locale';
     protected $_primary = 'localeId';
     
@@ -12,6 +10,12 @@ class Application_Model_Locale extends My_Model
             'locale' => $locale,
         );
         $locale = $this->getOneByFields($fields);
+        return $locale['localeId'];
+    }
+    
+    public function getLocaleId() {
+        $lang = Zend_Registry::get('Zend_Locale');
+        $locale = $this->getOneByField('locale', $lang);
         return $locale['localeId'];
     }
 }

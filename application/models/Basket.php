@@ -7,52 +7,32 @@ class Application_Model_Basket extends My_Model
     protected $_name = 'basket';
     protected $_primary = 'basketId';
     
-    public function init()
-    {
-    	$this->db = $this->getAdapter();
-    }    
-    
-    public function toevoegen($params) 
-    {
-        $this->insert($params);        
+    public function getBasket() {
+        $userModel = new Application_Model_User();
+        $userId = $userModel->getUserId();
+        $localeModel = new Application_Model_Locale();
+        $localeId = $localeModel->getLocaleId();
+        $select = $this->db->select();
+        $select->from(array('b' => $this->getTableName()));
+        $select->join(array('p' => 'product'), 'p.productId = b.productId');
+        $select->joinleft(array('pl' => 'productlocale'), 'pl.productId = p.productId and pl.localeId='.$localeId);
+        $where = $userId ? 'b.userId = '.$userId : "session='" . session_id()."' and b.userId is null";
+        $select->where($where);
         
+        return $this->db->fetchAll($select);
     }
     
-    public function wijzigen($params, $id)
-    {
-         $where  = $this->getAdapter()->quoteInto('id= ?', $id);
-         $this->update($params, $where);   
-    }       
-        
-    public function verwijder($id)
-    {
-         $where  = $this->getAdapter()->quoteInto('id= ?', $id);
-         $this->delete($where);   
-    }    
-        
-    public function getOne($id,$colName = 'ID')
-    {
-    	$where  = '';
-    	$where .= $colName . ' = ' .(int)$id;
-        $row = parent::fetchRow($where);            
-        if (!$row) {
-            return FALSE; 
+    public function linkUser() {
+        $userModel = new Application_Model_User();
+        $userId = $userModel->getUserId();
+        $where = "session='".session_id()."' and userId is null";
+        $baskets = $this->getAll($where);
+        foreach($baskets as $basket) {
+            $data = array(
+                'userId' => $userId,
+            );
+            $this->updateById($data, $basket['basketId']);
         }
-        $this->data = $row->toArray();
-        return $this->data;
     }
-    
-    public function getOneByFields(array $fields,$operator = 'AND'){
-    	$where = '0 = 0'; 
-    	foreach($fields as $k=>$v){
-    		$where .= ' '. $operator . ' ' . $k . '=' . $this->db->quote($v);
-    	}
-        //die($where);
-    	$row = parent::fetchRow($where);            
-        if (!$row) {
-            return FALSE; 
-        }
-        return $row->toArray();    	
-    }  
 }
 ?>

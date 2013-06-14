@@ -18,9 +18,6 @@ class IndexController extends Zend_Controller_Action
             $this->view->producten = $productModel->getProductsByCategory($categoryId);
         }
         
-        $userId = $this->getUserId();
-        $this->getBasket($userId);
-
         $this->view->categories = $categoryModel->getAllCategories();
     }
 
@@ -29,59 +26,66 @@ class IndexController extends Zend_Controller_Action
         $id = $this->_getParam('id');
         
         $productModel = new Application_Model_Product();
-        $winkelmandModel = new Application_Model_Winkelmand();
+        $basketModel = new Application_Model_Basket();
         $product = $productModel->find($id)->current();
         $this->view->product = $product;
         
         $fields = array(
             'session' => session_id(),
-            'id_product' => $id,
+            'productId' => $id,
         );
-        $winkelmand = $winkelmandModel->getOneByFields($fields);
+        $basket = $basketModel->getOneByFields($fields);
         
-        $winkelmandForm = new Application_Form_Winkelmand();
+        $basketForm = new Application_Form_Basket();
         $values = array(
-            'aantal' => $winkelmand['aantal'],
-            'ID_Product' => $product['id'],
+            'quantity' => $basket['quantity'],
+            'productId' => $product['productId'],
         );
-        $winkelmandForm->populate($values);
-        $this->view->winkelmandForm = $winkelmandForm;
+        $basketForm->populate($values);
+        $this->view->basketForm = $basketForm;
         
         if ($this->getRequest()->isPost()){
             $postParams= $this->getRequest()->getPost();
-            //Zend_Debug::dump($postParams);exit;
             $data = array(
-                'product_id' => $postParams['ID_Product'],
-                'Aantal' => $postParams['aantal'],
+                'productId' => $postParams['productId'],
+                'quantity' => $postParams['quantity'],
             );
-            $this->toevoegenAanWinkelmand($data);
+            $this->addToBasket($data);
         }
     }
     
-    public function mandAction()
+    public function basketAction()
     {
-        $product_id = $this->_getParam('id');
+        $productId = $this->_getParam('id');
         
-        $data = array('product_id' => $product_id);
-        $this->toevoegenAanWinkelmand($data);
+        $data = array('productId' => $productId);
+        $this->addToBasket($data);
         
     }
     
-    public function toevoegenAanWinkelmand($data) {
+    public function addToBasket($data) {
         $basketModel = new Application_Model_Basket();
+        $userModel = new Application_Model_User();
                 
         $quantity = isset($data['quantity']) ? $data['quantity'] : 1;
 
-        $userId = $this->getUserId();
+        $userId = $userModel->getUserId();
         
         if($userId) {
             //check winkelmand met userId
-            $basket = $basketModel->getOneByField('userId', $userId);
+            $fields = array(
+                'session' => session_id(),
+                'userId' => $userId,
+                'productId' => $data['productId'],
+            );
+            
+            $basket = $basketModel->getOneByFields($fields);
         } else {
             //check winkelmand met sessionId
             $fields = array(
                 'session' => session_id(),
                 'userId' => null,
+                'productId' => $data['productId'],
             );
             $basket = $basketModel->getOneByFields($fields);
         }
@@ -91,7 +95,8 @@ class IndexController extends Zend_Controller_Action
             $params = array(
                 'quantity' => $quantity,
             );
-            $basketModel->wijzigen($params, $basket['id']);
+            //Zend_Debug::dump($basket);exit;
+            $basketModel->updateById($params, $basket['basketId']);
         } else {
             $params = array(
                 'productId' => $data['productId'],
@@ -99,31 +104,15 @@ class IndexController extends Zend_Controller_Action
                 'session' => session_id(),
                 'quantity' => $quantity,
             );
-            $basketModel->toevoegen($params);
+            $basketModel->insert($params, false);
         }
-        
-        $this->getBasket($userId);
+        $this->view->basket=$basketModel->getBasket();
     }
     
-    public function getBasket($userId) {
-        $basketModel = new Application_Model_Basket();
-        if($userId) {
-            $where = 'userId='.$userId;
-        } else {
-            $where = 'session="'.session_id().'" and userId is null';
-        }
-        $this->view->basket = $basketModel->getAll($where);
+    public function highlightAction() {
+        $productModel = new Application_Model_Product();
+        $where = 'highlight=1';
+        $this->view->products = $productModel->getAll($where);
     }
     
-    public function getUserId() {
-        $userModel = new Application_Model_User();
-        $userId = null;
-        $auth = Zend_Auth::getInstance();
-        if($auth->hasIdentity()) {
-            $username = $auth->getIdentity();
-            $user = $userModel->getOneByField('name', $username);
-            $userId = $user ? $user['userId'] : null;
-        } 
-        return $userId;
-    }
 }

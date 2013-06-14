@@ -12,20 +12,19 @@ class BasketController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $winkelmandModel = new Application_Model_Winkelmand();
-        $where = 'session="'.session_id().'"';
-        $this->view->winkelmanden = $winkelmandModel->getAll($where);
+        $basketModel = new Application_Model_Basket();
+        $this->view->basket = $basketModel->getBasket();
     }
     
     public function wijzigenAction()
     {
         $id = (int) $this->_getParam('id'); //$_GET['id];
                 
-        $winkelmandModel = new Application_Model_Winkelmand();
-        $winkelmand = $winkelmandModel->find($id)->current(); 
+        $basketModel = new Application_Model_Basket();
+        $basket = $basketModel->find($id)->current(); 
                
-        $form = new Application_Form_Winkelmand($id);
-        $form->populate($winkelmand->toArray());
+        $form = new Application_Form_Basket($id);
+        $form->populate($basket->toArray());
                 
         $this->view->form = $form;
         
@@ -36,18 +35,18 @@ class BasketController extends Zend_Controller_Action
             if ($this->view->form->isValid($postParams)) {                                                           
                   
                 unset($postParams['toevoegen']);
-                $winkelmandModel->wijzigen($postParams, $id);
+                $basketModel->wijzigen($postParams, $id);
                 
                 /*$this->_redirect('/product/index');*/
                 
-                $this->_redirect($this->view->url(array('controller'=> 'Winkelmand', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'index')));
             }  
         }
     }
 
     public function toevoegenAction()
     {
-        $form  = new Application_Form_Winkelmand;
+        $form  = new Application_Form_Basket;
         $this->view->form = $form;    
         
         if ($this->getRequest()->isPost()){
@@ -56,20 +55,20 @@ class BasketController extends Zend_Controller_Action
             if ($this->view->form->isValid($postParams)) {                                            
                 
                 unset($postParams['toevoegen']);
-                $winkelmandModel = new Application_Model_Winkelmand();
-                $winkelmandModel->toevoegen($postParams);
+                $basketModel = new Application_Model_Basket();
+                $basketModel->add($postParams);
                 
-                $this->_redirect($this->view->url(array('controller'=> 'Winkelmand', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'index')));
             }            
         }
     }
 
-    public function verwijderenAction()
+    public function removeAction()
     {
-        $id = (int) $this->_getParam('id'); 
-        $winkelmandModel = new Application_Model_Winkelmand();
-        $winkelmandModel->verwijder($id);
-        $this->_redirect($this->view->url(array('controller'=> 'Winkelmand', 'action'=> 'index')));
+        $basketId = (int) $this->_getParam('basketId'); 
+        $basketModel = new Application_Model_Basket();
+        $basketModel->remove($basketId);
+        $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'index')));
     }
 
 

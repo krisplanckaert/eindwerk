@@ -13,7 +13,8 @@ class Admin_RoleController extends Zend_Controller_Action
     {
         // action body
         $roleModel = new Application_Model_Role();
-        $this->view->roles= $roleModel->getAll()->toArray();
+        $roles= $roleModel->getAll();
+        $this->view->roles = $roles;
     }
     
     public function wijzigenAction()

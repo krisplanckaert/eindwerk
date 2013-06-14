@@ -1,27 +1,26 @@
 <?php
-
-
-
 class Zend_View_Helper_SignupForm extends Zend_View_Helper_Abstract
-
 {
-
     public function signupForm(Application_Form_Signup $form)
-
     {
+        $layout = Zend_Layout::getMvcInstance();
+        $view = $layout->getView();
+        
         $auth = Zend_Auth::getInstance();
         
         if($auth->hasIdentity()) {
             $username = $auth->getIdentity();
             $logoutUrl = $this->view->url(array('controller' => 'user', 'action' => 'logout'));
-            echo 'Welkom '.$username.' <a href='.$logoutUrl.'>logout</a>';
+            echo $view->translate('lbl_Welkom') . ' ' . $username.' <a href='.$logoutUrl.'>logout</a>';
             return;
         }
         
-        $html = '<p>Hier kan je inloggen</p>';
+        
+        $html = '<p>'.$this->view->translate('lbl_Hier kan je inloggen').'</p>';
+        //$html = '<p>lbl_Hier kan je inloggen</p>';
         if($form->processed) {
 
-            $html .= '<p>Bedankt om in te loggen</p>';
+            $html .= '<p>'.$view->translate('lbl_Bedankt om in te loggen') . '</p>';
 
         } else {
 

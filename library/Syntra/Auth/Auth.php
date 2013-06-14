@@ -2,12 +2,6 @@
 
 class Syntra_Auth_Auth extends Zend_Controller_Plugin_Abstract
 {
-    private $_excludeAuthActions = array(
-        'user' => array('login'),
-        'error' => array('error'),
-        'noaccess' => array('index', 'accesserror'),
-        'index' => array('index'),
-    );
 
     public function preDispatch(\Zend_Controller_Request_Abstract $request) 
     {
@@ -29,7 +23,6 @@ class Syntra_Auth_Auth extends Zend_Controller_Plugin_Abstract
             $user = $usersModel->getUserByIdentity($identity);
             $role = $roleModel->getOne($user->roleId);
             $resource = $request->getModuleName().'-'.$request->getControllerName();
-
             if($acl->has($resource)) {
                 //role is een veld binnen onze user tabel
                 $isAllowed = $acl->isAllowed($role['role'],  // -> role, moet uit Db komen

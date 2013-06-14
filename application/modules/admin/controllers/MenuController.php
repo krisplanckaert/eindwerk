@@ -13,7 +13,9 @@ class Admin_MenuController extends Zend_Controller_Action
     {
         // action body
         $menuModel = new Application_Model_Menu();
-        $this->view->menus= $menuModel->getAll()->toArray();
+        $menus = $menuModel->getAll();
+        $menus = $menuModel->getLocale($menus);
+        $this->view->menus = $menus;
     }
     
     public function wijzigenAction()

@@ -2,8 +2,8 @@
     <ul>
 <?php 
         foreach($this->categories as $category) { ?>
-        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'category' => $category['categorieId']),NULL,TRUE); ?>"><?php echo $category['label'];?></a></li>
-<?php } ?>    
+            <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'category' => $category['categoryId']),NULL,TRUE); ?>"><?php echo $category['locale']['description'];?></a></li>
+<?php   } ?>    
     </ul>
 </div>
 <?php

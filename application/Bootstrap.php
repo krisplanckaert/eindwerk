@@ -27,9 +27,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $front->registerPlugin(new Syntra_Auth_Acl());
         $front->registerPlugin(new Syntra_Auth_Auth());
 
-/*        $layoutModulePlugin = new Syntra_Controller_Plugin_Layout();
+        $layoutModulePlugin = new Syntra_Controller_Plugin_Layout();
         $layoutModulePlugin->registerModuleLayout('admin','../application/modules/admin/layouts/scripts','layout');
-        $front->registerPlugin($layoutModulePlugin);*/
+        $front->registerPlugin($layoutModulePlugin);
     }    
     
     public function _initDbAdapter() 
@@ -41,13 +41,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         //Ophalen dmv Zend_Registry::get('db');
     }
     
-    public function _initRouter(array $options=NULL)
+    /*public function _initRouter(array $options=NULL)
     {    
         $router = $this->getResource('frontcontroller')->getRouter();
         //add custom route
         // : before param = get variabele
         $router->addRoute('noaccess', 
-            new Zend_Controller_Router_Route('noaccess', array(
+            new Zend_Controller_Router_Route('/noaccess', array(
                 'controller' => 'noaccess',
                 'action'     => 'index',
             )));   
@@ -59,6 +59,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'controller' => 'user',
                 'action'     => 'logout',
             )));
-    }
+        // : before param = get variabele
+        $router->addRoute('page', 
+            new Zend_Controller_Router_Route('/:lang/:slug/pagina', array(
+                'controller' => 'page',
+                'action'     => 'index',
+            )));
+        // : before param = get variabele
+        $router->addRoute('home', 
+            new Zend_Controller_Router_Route('/:lang', array(
+                'controller' => 'index',
+                'action'     => 'index',
+            )));
+    }*/
 }
 

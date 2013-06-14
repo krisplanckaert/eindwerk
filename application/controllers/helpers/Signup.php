@@ -17,8 +17,8 @@ class Application_Controller_Helper_Signup extends Zend_Controller_Action_Helper
         }
         $view->signupForm = $form;
         
-        $basketModel = new Application_Model_Basket();
+        /*$basketModel = new Application_Model_Basket();
         $where = 'session="'.session_id().'"';
-        $view->basket = $basketModel->getAll($where);
+        $view->basket = $basketModel->getAll($where);*/
     }
 }
