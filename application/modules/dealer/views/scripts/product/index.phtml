@@ -1,0 +1,12 @@
+
+<h1>Producten overzicht</h1>
+
+<ul>
+    <li><a href="/admin/product/toevoegen">Toevoegen</a></li>    
+</ul>
+<?php foreach ($this->producten as $product) {
+    echo  "<p>".$product['naam']. " <a href='/admin/product/wijzigen/id/" . $product['id']. "'>Wijzig</a>"." ";
+    echo  "<a href='/admin/product/verwijderen/id/" . $product['id']. "'>Verwijder</a>"."</p>";
+    echo  '<hr/>';
+}
+

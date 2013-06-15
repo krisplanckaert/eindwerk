@@ -1,0 +1,12 @@
+
+<h1>Roles overzicht</h1>
+
+<ul>
+    <li><a href="/admin/role/toevoegen">Toevoegen</a></li>    
+</ul>
+<?php foreach ($this->roles as $role) {
+    echo  "<p>".$role['role']. " <a href='/admin/role/wijzigen/id/" . $role['id']. "'>Wijzig</a>"." ";
+    echo  "<a href='/admin/role/verwijderen/id/" . $role['id']. "'>Verwijder</a>"."</p>";
+    echo  '<hr/>';
+}
+

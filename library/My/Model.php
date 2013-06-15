@@ -266,9 +266,8 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $childLocaleModelName = $thisClass.'Locale'; 
         $childLocaleModel = new $childLocaleModelName;
         
-        $parent = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1));
+        $parentKey = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1)).'Id';
 
-        $parentKey = $parent.'Id';
         $where = $parentKey.'='.$result[$parentKey];
         $locales = $childLocaleModel->getAll($where);
         foreach($this->localeFields as $localeField) {
@@ -289,9 +288,8 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $childLocaleModelName = $thisClass.'Locale'; 
         $childLocaleModel = new $childLocaleModelName;
         
-        $parent = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1));
+        $parentKey = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1)).'Id';
 
-        $parentKey = $parent.'Id';
         if(!isset($result[$parentKey])) {
             foreach($result as $k => $v) {
                 $where = $parentKey.'='.$v[$parentKey].' and localeId = ' . $localeRow['localeId'];
@@ -362,5 +360,8 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     public function getPrimary() {
         return $this->_primary[1];
     }
-
+    
+    public function getLocaleFields() {
+        return $this->localeFields;
+    }
 }

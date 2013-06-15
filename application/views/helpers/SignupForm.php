@@ -10,7 +10,7 @@ class Zend_View_Helper_SignupForm extends Zend_View_Helper_Abstract
         
         if($auth->hasIdentity()) {
             $username = $auth->getIdentity();
-            $logoutUrl = $this->view->url(array('controller' => 'user', 'action' => 'logout'));
+            $logoutUrl = $this->view->url(array('module' => 'default', 'controller' => 'user', 'action' => 'logout'));
             echo $view->translate('lbl_Welkom') . ' ' . $username.' <a href='.$logoutUrl.'>logout</a>';
             return;
         }

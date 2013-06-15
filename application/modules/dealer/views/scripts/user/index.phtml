@@ -1,0 +1,12 @@
+
+<h1>Users overzicht</h1>
+
+<ul>
+    <li><a href="/admin/user/toevoegen">Toevoegen</a></li>    
+</ul>
+<?php foreach ($this->users as $user) {
+    echo  "<p>".$user['naam']. " <a href='/admin/user/wijzigen/id/" . $user['id']. "'>Wijzig</a>"." ";
+    echo  "<a href='/admin/user/verwijderen/id/" . $user['id']. "'>Verwijder</a>"."</p>";
+    echo  '<hr/>';
+}
+
