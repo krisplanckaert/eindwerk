@@ -329,7 +329,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
             $id = $this->insert($modelData);
         }
         $thisClass = get_class($this);
-        if(!strstr($thisClass, 'locale')) {
+        if(!strstr($thisClass, 'locale') && $this->localeFields) {
             $childLocaleModelName = $thisClass.'Locale'; 
             $childLocaleModel = new $childLocaleModelName;
             foreach($this->localeFields as $localeFields) {

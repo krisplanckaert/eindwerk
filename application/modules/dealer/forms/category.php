@@ -1,6 +1,6 @@
 <?php
 
-class Dealer_Form_Product extends Zend_Form {
+class Dealer_Form_Category extends Zend_Form {
    
     public function init(){
         // set the defaults
@@ -14,23 +14,14 @@ class Dealer_Form_Product extends Zend_Form {
             // filters
             'filters' => array('StringTrim')
             )));
-        $this->addElement(new Zend_Form_Element_Text('price',array(
-            'label'=>"Prijs",
-            'required'=>true,
-            // filters
-            'filters' => array('StringTrim')
-            )));
-        $this->addElement(new Zend_Form_Element_Checkbox('status',array(
-            'label'=>"Status",
-            )));
         
-        $photoModel = new Application_Model_Photo();
-        $photoList = $photoModel->getPhotosList();
-        $photos = new Zend_Form_Element_MultiCheckbox('photosId', array(
-            'label' => 'Photos',
+        $productModel = new Application_Model_Product();
+        $productList = $productModel->getProductsList();
+        $products = new Zend_Form_Element_MultiCheckbox('productsId', array(
+            'label' => 'Products',
         ));
-        $photos->setMultiOptions($photoList);
-        $this->addElement($photos);
+        $products->setMultiOptions($productList);
+        $this->addElement($products);
                         
          // element button
         $this->addElement(new Zend_Form_Element_Button('toevoegen', array(

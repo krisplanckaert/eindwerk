@@ -1,0 +1,33 @@
+<?php 
+$this->placeholder('mainTitle')->set($this->translate('Category'));
+
+$module = 'dealer';
+$controller = 'category';
+?>
+ <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+    <img src="/base/images/icons/create.png">
+</a>
+<table>
+    <tr>
+        <th><?php echo $this->translate('Label');?></th>
+    </tr>
+<?php if($this->rows) { ?>
+<?php   foreach($this->rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['label']?></td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'categoryId' => $row['categoryId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/edit.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'categoryId' => $row['categoryId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Offerte verwijderen.  Doorgaan?'); ?>')">
+                        <img src="/base/images/icons/cross.png">
+                    </a>
+                </td>
+            </tr>
+<?php   } ?>            
+
+<?php } else $this->translate('leeg bestand'); ?>            
+</table>
+

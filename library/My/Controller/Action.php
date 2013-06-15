@@ -68,9 +68,9 @@ abstract class My_Controller_Action extends Zend_Controller_Action
         $this->setErrorMessages();
         
         //$modelName = get_class($this);
-        $modelName = 'Application_Model_'.strstr(substr(strstr(get_class($this), '_', FALSE),1), 'Controller', true);
-        $this->model = new $modelName();
-        
+        $part1 = strstr(get_class($this), '_', FALSE);
+        $modelName = $part1 ? 'Application_Model_'.strstr(substr($part1,1), 'Controller', true) : 'Application_Model_'.strstr(get_class($this), 'Controller', true);
+        $this->model = new $modelName();      
     }
 
    

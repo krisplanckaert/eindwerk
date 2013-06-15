@@ -104,7 +104,7 @@ class IndexController extends Zend_Controller_Action
                 'session' => session_id(),
                 'quantity' => $quantity,
             );
-            $basketModel->insert($params, false);
+            $basketModel->insert($params);
         }
         $this->view->basket=$basketModel->getBasket();
     }

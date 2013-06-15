@@ -2,10 +2,13 @@
 //class Application_Model_Winkelmand extends Zend_Db_Table_Abstract
 class Application_Model_Basket extends My_Model
 {
-    //private $db; 
-    
     protected $_name = 'basket';
     protected $_primary = 'basketId';
+    
+    public function init() {
+        $this->autoCompleteFields = false;   
+        parent::init();
+    }
     
     public function getBasket() {
         $userModel = new Application_Model_User();
@@ -18,7 +21,7 @@ class Application_Model_Basket extends My_Model
         $select->joinleft(array('pl' => 'productlocale'), 'pl.productId = p.productId and pl.localeId='.$localeId);
         $where = $userId ? 'b.userId = '.$userId : "session='" . session_id()."' and b.userId is null";
         $select->where($where);
-        
+        //echo $select; exit;
         return $this->db->fetchAll($select);
     }
     

@@ -1,13 +1,7 @@
 <?php
 
-class BasketController extends Zend_Controller_Action
+class BasketController extends My_Controller_Action
 {
-
-    public function init()
-    {
-        /* Initialize action controller here */        
-        
-    }
 
     public function indexAction()
     {
@@ -16,35 +10,37 @@ class BasketController extends Zend_Controller_Action
         $this->view->basket = $basketModel->getBasket();
     }
     
-    public function wijzigenAction()
+    public function listAction() {
+       $this->view->rows = $this->model->getBasket();
+       //Zend_Debug::dump($this->view->rows);exit;
+    } 
+    
+    public function changeAction()
     {
-        $id = (int) $this->_getParam('id'); //$_GET['id];
+        $basketId = (int) $this->_getParam('basketId'); //$_GET['id];
                 
         $basketModel = new Application_Model_Basket();
-        $basket = $basketModel->find($id)->current(); 
+        $basket = $basketModel->find($basketId)->current(); 
                
-        $form = new Application_Form_Basket($id);
+        $form = new Application_Form_Basket($basketId);
         $form->populate($basket->toArray());
                 
         $this->view->form = $form;
         
         if ($this->getRequest()->isPost()){
             $postParams= $this->getRequest()->getPost();
-            /*Zend_Debug::dump($postParams);
-            die("ok");*/            
+           
             if ($this->view->form->isValid($postParams)) {                                                           
                   
                 unset($postParams['toevoegen']);
-                $basketModel->wijzigen($postParams, $id);
+                $basketModel->save($postParams, $basketId);
                 
-                /*$this->_redirect('/product/index');*/
-                
-                $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'list')));
             }  
         }
     }
 
-    public function toevoegenAction()
+    public function addAction()
     {
         $form  = new Application_Form_Basket;
         $this->view->form = $form;    
@@ -58,17 +54,17 @@ class BasketController extends Zend_Controller_Action
                 $basketModel = new Application_Model_Basket();
                 $basketModel->add($postParams);
                 
-                $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'list')));
             }            
         }
     }
 
-    public function removeAction()
+    public function deleteAction()
     {
         $basketId = (int) $this->_getParam('basketId'); 
         $basketModel = new Application_Model_Basket();
         $basketModel->remove($basketId);
-        $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'index')));
+        $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'list')));
     }
 
 

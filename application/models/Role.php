@@ -10,7 +10,6 @@ class Application_Model_Role extends My_Model
         foreach($roles as $role) {
             $return[$role['roleId']] = $role['role'];
         }
-        //Zend_Debug::dump($return);
         return $return;
     }
    

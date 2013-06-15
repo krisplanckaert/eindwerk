@@ -83,7 +83,6 @@ class Admin_MenuController extends My_Controller_Action
 
     public function toevoegenMenuRoles($postParams, $menuId) {
         $menuRolesModel = new Application_Model_Menurole();
-        //Zend_Debug::dump($postParams);exit;
         $where = 'menuId='.$menuId;
         $menuRoles = $menuRolesModel->getAll($where);
         foreach($menuRoles as $menuRole) {
@@ -94,7 +93,6 @@ class Admin_MenuController extends My_Controller_Action
         }
         if(isset($postParams['rolesId'])) {
             foreach($postParams['rolesId'] as $roleId) {
-                Zend_Debug::dump($roleId);
                 $fields = array(
                     'menuId' => $menuId,
                     'roleId' => $roleId,

@@ -5,7 +5,10 @@ class Application_Model_Category extends My_Model
     protected $_name = 'category';
     protected $_primary = 'categoryId';
     
-
+    public function init() {
+        $this->localeFields = array('description');
+    }
+    
     public function getAllCategories() {
         $select = $this->select()
                 ->where('status=1');

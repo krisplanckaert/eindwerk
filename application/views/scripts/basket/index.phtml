@@ -1,9 +1,0 @@
-
-<h1><?php echo $this->translate('Winkelmand overzicht');?></h1>
-
-<?php foreach ($this->basket as $basket) { ?>
-    <p><?php echo $basket['title'] ? $basket['title'] : $basket['label'];?><a href='/basket/change/id/'<?php echo $basket['basketId'];?>><?php $this->translate('Wijzig');?></a>
-    <a href='/basket/remove/basketId/<?php echo $basket['basketId'];?>'><?php echo $this->translate('Delete');?></a></p>
-    <hr/>
-<?php }
-

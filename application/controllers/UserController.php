@@ -17,7 +17,6 @@ class UserController extends Zend_Controller_Action
     {
         $form = new Application_Form_Signup();
         $postParams = $this->getRequest()->getPost();
-        //Zend_Debug::dump($postParams);exit;
         if($this->getRequest()->getPost()) {
             if($form->isValid($postParams)) {
                 $auth = Zend_Auth::getInstance();

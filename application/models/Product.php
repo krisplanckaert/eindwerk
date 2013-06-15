@@ -20,5 +20,13 @@ class Application_Model_Product extends My_Model
         
     }
     
+    public function getProductsList() {
+        $return = array();
+        $products = $this->getAll();
+        foreach($products as $product) {
+            $return[$product['productId']] = $product['label'];
+        }
+        return $return;
+    }
 }
 ?>
