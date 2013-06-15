@@ -3,12 +3,7 @@
 class Admin_MenuController extends My_Controller_Action
 {
 
-    public function init()
-    {
-        $this->model = new Application_Model_Menu();
-        parent::init();
-        
-    }
+
 
     public function indexAction()
     {
@@ -49,7 +44,7 @@ class Admin_MenuController extends My_Controller_Action
                 $this->toevoegenMenuRoles($postParams, $menuId);                
                 unset($postParams['rolesId']);
                 $menuModel->save($postParams, $menuId);
-                
+//exit;                
                 $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'list')));
             }  
         }
@@ -78,12 +73,12 @@ class Admin_MenuController extends My_Controller_Action
         }
     }
 
-    public function verwijderenAction()
+    public function deleteAction()
     {
-        $id = (int) $this->_getParam('id'); 
+        $menuId = (int) $this->_getParam('menuId'); 
         $menuModel = new Application_Model_Menu();
-        $menuModel->verwijder($id);
-        $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'index')));
+        $menuModel->delete('menuId='.$menuId);
+        $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'list')));
     }
 
     public function toevoegenMenuRoles($postParams, $menuId) {
@@ -116,10 +111,7 @@ class Admin_MenuController extends My_Controller_Action
         }
     }
 
-    public function listAction() {
-       $this->view->rows = $this->model->getAll();
-       
-    }
+
 }
 
 

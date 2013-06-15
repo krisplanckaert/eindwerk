@@ -21,7 +21,7 @@ $controller = 'photo';
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'photoId' => $row['photoId']),NULL,TRUE); ?>">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'photoId' => $row['photoId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Offerte verwijderen.  Doorgaan?'); ?>')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>

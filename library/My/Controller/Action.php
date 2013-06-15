@@ -66,6 +66,11 @@ abstract class My_Controller_Action extends Zend_Controller_Action
         $this->entity = empty($this->entity) ? strstr(get_class($this), 'Controller', TRUE) : $this->entity;
         $this->flashMessenger = $this->_helper->getHelper('FlashMessenger');
         $this->setErrorMessages();
+        
+        //$modelName = get_class($this);
+        $modelName = 'Application_Model_'.strstr(substr(strstr(get_class($this), '_', FALSE),1), 'Controller', true);
+        $this->model = new $modelName();
+        
     }
 
    
@@ -96,10 +101,10 @@ abstract class My_Controller_Action extends Zend_Controller_Action
         $this->_forward('list');        
     }
     
-    public function listAction()
-    {    	
-		$this->view->dataGrid = $this->model->buildDataGrid();    		
-    }     
+    public function listAction() {
+       $this->view->rows = $this->model->getAll();
+       
+    } 
 
     
     

@@ -16,7 +16,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     
     protected $authUser;
     
-    protected $autoCompleteFields = FALSE;
+    protected $autoCompleteFields = TRUE;
     
     protected $acl;
     
@@ -215,13 +215,16 @@ abstract class My_Model extends Zend_Db_Table_Abstract
      * Insert
      * @return int last insert ID
      */
-    public function insert($data,$autoCompleteFields = true) {
-    	if ($autoCompleteFields){
+    public function insert($data) {
+    	if ($this->autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
-            $data['creationUserId'] = 2;
+            $data['creationUserId'] = 2;  //TODO!!!
             $data['creationDate'] = $currentTime;
     	}
-        return parent::insert($data);
+        //Zend_Debug::dump($data);exit;
+        $id = parent::insert($data);
+        //Zend_Debug::dump($id);exit;
+        return $id;
     }
 
     
@@ -233,7 +236,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
        }
        if ($this->autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
-            $data['changeUserId'] = (int) $this->authUserRow['userId'];
+            $data['changeUserId'] = 2;
             $data['changeDate'] = $currentTime;
        }
        return parent::update($data,$primaryKey . ' = ' . (int)$id); 	
@@ -249,10 +252,10 @@ abstract class My_Model extends Zend_Db_Table_Abstract
      */
     public function update($data, $where) {
     	if (preg_match('/^([0-9])+$/', $where)) {
-    		return $this->updateById($data,(int)$where);
+            return $this->updateById($data,(int)$where);
     	}
     	if ($this->autoCompleteFields){
-    		$data['changeUserId'] = (int)$this->userId;
+            $data['changeUserId'] = 2; //(int)$this->userId;
     	}
         return parent::update($data, $where);
     }
@@ -271,10 +274,11 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $where = $parentKey.'='.$result[$parentKey];
         $locales = $childLocaleModel->getAll($where);
         foreach($this->localeFields as $localeField) {
+            $resultArray=null;
             foreach($locales as $locale) {
-                $test[$locale['localeId']] = $locale[$localeField];
+                $resultArray[$locale['localeId']] = $locale[$localeField];
             }
-            $result[$localeField] = $test;
+            if($resultArray) $result[$localeField] = $resultArray;
         }
         return $result;
     }
@@ -321,11 +325,8 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         if (!empty($id)) {
             $this->update($modelData,$id);
         } else {
-            //Zend_Debug::dump($modelData);
             if(isset($modelData[$this->_primary])) unset($modelData[$this->_primary]);
-            //Zend_Debug::dump($modelData);exit;
             $id = $this->insert($modelData);
-            //Zend_Debug::dump($id);exit;
         }
         $thisClass = get_class($this);
         if(!strstr($thisClass, 'locale')) {
@@ -333,28 +334,29 @@ abstract class My_Model extends Zend_Db_Table_Abstract
             $childLocaleModel = new $childLocaleModelName;
             foreach($this->localeFields as $localeFields) {
                 if(isset($data[$localeFields])) {
+                    $localeId = 1;
                     foreach($data[$localeFields] as $k => $v) {
                         $fields = array(
                             $this->_primary[1] => $data[$this->_primary[1]],
-                            'localeId' => $k,
+                            'localeId' => $localeId,
                         );
                         $childLocaleRow = $childLocaleModel->getOneByFields($fields);
                         if($childLocaleRow) {
                             $childLocaleData = array(
                                 $localeFields => $v,
                             );
-                            $localePrimary = $childLocaleModel->getPrimary();
                             $childLocaleModel->save($childLocaleData, $childLocaleRow[$childLocaleModel->getPrimary()]);
                         } else {
-                            //Zend_Debug::dump($data);
+                            $localeId = filter_var($k, FILTER_SANITIZE_NUMBER_INT);
                             $childLocaleData = array(
                                 $this->_primary[1] => $id,
                                 $localeFields => $v,
-                                'localeId' => $k,
+                                'localeId' => $localeId,
                                 'translated' => true,
                             );
                             $childLocaleModel->save($childLocaleData);
                         }
+                        $localeId++;
                     }
                 }
             }

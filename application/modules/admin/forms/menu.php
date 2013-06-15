@@ -18,7 +18,15 @@ class Admin_Form_Menu extends My_Form {
             // filters
             'filters' => array('StringTrim')
             )));
-       
+        
+        // element action
+        $this->addElement(new Zend_Form_Element_Text('module',array(
+            'label'=>"Module",
+            'required'=>true,
+            // filters
+            'filters' => array('StringTrim')
+            )));
+        
         // element action
         $this->addElement(new Zend_Form_Element_Text('action',array(
             'label'=>"Action",

@@ -5,6 +5,11 @@ class Application_Model_Product extends My_Model
     protected $_name = 'product';
     protected $_primary = 'productId';
     
+    
+    public function init() {
+        $this->localeFields = array('title'=>'titel','teaser'=>'teaser');
+    }
+    
     public function getProductsByCategory($categoryId) {
         $select = $this->select()
                 ->from(array('p' => $this->getTableName()))
