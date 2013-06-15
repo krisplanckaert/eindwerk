@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('Product'));
+$this->placeholder('mainTitle')->set($this->translate('Dealer-Module : Product'));
 
 $module = 'dealer';
 $controller = 'product';
@@ -16,7 +16,7 @@ $controller = 'product';
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
             <tr>
-                <td><?php echo $row['label']?></td>
+                <td><?php echo isset($row['locale']) ? $row['locale']['title'] : $row['label'];?></td>
                 <td><?php echo $row['price']?></td>
                 <td><?php echo $row['highlight']?></td>
                 <td>
@@ -25,7 +25,7 @@ $controller = 'product';
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'productId' => $row['productId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Offerte verwijderen.  Doorgaan?'); ?>')">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'productId' => $row['productId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>

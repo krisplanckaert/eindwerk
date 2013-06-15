@@ -86,10 +86,6 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         }
     }       
     
-    public function getWinsolDealerId(){
-        return $this->winsolDealerId;
-    }
-    
     public function getAuthUser(){
     	return $this->authUser;    	
     }
@@ -164,7 +160,13 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     public function getAll($where=null,$order=null)
     {
     	$data = $this->fetchAll($where,$order);
-        return $data->toArray();
+        $result = $data->toArray();
+        
+        if($this->localeFields) {
+            $result = $this->getLocale($result);
+        }
+        
+        return $result;
     }    
 
     public function getData(){
@@ -298,12 +300,16 @@ abstract class My_Model extends Zend_Db_Table_Abstract
             foreach($result as $k => $v) {
                 $where = $parentKey.'='.$v[$parentKey].' and localeId = ' . $localeRow['localeId'];
                 $childLocale = $childLocaleModel->getAll($where);
-                $result[$k]['locale'] = $childLocale[0];
+                if($childLocale) {
+                    $result[$k]['locale'] = $childLocale[0];
+                }
             } 
         } else {
             $where = $parentKey.'='.$result[$parentKey].' and localeId = ' . $localeRow['localeId'];
             $childLocale = $childLocaleModel->getAll($where);
-            $result['locale'] = $childLocale[0];
+            if($childLocale) {
+                $result['locale'] = $childLocale[0];
+            }
             
         }
         return $result;
@@ -330,14 +336,14 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         }
         $thisClass = get_class($this);
         if(!strstr($thisClass, 'locale') && $this->localeFields) {
-            $childLocaleModelName = $thisClass.'Locale'; 
+            $childLocaleModelName = $thisClass.'locale'; 
             $childLocaleModel = new $childLocaleModelName;
             foreach($this->localeFields as $localeFields) {
                 if(isset($data[$localeFields])) {
                     $localeId = 1;
                     foreach($data[$localeFields] as $k => $v) {
                         $fields = array(
-                            $this->_primary[1] => $data[$this->_primary[1]],
+                            $this->_primary[1] => $data[$this->_primary[1]] ? $data[$this->_primary[1]] : $id,
                             'localeId' => $localeId,
                         );
                         $childLocaleRow = $childLocaleModel->getOneByFields($fields);
@@ -354,6 +360,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
                                 'localeId' => $localeId,
                                 'translated' => true,
                             );
+                            //Zend_Debug::dump($childLocaleData);exit;
                             $childLocaleModel->save($childLocaleData);
                         }
                         $localeId++;

@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('Category'));
+$this->placeholder('mainTitle')->set($this->translate('Dealer-Module : Category'));
 
 $module = 'dealer';
 $controller = 'category';
@@ -14,14 +14,14 @@ $controller = 'category';
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
             <tr>
-                <td><?php echo $row['label']?></td>
+                <td><?php echo $row['locale']['description']?></td>
                 <td>
                     <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'categoryId' => $row['categoryId']),NULL,TRUE); ?>">
                         <img src="/base/images/icons/edit.png">
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'categoryId' => $row['categoryId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Offerte verwijderen.  Doorgaan?'); ?>')">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'categoryId' => $row['categoryId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>

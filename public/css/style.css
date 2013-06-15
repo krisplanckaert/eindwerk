@@ -3,7 +3,7 @@ body{background:#FFD400;background: url("/images/htmlbg.jpg") repeat-x scroll le
 body.normalpage {background:url(/images/normalhtml.jpg) left top repeat-x;}
 body.normalpage #page {background:url(/images/normalheader.jpg) center top no-repeat; height:245px;}
 
-ul{list-style-type: none;padding:18px 18px 18px 250px;}
+ul{list-style-type: none;padding:18px 18px 18px 100px;}
 ul li {
     display : inline-block;    
     font-family: Verdana,Geneva,sans-serif;
@@ -41,10 +41,12 @@ footer{float:left;width:800px;background:#000;color:white;}
 #contents { margin:0 26px 0 26px; padding:45px 0px 0 0px; background:url(/images/wraptop.jpg) 0 30px repeat-x; min-height:300px; }
 
 #sitename a {
-    background: url("/images/portfoliologo.gif") no-repeat scroll 0 0 transparent;
+    /*background: url("/images/portfoliologo.gif") no-repeat scroll 0 0 transparent;*/
+    background: url("/images/images.jpg") no-repeat scroll 0 0 transparent;
+    background-size:80px 60px;
     display: block;
     float: left;
-    height: 42px;
+    height: 74px;
     overflow: hidden;
     text-indent: -5000px;
     width: 170px;
@@ -73,7 +75,7 @@ body {
 #sitename {
     display: block;
     float: left;
-    padding: 18px 0 0;
+    padding: 0px 0 0;
 }
 #productDiv{
     float:left;border:1px solid black;margin:10px; padding:30px;

@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('Menu'));
+$this->placeholder('mainTitle')->set($this->translate('Admin-Menu'));
 
 $module = 'admin';
 $controller = 'menu';
@@ -31,7 +31,7 @@ $controller = 'menu';
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'menuId' => $row['menuId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Offerte verwijderen.  Doorgaan?'); ?>')">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'menuId' => $row['menuId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>

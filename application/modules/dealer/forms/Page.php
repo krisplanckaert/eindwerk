@@ -1,6 +1,6 @@
 <?php
 
-class Dealer_Form_Category extends Zend_Form {
+class Dealer_Form_Page extends My_Form {
    
     public function init(){
         // set the defaults
@@ -8,7 +8,8 @@ class Dealer_Form_Category extends Zend_Form {
         //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
         
-        $this->addElement(new Zend_Form_Element_Text('categoryId',array('hidden'=>true)));
+        // element label
+        $this->addElement(new Zend_Form_Element_Text('pageId',array('hidden'=>true)));
         
         $this->addElement(new Zend_Form_Element_Text('label',array(
             'label'=>"Label",
@@ -21,22 +22,27 @@ class Dealer_Form_Category extends Zend_Form {
         $localeModel = new Application_Model_Locale();
         $locale = $localeModel->getAll();
         foreach($locale as $k => $v) {
-            $this->addElement(new Zend_Form_Element_Text($v['localeId'], array(
+            $this->addElement(new Zend_Form_Element_Text('description'.$v['localeId'], array(
                 'label' => 'Description'.' '.$v['short'],
                 'belongsto' => 'description',
                 'filters' => array('StringTrim'),
                 //'validator' => 'NotEmpty',
              )));
+            $this->addElement(new Zend_Form_Element_Text('title'.$v['localeId'], array(
+                'label' => 'title'.' '.$v['short'],
+                'belongsto' => 'title',
+                'filters' => array('StringTrim'),
+                //'validator' => 'NotEmpty',
+             )));
         }
         
-        $productModel = new Application_Model_Product();
-        $productList = $productModel->getProductsList();
-        $products = new Zend_Form_Element_MultiCheckbox('productsId', array(
-            'label' => 'Products',
-        ));
-        $products->setMultiOptions($productList);
-        $this->addElement($products);
-                        
+        $this->addElement(new Zend_Form_Element_Text('slug',array(
+            'label'=>"Slug",
+            'required'=>true,
+            // filters
+            'filters' => array('StringTrim')
+            )));           
+        
          // element button
         $this->addElement(new Zend_Form_Element_Button('toevoegen', array(
             'type'=>"submit",

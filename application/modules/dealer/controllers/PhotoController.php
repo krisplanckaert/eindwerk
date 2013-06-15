@@ -51,11 +51,11 @@ class Dealer_PhotoController extends My_Controller_Action
         }
     }
 
-    public function verwijderenAction()
+    public function deleteAction()
     {
-        $id = (int) $this->_getParam('id'); 
+        $photoId = (int) $this->_getParam('photoId'); 
         $photoModel = new Application_Model_Photo();
-        $photoModel->verwijder($id);
+        $photoModel->delete('photoId='.$photoId);
         $this->_redirect($this->view->url(array('controller'=> 'Photo', 'action'=> 'index')));
     }
 

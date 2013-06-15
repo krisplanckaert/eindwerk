@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50150
 File Encoding         : 65001
 
-Date: 2013-06-15 17:29:16
+Date: 2013-06-15 21:52:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,11 +32,12 @@ CREATE TABLE `basket` (
   KEY `productId` (`productId`),
   CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
   CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of basket
 -- ----------------------------
+INSERT INTO `basket` VALUES ('2', '1', '1', 'm8a5oet6tfc38dip90k7uvt5g3', '2', '0000-00-00 00:00:00', '2013-06-15 20:25:42');
 
 -- ----------------------------
 -- Table structure for `category`
@@ -55,12 +56,12 @@ CREATE TABLE `category` (
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `category_ibfk_1` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `category_ibfk_2` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES ('1', 'Cat A', '1', '0000-00-00 00:00:00', '2013-06-15 17:26:39', '2', '2');
+INSERT INTO `category` VALUES ('1', 'Cat A', '1', '0000-00-00 00:00:00', '2013-06-15 19:44:17', '2', '2');
 INSERT INTO `category` VALUES ('2', 'Cat B', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
@@ -81,16 +82,16 @@ CREATE TABLE `categorylocale` (
   UNIQUE KEY `categoryId` (`categoryId`,`localeId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
+  CONSTRAINT `categorylocale_ibfk_4` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`) ON DELETE CASCADE,
   CONSTRAINT `categorylocale_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
-  CONSTRAINT `categorylocale_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`),
-  CONSTRAINT `categorylocale_ibfk_4` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  CONSTRAINT `categorylocale_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of categorylocale
 -- ----------------------------
-INSERT INTO `categorylocale` VALUES ('1', '1', '1', 'Categorie A', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
-INSERT INTO `categorylocale` VALUES ('2', '1', '2', 'Category A', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `categorylocale` VALUES ('1', '1', '1', 'Categorie A NL', '1', '0000-00-00 00:00:00', '2013-06-15 19:44:17', '2', '2');
+INSERT INTO `categorylocale` VALUES ('2', '1', '2', 'Category A EN', '1', '0000-00-00 00:00:00', '2013-06-15 19:44:17', '2', '2');
 INSERT INTO `categorylocale` VALUES ('3', '2', '1', 'Categorie B', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `categorylocale` VALUES ('4', '2', '2', 'Category B', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
 
@@ -107,23 +108,23 @@ CREATE TABLE `categoryproduct` (
   `creationUserId` int(11) NOT NULL,
   `changeUserId` int(11) DEFAULT NULL,
   PRIMARY KEY (`categoryProductId`),
-  KEY `productId` (`productId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
-  KEY `categoryId` (`categoryId`),
-  CONSTRAINT `categoryproduct_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`),
+  KEY `categoryproduct_ibfk_2` (`productId`),
+  KEY `categoryproduct_ibfk_5` (`categoryId`),
+  CONSTRAINT `categoryproduct_ibfk_5` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`) ON DELETE CASCADE,
+  CONSTRAINT `categoryproduct_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`) ON DELETE CASCADE,
   CONSTRAINT `categoryproduct_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
-  CONSTRAINT `categoryproduct_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`),
-  CONSTRAINT `categoryproduct_ibfk_5` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+  CONSTRAINT `categoryproduct_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of categoryproduct
 -- ----------------------------
 INSERT INTO `categoryproduct` VALUES ('3', '2', '3', '0000-00-00 00:00:00', null, '2', null);
 INSERT INTO `categoryproduct` VALUES ('4', '2', '4', '0000-00-00 00:00:00', null, '2', null);
-INSERT INTO `categoryproduct` VALUES ('16', '1', '1', '2013-06-15 17:26:39', null, '2', null);
-INSERT INTO `categoryproduct` VALUES ('17', '1', '2', '2013-06-15 17:26:39', null, '2', null);
+INSERT INTO `categoryproduct` VALUES ('40', '1', '1', '2013-06-15 19:44:17', null, '2', null);
+INSERT INTO `categoryproduct` VALUES ('41', '1', '2', '2013-06-15 19:44:17', null, '2', null);
 
 -- ----------------------------
 -- Table structure for `locale`
@@ -171,7 +172,7 @@ CREATE TABLE `menu` (
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menu_ibfk_2` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -183,6 +184,8 @@ INSERT INTO `menu` VALUES ('4', 'menu', 'list', 'menu', 'admin', 'menu', '1', '1
 INSERT INTO `menu` VALUES ('17', 'photo', 'list', 'photo', 'dealer', 'photo', null, '2', '2', '2013-06-15 11:30:08', '2013-06-15 11:48:53');
 INSERT INTO `menu` VALUES ('18', 'product', 'list', 'product', 'dealer', 'product', null, '2', '2', '2013-06-15 11:31:42', '2013-06-15 11:48:56');
 INSERT INTO `menu` VALUES ('20', 'category', 'list', 'category', 'dealer', 'category', '1', '2', null, '2013-06-15 17:16:07', '0000-00-00 00:00:00');
+INSERT INTO `menu` VALUES ('21', 'page', 'list', 'page', 'dealer', 'page', '1', '2', null, '2013-06-15 19:45:06', '0000-00-00 00:00:00');
+INSERT INTO `menu` VALUES ('23', 'order', 'list', 'order', 'user', 'order', '1', '2', null, '2013-06-15 21:23:03', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `menulocale`
@@ -206,7 +209,7 @@ CREATE TABLE `menulocale` (
   CONSTRAINT `menulocale_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menulocale_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menulocale_ibfk_4` FOREIGN KEY (`menuId`) REFERENCES `menu` (`menuId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menulocale
@@ -226,6 +229,10 @@ INSERT INTO `menulocale` VALUES ('36', '18', 'Product', '1', '1', '2', '2', '201
 INSERT INTO `menulocale` VALUES ('37', '18', 'Product', '2', '1', '2', '2', '2013-06-15 11:31:42', '2013-06-15 11:48:56');
 INSERT INTO `menulocale` VALUES ('40', '20', 'Categorie', '1', '1', '2', null, '2013-06-15 17:16:07', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('41', '20', 'Category', '2', '1', '2', null, '2013-06-15 17:16:07', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('42', '21', 'pagina', '1', '1', '2', null, '2013-06-15 19:45:06', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('43', '21', 'page', '2', '1', '2', null, '2013-06-15 19:45:06', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('46', '23', 'Bestellingen', '1', '1', '2', null, '2013-06-15 21:23:03', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('47', '23', 'Orders', '2', '1', '2', null, '2013-06-15 21:23:03', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `menurole`
@@ -248,7 +255,7 @@ CREATE TABLE `menurole` (
   CONSTRAINT `menurole_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `role` (`roleId`),
   CONSTRAINT `menurole_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menurole_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menurole
@@ -272,6 +279,10 @@ INSERT INTO `menurole` VALUES ('28', '3', '3', '2013-06-15 11:48:40', '0000-00-0
 INSERT INTO `menurole` VALUES ('31', '2', '4', '2013-06-15 16:23:35', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `menurole` VALUES ('32', '20', '3', '2013-06-15 17:16:07', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `menurole` VALUES ('33', '20', '4', '2013-06-15 17:16:07', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('34', '21', '3', '2013-06-15 19:45:06', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('35', '21', '4', '2013-06-15 19:45:06', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('37', '23', '3', '2013-06-15 21:23:03', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('38', '23', '4', '2013-06-15 21:23:03', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `order`
@@ -292,11 +303,12 @@ CREATE TABLE `order` (
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of order
 -- ----------------------------
+INSERT INTO `order` VALUES ('2', '1', '2013-06-15 21:47:57', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -345,13 +357,13 @@ CREATE TABLE `page` (
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `page_ibfk_1` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `page_ibfk_2` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page
 -- ----------------------------
-INSERT INTO `page` VALUES ('1', 'about', '1', 'about', '0000-00-00 00:00:00', null, '2', null);
-INSERT INTO `page` VALUES ('2', 'dislaimer', '1', 'disclaimer', '0000-00-00 00:00:00', null, '2', null);
+INSERT INTO `page` VALUES ('1', 'about', '1', 'about', '0000-00-00 00:00:00', '2013-06-15 19:51:53', '2', '2');
+INSERT INTO `page` VALUES ('2', 'dislaimer', '1', 'disclaimer', '0000-00-00 00:00:00', '2013-06-15 19:51:59', '2', '2');
 
 -- ----------------------------
 -- Table structure for `pagelocale`
@@ -363,7 +375,7 @@ CREATE TABLE `pagelocale` (
   `localeId` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `traslated` tinyint(4) NOT NULL,
+  `translated` tinyint(4) NOT NULL,
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creationUserId` int(11) NOT NULL,
@@ -373,19 +385,19 @@ CREATE TABLE `pagelocale` (
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
   KEY `localeId` (`localeId`),
-  CONSTRAINT `pagelocale_ibfk_1` FOREIGN KEY (`pageId`) REFERENCES `page` (`pageId`),
+  CONSTRAINT `pagelocale_ibfk_1` FOREIGN KEY (`pageId`) REFERENCES `page` (`pageId`) ON DELETE CASCADE,
   CONSTRAINT `pagelocale_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `pagelocale_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `pagelocale_ibfk_5` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pagelocale
 -- ----------------------------
-INSERT INTO `pagelocale` VALUES ('1', '1', '1', 'about titel', 'about description', '1', '0000-00-00 00:00:00', '2013-06-13 21:23:34', '2', null);
-INSERT INTO `pagelocale` VALUES ('2', '1', '2', 'about title', 'about description', '1', '0000-00-00 00:00:00', '2013-06-13 21:23:20', '2', null);
-INSERT INTO `pagelocale` VALUES ('3', '2', '1', 'disclaimer', 'disclaimer', '1', '0000-00-00 00:00:00', '2013-06-13 19:28:25', '2', null);
-INSERT INTO `pagelocale` VALUES ('4', '2', '2', 'disclaimer', 'disclaimer', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `pagelocale` VALUES ('1', '1', '1', 'about titel NL', 'about description NL', '1', '0000-00-00 00:00:00', '2013-06-15 19:51:53', '2', '2');
+INSERT INTO `pagelocale` VALUES ('2', '1', '2', 'about title EN', 'about description EN', '1', '0000-00-00 00:00:00', '2013-06-15 19:51:53', '2', '2');
+INSERT INTO `pagelocale` VALUES ('3', '2', '1', 'disclaimer', 'disclaimer', '1', '0000-00-00 00:00:00', '2013-06-15 19:51:59', '2', '2');
+INSERT INTO `pagelocale` VALUES ('4', '2', '2', 'disclaimer', 'disclaimer', '1', '0000-00-00 00:00:00', '2013-06-15 19:51:59', '2', '2');
 
 -- ----------------------------
 -- Table structure for `photo`
@@ -405,7 +417,7 @@ CREATE TABLE `photo` (
   `creationDate` int(10) DEFAULT NULL,
   `lastUpdate` int(10) DEFAULT NULL,
   PRIMARY KEY (`photoId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of photo
@@ -436,7 +448,7 @@ CREATE TABLE `photolocale` (
   CONSTRAINT `photolocale_ibfk_2` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`),
   CONSTRAINT `photolocale_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `photolocale_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of photolocale
@@ -453,7 +465,7 @@ CREATE TABLE `product` (
   `label` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `price` float(11,4) NOT NULL,
-  `highlight` tinyint(4) NOT NULL,
+  `highlight` tinyint(4) NOT NULL DEFAULT '0',
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creationUserId` int(11) NOT NULL,
@@ -463,7 +475,7 @@ CREATE TABLE `product` (
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `product_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `product_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
@@ -472,6 +484,7 @@ INSERT INTO `product` VALUES ('1', 'product A', '1', '11.0000', '1', '0000-00-00
 INSERT INTO `product` VALUES ('2', 'product B', '1', '11.0000', '0', '0000-00-00 00:00:00', '2013-06-15 16:16:30', '2', '2');
 INSERT INTO `product` VALUES ('3', 'product C', '1', '12.0000', '1', '0000-00-00 00:00:00', '2013-06-13 21:31:48', '2', null);
 INSERT INTO `product` VALUES ('4', 'product D', '1', '13.0000', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `product` VALUES ('10', 'test', '0', '10.0000', '0', '2013-06-15 21:01:22', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `productlocale`
@@ -480,9 +493,9 @@ DROP TABLE IF EXISTS `productlocale`;
 CREATE TABLE `productlocale` (
   `productLocaleId` int(11) NOT NULL AUTO_INCREMENT,
   `productId` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `teaser` varchar(255) NOT NULL,
-  `content` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `teaser` varchar(255) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
   `localeId` int(11) NOT NULL,
   `translated` tinyint(4) NOT NULL,
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -494,15 +507,17 @@ CREATE TABLE `productlocale` (
   KEY `localeId` (`localeId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
-  CONSTRAINT `productlocale_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`),
+  CONSTRAINT `productlocale_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`) ON DELETE CASCADE,
   CONSTRAINT `productlocale_ibfk_2` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`),
   CONSTRAINT `productlocale_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `productlocale_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of productlocale
 -- ----------------------------
+INSERT INTO `productlocale` VALUES ('3', '10', 'test NL', 'Teaser NL', 'Content NL', '1', '1', '2013-06-15 21:01:22', '2013-06-15 21:01:22', '2', '2');
+INSERT INTO `productlocale` VALUES ('4', '10', 'Title EN', 'Tease EN', 'Content EN', '2', '1', '2013-06-15 21:01:22', '2013-06-15 21:01:22', '2', '2');
 
 -- ----------------------------
 -- Table structure for `productphoto`
@@ -517,15 +532,15 @@ CREATE TABLE `productphoto` (
   `creationUserId` int(11) NOT NULL,
   `changeUserId` int(11) DEFAULT NULL,
   PRIMARY KEY (`productPhotoId`),
-  KEY `productId` (`productId`),
   KEY `photoId` (`photoId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
-  CONSTRAINT `productphoto_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`),
+  KEY `productphoto_ibfk_1` (`productId`),
+  CONSTRAINT `productphoto_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`) ON DELETE CASCADE,
   CONSTRAINT `productphoto_ibfk_2` FOREIGN KEY (`photoId`) REFERENCES `photo` (`photoId`),
   CONSTRAINT `productphoto_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `productphoto_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of productphoto
@@ -572,7 +587,7 @@ CREATE TABLE `translate` (
   PRIMARY KEY (`translateId`),
   KEY `localeId` (`localeId`),
   CONSTRAINT `translate_ibfk_1` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of translate
@@ -601,6 +616,8 @@ INSERT INTO `translate` VALUES ('23', '1', 'Menus overzicht', 'Menus overzicht',
 INSERT INTO `translate` VALUES ('24', '2', 'Menus overzicht', 'Menu overview', '1');
 INSERT INTO `translate` VALUES ('25', '1', 'Filename', 'Bestandsnaam', '1');
 INSERT INTO `translate` VALUES ('26', '2', 'Filename', 'Filename', '1');
+INSERT INTO `translate` VALUES ('27', '1', 'Verwijderen', 'Verwijderen', '1');
+INSERT INTO `translate` VALUES ('28', '2', 'Verwijderen', 'Delete', '1');
 
 -- ----------------------------
 -- Table structure for `user`

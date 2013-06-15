@@ -1,0 +1,38 @@
+<?php 
+$this->placeholder('mainTitle')->set($this->translate('User-Module : Order'));
+
+$module = 'user';
+$controller = 'order';
+?>
+ <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+    <img src="/base/images/icons/create.png">
+</a>
+<table>
+    <tr>
+        <th><?php echo $this->translate('User ID');?></th>
+    </tr>
+<?php if($this->rows) { ?>
+<?php   foreach($this->rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['userId']?></td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderId' => $row['orderId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/edit.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'orderId' => $row['orderId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Delete'); ?>?')">
+                        <img src="/base/images/icons/cross.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => 'Orderdetail', 'action' => 'listbyorder', 'orderId' => $row['orderId']),NULL,TRUE); ?>">
+                        <?php echo $this->translate('Details');?>
+                    </a>
+                </td>
+            </tr>
+<?php   } ?>            
+
+<?php } else $this->translate('leeg bestand'); ?>            
+</table>
+

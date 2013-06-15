@@ -1,0 +1,35 @@
+<?php 
+$this->placeholder('mainTitle')->set($this->translate('Dealer-Module : Page'));
+
+$module = 'dealer';
+$controller = 'page';
+?>
+ <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+    <img src="/base/images/icons/create.png">
+</a>
+<table>
+    <tr>
+        <th><?php echo $this->translate('Label');?></th>
+        <th><?php echo $this->translate('Slug');?></th>
+    </tr>
+<?php if($this->rows) { ?>
+<?php   foreach($this->rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['label']?></td>
+                <td><?php echo $row['slug']?></td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'pageId' => $row['pageId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/edit.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'pageId' => $row['pageId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
+                        <img src="/base/images/icons/cross.png">
+                    </a>
+                </td>
+            </tr>
+<?php   } ?>            
+
+<?php } else $this->translate('leeg bestand'); ?>            
+</table>
+

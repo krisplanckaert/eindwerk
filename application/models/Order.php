@@ -1,5 +1,5 @@
 <?php
-class Application_Model_Order extends Zend_Db_Table_Abstract
+class Application_Model_Order extends My_Model
 {
     //definieren hoe de tabel eruit ziet    
     protected $_name = 'order';

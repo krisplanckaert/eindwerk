@@ -1,6 +1,6 @@
 <?php
 
-class Application_Model_Translation extends Zend_Db_Table_Abstract
+class Application_Model_Translation extends My_Model
 {
     protected $_name = 'translate';
     protected $_primary = 'translateId';

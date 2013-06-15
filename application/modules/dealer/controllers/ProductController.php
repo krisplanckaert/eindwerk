@@ -46,15 +46,15 @@ class Dealer_ProductController extends My_Controller_Action
     {
         $form  = new Dealer_Form_Product;
         $this->view->form = $form;    
-        
         if ($this->getRequest()->isPost()){
             $postParams= $this->getRequest()->getPost();
-            
             if ($this->view->form->isValid($postParams)) {                                            
-                
                 unset($postParams['toevoegen']);
+                $productData = $postParams;
+                unset($productData['photosId']);
                 $productModel = new Application_Model_Product();
-                $productModel->save($postParams);
+                $productId = $productModel->save($productData);
+                $this->toevoegenProductPhotos($postParams, $productId); 
                 
                 $this->_redirect($this->view->url(array('controller'=> 'Product', 'action'=> 'list')));
             }            

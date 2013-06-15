@@ -21,7 +21,6 @@
                                <?php echo $locale['short'];?>
                         </a> |
 <?php               } ?>
-                    
                 </section>
                 <section id="container">
                     <div id="contents">
@@ -32,21 +31,21 @@
                                         <?php echo $this->signupForm($this->signupForm); ?>
                                     </span>
                                 </div><hr />
-                                <div id="basket">
+                                <div id="winkelmand">
                                     <span style="float:left">
-<?php                                       if($this->basket) { ?>
+<?php                                       if($this->winkelmanden) { ?>
                                                 <h1>Winkelmand</h1>
-                                                <table id="tbl_basket">
+                                                <table id="tbl_winkelmand">
                                                     <tr>
                                                         <th>Naam</th>
                                                         <th>Prijs</th>
                                                         <th>Aantal</th>
                                                     </tr>
-<?php                                               foreach($this->basket as $basket) { ?>
+<?php                                               foreach($this->winkelmanden as $winkelmand) { ?>
                                                         <tr>
-                                                            <td class="td_basket"><?= $basket['label'];?></td>
-                                                            <td class="td_basket"><?= $basket['price'];?></td>
-                                                            <td class="td_basket"><?= $basket['quantity'];?></td>
+                                                            <td class="td_winkelmand"><?= $winkelmand['naam'];?></td>
+                                                            <td class="td_winkelmand"><?= $winkelmand['prijs'];?></td>
+                                                            <td class="td_winkelmand"><?= $winkelmand['aantal'];?></td>
                                                         </tr>
 <?php                                               } ?>
                                                 </table>
@@ -56,7 +55,6 @@
                             </div>
                         </header>
                         <section id="content">
-                            <div class="mainTitle" ><br/><?php echo $this->escape($this->placeholder('mainTitle')); ?></div>
                             <?php echo $this->layout()->content; ?>
                         </section>
 

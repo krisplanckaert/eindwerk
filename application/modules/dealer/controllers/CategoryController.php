@@ -44,7 +44,7 @@ class Dealer_CategoryController extends My_Controller_Action
 
     public function addAction()
     {
-        $form  = new Dealer_Form_Product;
+        $form  = new Dealer_Form_Category;
         $this->view->form = $form;    
         
         if ($this->getRequest()->isPost()){
@@ -53,8 +53,11 @@ class Dealer_CategoryController extends My_Controller_Action
             if ($this->view->form->isValid($postParams)) {                                            
                 
                 unset($postParams['toevoegen']);
-                $productModel = new Application_Model_Product();
-                $productModel->save($postParams);
+                $CategoryData = $postParams;
+                unset($postParams['productsId']);
+                $categoryModel = new Application_Model_Category();
+                $categoryId = $categoryModel->save($postParams);
+                $this->toevoegenCategoryProducts($CategoryData, $categoryId);  
                 
                 $this->_redirect($this->view->url(array('controller'=> 'Category', 'action'=> 'list')));
             }            
@@ -64,9 +67,9 @@ class Dealer_CategoryController extends My_Controller_Action
     public function deleteAction()
     {
         $categoryId = (int) $this->_getParam('categoryId'); 
-        $productModel = new Application_Model_Product();
-        $productModel->delete('productId='.$categoryId);
-        $this->_redirect($this->view->url(array('controller'=> 'Product', 'action'=> 'list')));
+        $categoryModel = new Application_Model_Category();
+        $categoryModel->delete('categoryId='.$categoryId);
+        $this->_redirect($this->view->url(array('controller'=> 'Category', 'action'=> 'list')));
     }
 
     public function toevoegenCategoryProducts($postParams, $categoryId) {

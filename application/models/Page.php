@@ -8,6 +8,10 @@ class Application_Model_Page extends My_Model
     protected $_name = 'page';
     protected $_primary = 'pageId';
     
+    public function init() {
+        $this->localeFields = array('title'=>'title', 'description'=>'description');
+    }
+    
     public function getAllPages() {
         $select = $this->select()
                 ->where('status=1');

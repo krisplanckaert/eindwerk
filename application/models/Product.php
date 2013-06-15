@@ -7,7 +7,7 @@ class Application_Model_Product extends My_Model
     
     
     public function init() {
-        $this->localeFields = array('title'=>'titel','teaser'=>'teaser');
+        $this->localeFields = array('title'=>'title','teaser'=>'teaser','content'=>'content');
     }
     
     public function getProductsByCategory($categoryId) {
