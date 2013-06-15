@@ -1,6 +1,6 @@
 <?php
 
-class Admin_ProductController extends Zend_Controller_Action
+class Dealer_PhotoController extends Zend_Controller_Action
 {
 
     public function init()
@@ -12,34 +12,30 @@ class Admin_ProductController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $productModel = new Application_Model_Product();
-        $this->view->producten= $productModel->getAll()->toArray();
+        $photoModel = new Application_Model_Photo();
+        $this->view->photos= $photoModel->getAll()->toArray();
     }
     
     public function wijzigenAction()
     {
         $id = (int) $this->_getParam('id'); //$_GET['id];
                 
-        $productModel = new Application_Model_Product();
-        $product = $productModel->find($id)->current(); 
+        $photoModel = new Application_Model_Photo();
+        $photo = $photoModel->find($id)->current(); 
                
-        $form = new Application_Form_Product($id);
-        $form->populate($product->toArray());
+        $form = new Application_Form_Photo($id);
+        $form->populate($photo->toArray());
                 
         $this->view->form = $form;
         
         if ($this->getRequest()->isPost()){
             $postParams= $this->getRequest()->getPost();
-            /*Zend_Debug::dump($postParams);
-            die("ok");*/            
             if ($this->view->form->isValid($postParams)) {                                                           
                   
                 unset($postParams['toevoegen']);
-                $productModel->wijzigen($postParams, $id);
+                $photoModel->wijzigen($postParams, $id);
                 
-                /*$this->_redirect('/product/index');*/
-                
-                $this->_redirect($this->view->url(array('controller'=> 'Product', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Photo', 'action'=> 'index')));
             }  
             
         }
@@ -48,7 +44,7 @@ class Admin_ProductController extends Zend_Controller_Action
 
     public function toevoegenAction()
     {
-        $form  = new Application_Form_Product;
+        $form  = new Application_Form_Photo;
         $this->view->form = $form;    
         
         if ($this->getRequest()->isPost()){
@@ -57,10 +53,10 @@ class Admin_ProductController extends Zend_Controller_Action
             if ($this->view->form->isValid($postParams)) {                                            
                 
                 unset($postParams['toevoegen']);
-                $productModel = new Application_Model_Product();
-                $productModel->toevoegen($postParams);
+                $photoModel = new Application_Model_Photo();
+                $photoModel->toevoegen($postParams);
                 
-                $this->_redirect($this->view->url(array('controller'=> 'Product', 'action'=> 'index')));
+                $this->_redirect($this->view->url(array('controller'=> 'Photo', 'action'=> 'index')));
             }            
         }
     }
@@ -68,9 +64,9 @@ class Admin_ProductController extends Zend_Controller_Action
     public function verwijderenAction()
     {
         $id = (int) $this->_getParam('id'); 
-        $productModel = new Application_Model_Product();
-        $productModel->verwijder($id);
-        $this->_redirect($this->view->url(array('controller'=> 'Product', 'action'=> 'index')));
+        $photoModel = new Application_Model_Photo();
+        $photoModel->verwijder($id);
+        $this->_redirect($this->view->url(array('controller'=> 'Photo', 'action'=> 'index')));
     }
 
 

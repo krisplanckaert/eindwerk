@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Bootstrap extends Zend_Application_Module_Bootstrap
+class Dealer_Bootstrap extends Zend_Application_Module_Bootstrap
 {
     public function _initTest() {
         //die('admin init test');
@@ -22,7 +22,7 @@ class Admin_Bootstrap extends Zend_Application_Module_Bootstrap
                 $options['resources']['view']['contentType']);
             }
 
-            $view->headTitle("Webshop");
+            $view->headTitle("Dealer");
             ZendX_JQuery::enableView($view);	
             $jqueryTheme = 'smoothness';
             $view->jQuery()->setLocalPath('/base/js/jquery/jquery.min.js')

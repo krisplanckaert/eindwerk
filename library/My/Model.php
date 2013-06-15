@@ -312,16 +312,20 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     }    
     
     public function save($data, $id=null) {
-        if (!empty($id)) {
-            $modelData = $data;
-            if(is_array($this->localeFields)) {
-                foreach($this->localeFields as $localeFields) {
-                    unset($modelData[$localeFields]);
-                }
+        $modelData = $data;
+        if(is_array($this->localeFields)) {
+            foreach($this->localeFields as $localeFields) {
+                unset($modelData[$localeFields]);
             }
+        }
+        if (!empty($id)) {
             $this->update($modelData,$id);
         } else {
-            $id = $this->insert($data);
+            //Zend_Debug::dump($modelData);
+            if(isset($modelData[$this->_primary])) unset($modelData[$this->_primary]);
+            //Zend_Debug::dump($modelData);exit;
+            $id = $this->insert($modelData);
+            //Zend_Debug::dump($id);exit;
         }
         $thisClass = get_class($this);
         if(!strstr($thisClass, 'locale')) {
@@ -344,7 +348,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
                         } else {
                             //Zend_Debug::dump($data);
                             $childLocaleData = array(
-                                $this->_primary[1] => $data[$this->_primary[1]],
+                                $this->_primary[1] => $id,
                                 $localeFields => $v,
                                 'localeId' => $k,
                                 'translated' => true,
@@ -355,6 +359,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
                 }
             }
         } 
+        return $id;
     }
     
     public function getPrimary() {

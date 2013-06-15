@@ -46,9 +46,7 @@ class Admin_MenuController extends My_Controller_Action
             if ($this->view->form->isValid($postParams)) {                                                           
                   
                 unset($postParams['toevoegen']);
-                //Zend_Debug::dump($postParams);exit;
                 $this->toevoegenMenuRoles($postParams, $menuId);                
-                //Zend_Debug::dump($postParams);exit;
                 unset($postParams['rolesId']);
                 $menuModel->save($postParams, $menuId);
                 
@@ -57,7 +55,7 @@ class Admin_MenuController extends My_Controller_Action
         }
     }
 
-    public function toevoegenAction()
+    public function addAction()
     {
         $form  = new Admin_Form_Menu;
         $this->view->form = $form;    
@@ -66,12 +64,16 @@ class Admin_MenuController extends My_Controller_Action
             $postParams= $this->getRequest()->getPost();
             
             if ($this->view->form->isValid($postParams)) {                                            
-                
                 unset($postParams['toevoegen']);
+                $saveData = $postParams;
+                unset($saveData['rolesId']);
                 $menuModel = new Application_Model_Menu();
-                $menuModel->toevoegen($postParams);
+                //Zend_Debug::dump($saveData);exit;
+                $menuId = $menuModel->save($saveData);
                 
-                $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'index')));
+                $this->toevoegenMenuRoles($postParams, $menuId);
+                
+                $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'list')));
             }            
         }
     }

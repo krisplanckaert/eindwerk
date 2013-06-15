@@ -1,0 +1,32 @@
+<?php 
+$this->placeholder('mainTitle')->set($this->translate('Photo'));
+
+$module = 'dealer';
+$controller = 'photo';
+?>
+ <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+    <img src="/base/images/icons/create.png">
+</a>
+<table>
+    <tr>
+        <th><?php echo $this->translate('Filename');?></th>
+    </tr>
+<?php if($this->rows) { ?>
+<?php   foreach($this->rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['fileName']?></td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'photoId' => $row['photoId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/edit.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'photoId' => $row['photoId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/cross.png">
+                    </a>
+                </td>
+            </tr>
+<?php   } ?>            
+
+<?php } else $this->translate('leeg bestand'); ?>            
+</table>
