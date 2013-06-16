@@ -43,8 +43,8 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     {
     	$this->db = $this->getAdapter();
 
-        $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
-        /*$userModel = new Application_Model_User();
+        /*$this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
+        $userModel = new Application_Model_User();
         $fields = array(
             'username' => $this->authUser
         );
@@ -179,7 +179,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     
     public function buildSelect($options = NULL){
     	$defaultOptions = array(
-    		'key'      => $this->_id,
+    		'key'      => $this->_primary,
     		'value'    => 'Omschrijving',
     		'emptyRow' => TRUE,
     		'where'    => NULL,
@@ -196,7 +196,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     	}
     	foreach($data as $row){
             $returnData[$row[$options['key']]] = $row[$options['value']];
-    	}    	
+    	}    
     	return $returnData;
     }   
     
@@ -322,6 +322,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     }    
     
     public function save($data, $id=null) {
+        if(isset($data['password'])) $data['password'] = md5($data['password']);
         $modelData = $data;
         if(is_array($this->localeFields)) {
             foreach($this->localeFields as $localeFields) {
@@ -333,7 +334,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         } else {
             if(isset($modelData[$this->_primary])) unset($modelData[$this->_primary]);
             $id = $this->insert($modelData);
-        }
+            }
         $thisClass = get_class($this);
         if(!strstr($thisClass, 'locale') && $this->localeFields) {
             $childLocaleModelName = $thisClass.'locale'; 

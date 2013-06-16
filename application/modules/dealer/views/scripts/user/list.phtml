@@ -4,9 +4,7 @@ $this->placeholder('mainTitle')->set($this->translate('Dealer-Module : User'));
 $module = 'dealer';
 $controller = 'user';
 ?>
- <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
-    <img src="/base/images/icons/create.png">
-</a>
+
 <table>
     <tr>
         <th><?php echo $this->translate('Name');?></th>

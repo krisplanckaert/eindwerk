@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50150
 File Encoding         : 65001
 
-Date: 2013-06-16 14:31:37
+Date: 2013-06-16 17:59:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,17 +28,21 @@ CREATE TABLE `basket` (
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`basketId`),
-  KEY `userId` (`userId`),
   KEY `productId` (`productId`),
-  CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
+  KEY `basket_ibfk_1` (`userId`),
+  CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
   CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of basket
 -- ----------------------------
 INSERT INTO `basket` VALUES ('2', '1', '1', 'm8a5oet6tfc38dip90k7uvt5g3', '20', '0000-00-00 00:00:00', '2013-06-16 06:57:32');
 INSERT INTO `basket` VALUES ('3', '3', '1', 'mhrhn9ds31m4j98pgjqejkj1d0', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `basket` VALUES ('4', '1', '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '2013-06-16 15:46:20');
+INSERT INTO `basket` VALUES ('9', '12', '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '2013-06-16 17:23:46');
+INSERT INTO `basket` VALUES ('10', '13', '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '2013-06-16 17:30:07');
+INSERT INTO `basket` VALUES ('12', null, '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `category`
@@ -298,6 +302,7 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `orderId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
+  `reference` varchar(255) DEFAULT NULL,
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creationUserId` int(11) NOT NULL,
@@ -310,13 +315,31 @@ CREATE TABLE `order` (
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of order
 -- ----------------------------
-INSERT INTO `order` VALUES ('2', '3', '2013-06-15 21:47:57', '2013-06-16 12:43:52', '2', null);
-INSERT INTO `order` VALUES ('3', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('2', '3', null, '2013-06-15 21:47:57', '2013-06-16 12:43:52', '2', null);
+INSERT INTO `order` VALUES ('3', '2', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('4', '11', 'test', '2013-06-16 08:04:02', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('5', '11', 'test', '2013-06-16 08:10:05', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('6', '11', 'test', '2013-06-16 17:11:31', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('7', '11', 'test', '2013-06-16 17:12:05', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('8', '11', 'test', '2013-06-16 17:13:08', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('9', '11', 'test', '2013-06-16 17:14:52', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('10', '11', 'test', '2013-06-16 17:15:46', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('11', '11', 'test123', '2013-06-16 17:16:46', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('12', '11', 'test123', '2013-06-16 17:18:17', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('13', '11', 'test123', '2013-06-16 17:18:31', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('14', '11', 'test123', '2013-06-16 17:18:56', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('15', '11', 'test123', '2013-06-16 17:20:15', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('16', '11', 'test123', '2013-06-16 17:20:58', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('17', '11', 'test123', '2013-06-16 17:21:39', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('18', '11', 'test123', '2013-06-16 17:22:05', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('19', '11', 'test58', '2013-06-16 17:23:16', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('20', '14', 'test1', '2013-06-16 17:33:50', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('21', '15', 'test', '2013-06-16 17:46:43', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -341,12 +364,17 @@ CREATE TABLE `orderdetail` (
   CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `order` (`orderId`),
   CONSTRAINT `orderdetail_ibfk_4` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `orderdetail_ibfk_5` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of orderdetail
 -- ----------------------------
 INSERT INTO `orderdetail` VALUES ('1', '2', '2', '2', '10.00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('2', '1', '5', '174', '11.00', '2013-06-16 08:10:05', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('3', '1', '17', '58', '11.00', '2013-06-16 17:21:39', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('4', '1', '18', '58', '11.00', '2013-06-16 17:22:05', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('5', '1', '19', '58', '11.00', '2013-06-16 17:23:16', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('6', '1', '20', '1', '11.00', '2013-06-16 17:33:50', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `page`
@@ -596,7 +624,7 @@ CREATE TABLE `translate` (
   PRIMARY KEY (`translateId`),
   KEY `localeId` (`localeId`),
   CONSTRAINT `translate_ibfk_1` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of translate
@@ -643,6 +671,12 @@ INSERT INTO `translate` VALUES ('41', '1', 'Name', 'Naam', '1');
 INSERT INTO `translate` VALUES ('42', '2', 'Name', 'Name', '1');
 INSERT INTO `translate` VALUES ('43', '1', 'Role', 'Rechten', '1');
 INSERT INTO `translate` VALUES ('44', '2', 'Role', 'Role', '1');
+INSERT INTO `translate` VALUES ('45', '1', 'order', 'Bestel', '1');
+INSERT INTO `translate` VALUES ('46', '2', 'order', 'Order', '1');
+INSERT INTO `translate` VALUES ('47', '1', 'Congratulations with your order', 'Gefeliciteerd met uw order', '1');
+INSERT INTO `translate` VALUES ('48', '2', 'Congratulations with your order', 'Congratulations with your order', '1');
+INSERT INTO `translate` VALUES ('49', '1', 'Reference', 'Referentie', '1');
+INSERT INTO `translate` VALUES ('50', '2', 'Reference', 'Reference', '1');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -655,6 +689,7 @@ CREATE TABLE `user` (
   `name` varchar(255) NOT NULL,
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `roleId` int(11) NOT NULL,
+  `localeId` int(11) NOT NULL,
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creationUserId` int(11) NOT NULL,
@@ -663,14 +698,23 @@ CREATE TABLE `user` (
   KEY `roleId` (`roleId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
+  KEY `localeId` (`localeId`),
+  CONSTRAINT `user_ibfk_4` FOREIGN KEY (`localeId`) REFERENCES `user` (`userId`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `role` (`roleId`),
   CONSTRAINT `user_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `user_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'kris.planckaert@winsol.eu', '03e13700e25563c0c0a8ffdb48dbbc19', 'kris', 'active', '4', '0000-00-00 00:00:00', '2013-06-16 14:06:30', '1', '2');
-INSERT INTO `user` VALUES ('2', 'thomas.vanhuysse@winsol.eu', 'ef6e65efc188e7dffd7335b646a85a21', 'thomas', 'active', '3', '0000-00-00 00:00:00', '2013-06-12 12:40:43', '1', null);
-INSERT INTO `user` VALUES ('3', 'xavier@dxsolutions.be', '0f5366b3b19afc3184d23bc73d8cd311', 'xavier', 'active', '2', '0000-00-00 00:00:00', '2013-06-16 13:31:45', '1', '2');
+INSERT INTO `user` VALUES ('1', 'kris.planckaert@winsol.eu', '03e13700e25563c0c0a8ffdb48dbbc19', 'kris', 'active', '4', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:41', '1', '2');
+INSERT INTO `user` VALUES ('2', 'thomas.vanhuysse@winsol.eu', 'ef6e65efc188e7dffd7335b646a85a21', 'thomas', 'active', '3', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:43', '1', null);
+INSERT INTO `user` VALUES ('3', 'xavier@dxsolutions.be', '0f5366b3b19afc3184d23bc73d8cd311', 'xavier', 'active', '2', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:44', '1', '2');
+INSERT INTO `user` VALUES ('11', 'test', '098f6bcd4621d373cade4e832627b4f6', 'test', 'active', '2', '1', '2013-06-16 07:44:34', '2013-06-16 17:36:44', '2', null);
+INSERT INTO `user` VALUES ('12', 'test58', 'e947c4e3d3091991356d1564d09ddac2', 'test58', 'active', '2', '1', '2013-06-16 17:23:46', '2013-06-16 17:36:45', '2', null);
+INSERT INTO `user` VALUES ('13', 'test59', 'debdcbab258bf9e208b9f2e6e6d1779b', 'test59', 'active', '2', '1', '2013-06-16 17:30:07', '2013-06-16 17:36:45', '2', null);
+INSERT INTO `user` VALUES ('14', 'test1', '5a105e8b9d40e1329780d62ea2265d8a', 'test1', 'active', '2', '1', '2013-06-16 17:33:31', '2013-06-16 17:36:46', '2', null);
+INSERT INTO `user` VALUES ('15', 'testtest', '05a671c66aefea124cc08b76ea6d30bb', 'testtest', 'active', '2', '2', '2013-06-16 17:46:27', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('16', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2', 'active', '2', '1', '2013-06-16 17:55:39', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('17', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3', 'active', '2', '2', '2013-06-16 17:58:47', '0000-00-00 00:00:00', '2', null);

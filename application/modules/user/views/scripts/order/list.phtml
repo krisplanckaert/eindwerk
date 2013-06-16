@@ -12,12 +12,14 @@ if($this->authUserRow['roleId']>2) { ?>
     <tr>
         <th><?php echo $this->translate('Order');?></th>
         <th><?php echo $this->translate('User');?></th>
+        <th><?php echo $this->translate('Reference');?></th>
     </tr>
 <?php if($this->rows) { 
         foreach($this->rows as $row) { ?>
             <tr>
                 <td><?php echo $row['orderId']?></td>
                 <td><?php echo $row['userId']?></td>
+                <td><?php echo $row['reference']?></td>
 <?php           if($this->authUser['roleId']>2) { ?>                
                     <td>
                         <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderId' => $row['orderId']),NULL,TRUE); ?>">

@@ -34,9 +34,9 @@ class Application_Model_Product extends My_Model
         $localeRow = $localeModel->getOneByField('locale', $locale); 
         $select = $this->select()
                 ->from(array('p' => $this->getTableName()))
-                ->join(array('pl' => 'productlocale'), 'pl.productId=p.productId',null)
-                ->where('pl.localeId='.$localeRow['localeId'])
-                ->where('pl.title like "%'.$params['description'].'%" or teaser like "%'.$params['description'].'%"');
+                ->joinleft(array('pl' => 'productlocale'), 'pl.productId=p.productId and pl.localeId='.$localeRow['localeId'],null)
+                //->where('pl.localeId='.$localeRow['localeId'])
+                ->where('pl.title like "%'.$params['description'].'%" or teaser like "%'.$params['description'].'%" or p.label like "%'.$params['description'].'%"');
         //echo $select;exit;
         $result = $this->fetchAll($select);
         return $result;

@@ -33,6 +33,13 @@ class Application_Form_Signup extends Zend_Form {
             'ignore'=> true
             )));
         
+        // element button
+        $this->addElement(new Zend_Form_Element_Button('register', array(
+            'type'=>"submit",
+            'value'=>'Register',
+            'required'=> false,
+            'ignore'=> true
+            )));
     }
     
 }

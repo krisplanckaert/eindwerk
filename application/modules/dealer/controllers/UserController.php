@@ -35,7 +35,7 @@ class Dealer_UserController extends My_Controller_Action
                     unset($postParams['password']);
                 }
                 unset($postParams['repeatPassword']);
-                $postParams['password'] = md5($postParams['password']);
+
                 $userModel->save($postParams, $userId);
                 
                 $this->_redirect($this->view->url(array('controller'=> 'User', 'action'=> 'list')));

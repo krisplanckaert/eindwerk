@@ -7,8 +7,10 @@ class My_Form extends Zend_Form {
     public function init($options = null)
     {
     	$this->authUser = (array)Zend_Auth::getInstance()->getIdentity();
-        $userModel = new Application_Model_User();
-        $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+        if($this->authUser) {
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+        } 
     }
     
     public function populate($values) {

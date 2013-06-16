@@ -5,7 +5,11 @@ class IndexController extends My_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        $this->authUser = (array)Zend_Auth::getInstance()->getIdentity();
+        if($this->authUser) {
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+        }
     }
 
     public function indexAction()
@@ -131,30 +135,16 @@ class IndexController extends My_Controller_Action
     public function loginAction()
     {
         $form = new Application_Form_Signup();
-        $postParams = $this->getRequest()->getPost();
         if($this->getRequest()->getPost()) {
-            if($form->isValid($postParams)) {
-                $auth = Zend_Auth::getInstance();
-                //meegeven welke database driver we gebruiken, is optioneel omdat we er momenteel maar 1 hebben
-                $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('db'));
-                $authAdapter->setTableName('user')
-                            ->setIdentityColumn('name')
-                            ->setCredentialColumn('password')
-                            ->setIdentity($postParams['name'])
-                            ->setCredential(md5($postParams['password']));
-                //login uitvoeren
-                $result = $auth->authenticate($authAdapter);
-                if($result->isValid()) {
-                    //Alle artikels die in de winkelmand zitten linken aan die gebruiker
-                    $basketModel = new Application_Model_Basket();
-                    $basketModel->linkUser();
-                    $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'index')));
-                    //echo 'U bent ingelogd!';
-                } else {
-                    //alle foutmeldingen weergeven op het scherm
-                    $this->view->messages = $result->getMessages();
-                }
-            } 
+            $postParams = $this->getRequest()->getPost();
+            if(isset($postParams['login'])) {
+                if($form->isValid($postParams)) {
+                    $this->login($postParams);
+                } 
+            }
+            if(isset($postParams['register'])) {
+                $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'register')));
+            }
         }
 
     }
@@ -164,5 +154,75 @@ class IndexController extends My_Controller_Action
         $auth = Zend_Auth::getInstance();
         $auth->clearIdentity();
         $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'index')));
+    }
+    
+    public function registerAction()
+    {
+        $this->view->form = new Application_Form_User();
+        if($this->getRequest()->getPost()) {
+            $postParams = $this->getRequest()->getPost();
+            unset($postParams['add']);
+            unset($postParams['repeatPassword']);
+            $postParams['roleId']=2;
+            $userModel = new Application_Model_User();
+            $userId = $userModel->save($postParams);
+            if($userId) {
+                $this->login($postParams, 'order');
+             }
+        }
+    }
+    
+    public function login($postParams, $action='index') {
+        $auth = Zend_Auth::getInstance();
+        //meegeven welke database driver we gebruiken, is optioneel omdat we er momenteel maar 1 hebben
+        $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('db'));
+        $authAdapter->setTableName('user')
+                    ->setIdentityColumn('name')
+                    ->setCredentialColumn('password')
+                    ->setIdentity($postParams['name'])
+                    ->setCredential(md5($postParams['password']));
+        //login uitvoeren
+        $result = $auth->authenticate($authAdapter);
+        if($result->isValid()) {
+            //Alle artikels die in de winkelmand zitten linken aan die gebruiker
+            $basketModel = new Application_Model_Basket();
+            $basketModel->linkUser();
+            $userModel = new Application_Model_User();
+            $this->authUser = (array)Zend_Auth::getInstance()->getIdentity();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser);
+            $localeModel = new Application_Model_Locale();
+            $locale = $localeModel->getOne($this->authUserRow['localeId']);
+            $basketModel = new Application_Model_Basket();
+            $basket = $basketModel->getAll('userId='.$this->authUserRow['userId']);
+            $action = !$basket ? 'index' : $action;
+            $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> $action, 'lang' => $locale['locale'])));
+            //echo 'U bent ingelogd!';
+        } else {
+            //alle foutmeldingen weergeven op het scherm
+            $this->view->messages = $result->getMessages();
+        }        
+    }
+        
+    public function orderAction() {
+        $form = new Application_Form_Order();
+        $this->view->form = $form;
+        $orderId = null;
+        if($this->getRequest()->getPost()) {
+            $postParams = $this->getRequest()->getPost();
+            if($form->isValid($postParams)) {
+                if(isset($postParams['reference'])) {
+                    $postParams['userId'] = $this->authUserRow['userId'];
+                    unset($postParams['order']);
+                    $orderModel = new Application_Model_Order();
+                    $orderId = $orderModel->createOrder($postParams);
+                    if($orderId) {
+                        $this->view->orderData = $postParams;
+                    }   
+                } else {
+                    $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'register')));
+                }
+            }
+        } 
+        $this->view->orderId = $orderId;
     }
 }

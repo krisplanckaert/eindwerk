@@ -60,11 +60,13 @@
 <?php                                       } ?>
                                     </span>
                                 </article>
-                                <article id="orderArticle">
-                                    <span>
-                                        <?php echo $this->orderForm($this->orderForm); ?>
-                                    </span>
-                                </article>                                
+<?php                           if($this->basket) { ?>
+                                    <article id="orderArticle">
+                                        <span>
+                                            <?php echo $this->orderForm($this->orderForm); ?>
+                                        </span>
+                                    </article>   
+<?php                           } ?>
                             </div>
                         </header>
                         <section id="content">
