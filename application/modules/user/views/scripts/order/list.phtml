@@ -9,11 +9,13 @@ $controller = 'order';
 </a>
 <table>
     <tr>
-        <th><?php echo $this->translate('User ID');?></th>
+        <th><?php echo $this->translate('Order');?></th>
+        <th><?php echo $this->translate('User');?></th>
     </tr>
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
             <tr>
+                <td><?php echo $row['orderId']?></td>
                 <td><?php echo $row['userId']?></td>
                 <td>
                     <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderId' => $row['orderId']),NULL,TRUE); ?>">

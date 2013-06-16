@@ -8,6 +8,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('frontController');
         $signup = Zend_Controller_Action_HelperBroker::getStaticHelper('Signup');
         Zend_Controller_Action_HelperBroker::addHelper($signup);
+        $search = Zend_Controller_Action_HelperBroker::getStaticHelper('Search');
+        Zend_Controller_Action_HelperBroker::addHelper($search);
         
     }
 
@@ -22,7 +24,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'layout' => 'layout',
         ));
 
-        $front->registerPlugin(new Syntra_Controller_Plugin_Translate());        
+        $front->registerPlugin(new Syntra_Controller_Plugin_Translate());    
         $front->registerPlugin(new Syntra_Controller_Plugin_Navigation());
         $front->registerPlugin(new Syntra_Auth_Acl());
         $front->registerPlugin(new Syntra_Auth_Auth());
@@ -72,5 +74,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'action'     => 'index',
             )));
     }*/
+
 }
 

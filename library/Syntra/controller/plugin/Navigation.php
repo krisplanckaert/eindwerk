@@ -27,10 +27,10 @@ class Syntra_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstrac
             $roleId = $user['roleId'];
         }
         $menus = $menuroleModel->getMenuByRole($roleId, $locale);
-        
+        //Zend_Debug::dump($menus);
         foreach($menus as $menu) {
             $page = new Zend_Navigation_Page_Mvc(array(
-               'label' => $menu['label'],
+               'label' => $menu['description'],
                'action' => $menu['action'],
                'controller' => $menu['controller'],
                'module' => $menu['module'],
@@ -42,7 +42,6 @@ class Syntra_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstrac
         
         $pageModel = new Application_Model_Page();
         $pages = $pageModel->getAllPages();
-        
         foreach($pages as $page) {
             //Zend_Debug::dump($page);exit;
             $page = new Zend_Navigation_Page_Mvc(array(

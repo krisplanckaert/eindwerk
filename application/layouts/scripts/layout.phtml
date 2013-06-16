@@ -13,7 +13,8 @@
                         <h1 id="sitename">
                             <a href="#">Portfolio | Premium CSS Template </a>
                         </h1>
-                        <?php echo $this->navigation()->menu(); ?>
+                        <?php echo $this->navigation()->menu();?>
+
                     </nav>
 <?php               foreach($this->locales as $locale) { ?>
                         <a href="<?php echo $this->url(array('controller' => 'index','action' => 'index','lang' => $locale['locale']),NULL,TRUE);?>" 
@@ -27,20 +28,26 @@
                     <div id="contents">
                         <header>
                             <div id="right">
-                                <div id="login">
+                                <article id="searchArticle">
+                                    <span style="float:right">
+                                        <?php echo $this->searchForm($this->searchForm); ?>
+                                    </span>
+                                </article>
+                                <article id="loginArticle">
                                     <span style="float:right">
                                         <?php echo $this->signupForm($this->signupForm); ?>
                                     </span>
-                                </div><hr />
+                                </article>
+
                                 <div id="basket">
                                     <span style="float:left">
 <?php                                       if($this->basket) { ?>
-                                                <h1>Winkelmand</h1>
+                                                <h1><?php echo $this->translate('Winkelmand');?></h1>
                                                 <table id="tbl_basket">
                                                     <tr>
-                                                        <th>Naam</th>
-                                                        <th>Prijs</th>
-                                                        <th>Aantal</th>
+                                                        <th><?php echo $this->translate('Naam');?></th>
+                                                        <th><?php echo $this->translate('Prijs');?></th>
+                                                        <th><?php echo $this->translate('Aantal');?></th>
                                                     </tr>
 <?php                                               foreach($this->basket as $basket) { ?>
                                                         <tr>

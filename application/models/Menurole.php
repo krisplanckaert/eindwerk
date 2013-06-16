@@ -15,7 +15,7 @@ class Application_Model_Menurole extends My_Model
         $select->join(array('ml' => 'menulocale'), 'ml.menuId = m.menuId');        
         $select->where('mr.roleId = ?', (int)$roleId );
         $select->where('ml.localeId = ?', $localeId );
-        
+        //echo $select;exit;
         return $this->db->fetchAll($select);
     }
 }

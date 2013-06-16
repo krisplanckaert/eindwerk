@@ -9,12 +9,18 @@ $controller = 'orderdetail';
 </a>
 <table>
     <tr>
-        <th><?php echo $this->translate('User ID');?></th>
+        <th><?php echo $this->translate('Product');?></th>
+        <th><?php echo $this->translate('Price');?></th>
+        <th><?php echo $this->translate('Quantity');?></th>
+        <th><?php echo $this->translate('Total');?></th>
     </tr>
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
             <tr>
-                <td><?php echo $row['userId']?></td>
+                <td><?php echo $row['productId']?></td>
+                <td><?php echo $row['price']?></td>
+                <td><?php echo $row['quantity']?></td>
+                <td><?php echo $row['price']*$row['quantity']?></td>
                 <td>
                     <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>">
                         <img src="/base/images/icons/edit.png">

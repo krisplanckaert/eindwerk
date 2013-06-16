@@ -17,14 +17,14 @@ body #page {background:url(/images/normalheader.jpg) center top no-repeat; }
 #container{ background: url("/images/wrapbg.png") no-repeat scroll center top transparent;}
 
 header #logo{float:left;width:500px;border:1px solid black;}
-header #login{margin:20px; padding:20px;overflow: auto;}
+header #loginArticle{margin:20px; padding:0px;overflow: auto;float:right;}
 header basket{margin:20px; padding:20px;overflow: auto;}
 header #right{float:right;}
 
 section#content{float:left;width:500px;}
 
-section#content li{display:inline-block;border:1px solid red;margin-left:20px;}
-section#content li:first-child{margin-left:0;}
+section#content li{display:block;/*border:1px solid red;*/margin-left:20px;}
+/*section#content li:first-child{margin-left:0;}*/
 footer{float:left;width:800px;background:#000;color:white;}
 
 #top nav {
@@ -49,7 +49,7 @@ footer{float:left;width:800px;background:#000;color:white;}
     height: 74px;
     overflow: hidden;
     text-indent: -5000px;
-    width: 170px;
+    width: 100px;
 }
 
 #bodywrap {
@@ -77,7 +77,7 @@ body {
     float: left;
     padding: 0px 0 0;
 }
-#productDiv{
+#productArticle{
     float:left;border:1px solid black;margin:10px; padding:30px;
 }
 
@@ -97,4 +97,38 @@ body {
 }
 .borders {
     width:400px;
+}
+
+#categorySection {
+    width:150px;
+}
+
+#categorySection a{
+	display:block;
+	text-decoration: none;
+	background-color:#dddddd;
+}
+#categorySection a:hover{
+    background:gray;
+}
+#categorySection ul{
+    padding: 0px 0px 0px 0px;
+    float: left;
+}
+nav a{
+    display:block;
+    width:150px;
+    text-decoration: none;
+}
+nav a:hover{
+    background:gray;
+}
+#productSection {
+    float:left;
+}
+#searchArticle{ 
+    /*margin: 20px;*/
+    overflow: auto;
+    padding: 20px 20px 20px 20px;
+
 }
