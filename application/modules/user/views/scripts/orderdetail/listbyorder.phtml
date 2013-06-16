@@ -3,10 +3,11 @@ $this->placeholder('mainTitle')->set($this->translate('User-Module : Orderdetail
 
 $module = 'user';
 $controller = 'orderdetail';
-?>
- <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
-    <img src="/base/images/icons/create.png">
-</a>
+if($this->authUserRow['roleId']>2) { ?>   
+    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+        <img src="/base/images/icons/create.png">
+    </a>
+<?php } ?>
 <table>
     <tr>
         <th><?php echo $this->translate('Product');?></th>
@@ -21,17 +22,18 @@ $controller = 'orderdetail';
                 <td><?php echo $row['price']?></td>
                 <td><?php echo $row['quantity']?></td>
                 <td><?php echo $row['price']*$row['quantity']?></td>
-                <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>">
-                        <img src="/base/images/icons/edit.png">
-                    </a>
-                </td>
-                <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Delete'); ?>?')">
-                        <img src="/base/images/icons/cross.png">
-                    </a>
-                </td>
-
+<?php           if($this->authUserRow['roleId']>2) { ?>                
+                    <td>
+                        <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>">
+                            <img src="/base/images/icons/edit.png">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Delete'); ?>?')">
+                            <img src="/base/images/icons/cross.png">
+                        </a>
+                    </td>
+<?php           } ?>                    
             </tr>
 <?php   } ?>            
 

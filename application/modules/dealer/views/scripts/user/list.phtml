@@ -1,0 +1,37 @@
+<?php 
+$this->placeholder('mainTitle')->set($this->translate('Dealer-Module : User'));
+
+$module = 'dealer';
+$controller = 'user';
+?>
+ <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
+    <img src="/base/images/icons/create.png">
+</a>
+<table>
+    <tr>
+        <th><?php echo $this->translate('Name');?></th>
+        <th><?php echo $this->translate('Email');?></th>
+        <th><?php echo $this->translate('Role');?></th>
+    </tr>
+<?php if($this->rows) { ?>
+<?php   foreach($this->rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['name'];?></td>
+                <td><?php echo $row['email']?></td>
+                <td><?php echo $row['roleId']?></td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'userId' => $row['userId']),NULL,TRUE); ?>">
+                        <img src="/base/images/icons/edit.png">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'userId' => $row['userId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
+                        <img src="/base/images/icons/cross.png">
+                    </a>
+                </td>
+            </tr>
+<?php   } ?>            
+
+<?php } else $this->translate('leeg bestand'); ?>            
+</table>
+

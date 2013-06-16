@@ -2,7 +2,18 @@
 
 class User_OrderController extends My_Controller_Action
 {
-
+    public function listAction() {
+       $this->view->authUserRow = $this->authUserRow;
+       if($this->authUserRow['roleId']<3) {
+           $where = 'userId='.$this->authUserRow['userId'];
+           $this->view->rows = $this->model->getAll($where);
+       } else {
+           $this->view->rows = $this->model->getAll();
+       }
+       
+       
+    }     
+    
     public function changeAction()
     {
         $orderId = (int) $this->_getParam('orderId'); //$_GET['id];

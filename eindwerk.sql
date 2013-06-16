@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50150
 File Encoding         : 65001
 
-Date: 2013-06-16 07:41:36
+Date: 2013-06-16 14:31:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,6 +38,7 @@ CREATE TABLE `basket` (
 -- Records of basket
 -- ----------------------------
 INSERT INTO `basket` VALUES ('2', '1', '1', 'm8a5oet6tfc38dip90k7uvt5g3', '20', '0000-00-00 00:00:00', '2013-06-16 06:57:32');
+INSERT INTO `basket` VALUES ('3', '3', '1', 'mhrhn9ds31m4j98pgjqejkj1d0', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `category`
@@ -172,7 +173,7 @@ CREATE TABLE `menu` (
   KEY `changeUserId` (`changeUserId`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menu_ibfk_2` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -186,6 +187,7 @@ INSERT INTO `menu` VALUES ('18', 'product', 'list', 'product', 'dealer', 'produc
 INSERT INTO `menu` VALUES ('20', 'category', 'list', 'category', 'dealer', 'category', '1', '2', null, '2013-06-15 17:16:07', '0000-00-00 00:00:00');
 INSERT INTO `menu` VALUES ('21', 'page', 'list', 'page', 'dealer', 'page', '1', '2', null, '2013-06-15 19:45:06', '0000-00-00 00:00:00');
 INSERT INTO `menu` VALUES ('23', 'order', 'list', 'order', 'user', 'order', '1', '2', '2', '2013-06-15 21:23:03', '2013-06-16 07:32:25');
+INSERT INTO `menu` VALUES ('24', 'user', 'list', 'user', 'dealer', 'user', '1', '2', null, '2013-06-16 13:09:25', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `menulocale`
@@ -209,7 +211,7 @@ CREATE TABLE `menulocale` (
   CONSTRAINT `menulocale_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menulocale_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menulocale_ibfk_4` FOREIGN KEY (`menuId`) REFERENCES `menu` (`menuId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menulocale
@@ -233,6 +235,8 @@ INSERT INTO `menulocale` VALUES ('42', '21', 'pagina', '1', '1', '2', null, '201
 INSERT INTO `menulocale` VALUES ('43', '21', 'page', '2', '1', '2', null, '2013-06-15 19:45:06', '0000-00-00 00:00:00');
 INSERT INTO `menulocale` VALUES ('46', '23', 'Bestellingen', '1', '1', '2', '2', '2013-06-15 21:23:03', '2013-06-16 07:32:25');
 INSERT INTO `menulocale` VALUES ('47', '23', 'Orders', '2', '1', '2', '2', '2013-06-15 21:23:03', '2013-06-16 07:32:25');
+INSERT INTO `menulocale` VALUES ('48', '24', 'Gebruikers', '1', '1', '2', null, '2013-06-16 13:09:25', '0000-00-00 00:00:00');
+INSERT INTO `menulocale` VALUES ('49', '24', 'Users', '2', '1', '2', null, '2013-06-16 13:09:26', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `menurole`
@@ -255,7 +259,7 @@ CREATE TABLE `menurole` (
   CONSTRAINT `menurole_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `role` (`roleId`),
   CONSTRAINT `menurole_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `menurole_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menurole
@@ -284,6 +288,8 @@ INSERT INTO `menurole` VALUES ('35', '21', '4', '2013-06-15 19:45:06', '0000-00-
 INSERT INTO `menurole` VALUES ('37', '23', '3', '2013-06-15 21:23:03', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `menurole` VALUES ('38', '23', '4', '2013-06-15 21:23:03', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `menurole` VALUES ('39', '23', '2', '2013-06-16 07:32:25', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('40', '24', '3', '2013-06-16 13:09:26', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `menurole` VALUES ('41', '24', '4', '2013-06-16 13:09:26', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `order`
@@ -304,12 +310,13 @@ CREATE TABLE `order` (
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of order
 -- ----------------------------
-INSERT INTO `order` VALUES ('2', '1', '2013-06-15 21:47:57', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('2', '3', '2013-06-15 21:47:57', '2013-06-16 12:43:52', '2', null);
+INSERT INTO `order` VALUES ('3', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -334,7 +341,7 @@ CREATE TABLE `orderdetail` (
   CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `order` (`orderId`),
   CONSTRAINT `orderdetail_ibfk_4` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `orderdetail_ibfk_5` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of orderdetail
@@ -589,7 +596,7 @@ CREATE TABLE `translate` (
   PRIMARY KEY (`translateId`),
   KEY `localeId` (`localeId`),
   CONSTRAINT `translate_ibfk_1` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of translate
@@ -628,6 +635,14 @@ INSERT INTO `translate` VALUES ('33', '1', 'Naam', 'Naam', '1');
 INSERT INTO `translate` VALUES ('34', '2', 'Naam', 'Name', '1');
 INSERT INTO `translate` VALUES ('35', '1', 'Prijs', 'Prijs', '1');
 INSERT INTO `translate` VALUES ('36', '2', 'Prijs', 'Price', '1');
+INSERT INTO `translate` VALUES ('37', '1', 'Description', 'Omschrijving', '1');
+INSERT INTO `translate` VALUES ('38', '2', 'Description', 'Description', '1');
+INSERT INTO `translate` VALUES ('39', '1', 'search', 'Zoeken', '1');
+INSERT INTO `translate` VALUES ('40', '2', 'search', 'Search', '1');
+INSERT INTO `translate` VALUES ('41', '1', 'Name', 'Naam', '1');
+INSERT INTO `translate` VALUES ('42', '2', 'Name', 'Name', '1');
+INSERT INTO `translate` VALUES ('43', '1', 'Role', 'Rechten', '1');
+INSERT INTO `translate` VALUES ('44', '2', 'Role', 'Role', '1');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -656,6 +671,6 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'kris.planckaert@winsol.eu', '03e13700e25563c0c0a8ffdb48dbbc19', 'kris', 'active', '4', '0000-00-00 00:00:00', '2013-06-12 12:40:36', '1', null);
+INSERT INTO `user` VALUES ('1', 'kris.planckaert@winsol.eu', '03e13700e25563c0c0a8ffdb48dbbc19', 'kris', 'active', '4', '0000-00-00 00:00:00', '2013-06-16 14:06:30', '1', '2');
 INSERT INTO `user` VALUES ('2', 'thomas.vanhuysse@winsol.eu', 'ef6e65efc188e7dffd7335b646a85a21', 'thomas', 'active', '3', '0000-00-00 00:00:00', '2013-06-12 12:40:43', '1', null);
-INSERT INTO `user` VALUES ('3', 'xavier@dxsolutions.be', '0f5366b3b19afc3184d23bc73d8cd311', 'xavier', 'active', '2', '0000-00-00 00:00:00', '2013-06-12 12:40:52', '1', null);
+INSERT INTO `user` VALUES ('3', 'xavier@dxsolutions.be', '0f5366b3b19afc3184d23bc73d8cd311', 'xavier', 'active', '2', '0000-00-00 00:00:00', '2013-06-16 13:31:45', '1', '2');

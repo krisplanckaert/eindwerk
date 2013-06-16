@@ -4,8 +4,10 @@ class User_OrderdetailController extends My_Controller_Action
 {
 
     public function listbyorderAction() {
-        $orderDetailId = (int) $this->_getParam('orderDetailId'); 
-        $this->view->rows = $this->model->getAll();
+        $orderId = (int) $this->_getParam('orderId'); 
+        $where = 'orderId='.$orderId;
+        $this->view->rows = $this->model->getAll($where);
+        $this->view->authUserRow = $this->authUserRow;
     }
     
     public function changeAction()

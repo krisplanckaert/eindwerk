@@ -17,8 +17,8 @@ body #page {background:url(/images/normalheader.jpg) center top no-repeat; }
 #container{ background: url("/images/wrapbg.png") no-repeat scroll center top transparent;}
 
 header #logo{float:left;width:500px;border:1px solid black;}
-header #loginArticle{margin:20px; padding:0px;overflow: auto;float:right;}
-header basket{margin:20px; padding:20px;overflow: auto;}
+header #loginArticle{margin:20px; padding:0px;overflow: auto;float:none;}
+#basketArticle{margin:0px; padding:0px;overflow: auto;float:none;}
 header #right{float:right;}
 
 section#content{float:left;width:500px;}
@@ -127,8 +127,12 @@ nav a:hover{
     float:left;
 }
 #searchArticle{ 
-    /*margin: 20px;*/
     overflow: auto;
     padding: 20px 20px 20px 20px;
-
+    float:none;
+}
+#orderArticle{ 
+    overflow: auto;
+    padding: 20px 20px 20px 20px;
+    float:none;
 }

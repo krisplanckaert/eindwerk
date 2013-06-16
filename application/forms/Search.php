@@ -11,7 +11,7 @@ class Application_Form_Search extends Zend_Form {
         
         // element naam
         $this->addElement(new Zend_Form_Element_Text('description',array(
-            'label'=>"Desctription",
+            'label'=>"Description",
             'required'=>true,
             // filters
             'filters' => array('StringTrim')

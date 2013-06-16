@@ -34,13 +34,13 @@
                                     </span>
                                 </article>
                                 <article id="loginArticle">
-                                    <span style="float:right">
+                                    <span>
                                         <?php echo $this->signupForm($this->signupForm); ?>
                                     </span>
                                 </article>
 
-                                <div id="basket">
-                                    <span style="float:left">
+                                <article id="basketArticle">
+                                    <span>
 <?php                                       if($this->basket) { ?>
                                                 <h1><?php echo $this->translate('Winkelmand');?></h1>
                                                 <table id="tbl_basket">
@@ -59,7 +59,12 @@
                                                 </table>
 <?php                                       } ?>
                                     </span>
-                                </div>
+                                </article>
+                                <article id="orderArticle">
+                                    <span>
+                                        <?php echo $this->orderForm($this->orderForm); ?>
+                                    </span>
+                                </article>                                
                             </div>
                         </header>
                         <section id="content">

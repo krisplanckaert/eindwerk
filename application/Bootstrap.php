@@ -10,6 +10,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::addHelper($signup);
         $search = Zend_Controller_Action_HelperBroker::getStaticHelper('Search');
         Zend_Controller_Action_HelperBroker::addHelper($search);
+        $order = Zend_Controller_Action_HelperBroker::getStaticHelper('Order');
+        Zend_Controller_Action_HelperBroker::addHelper($order);
         
     }
 
