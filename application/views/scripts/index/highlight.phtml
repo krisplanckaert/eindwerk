@@ -3,8 +3,8 @@
 if($this->products)
     foreach($this->products as $product) { ?>
         <article id="productArticle">
-            <span><?php echo $product['label'];?></span><br>
-            <span><?php echo 'prijs : '.$product['price'];?></span><br> 
+            <span><?php echo isset($product['locale']['title']) ? $product['locale']['title'] : $product['label'];?></span><br>
+            <span><?php echo $this->translate('lbl_price').' : '.$product['price'];?></span><br> 
             <a href="/index/detail/id/<?php echo $product['productId']; ?>">Detail</a>
         </article>
 <?php } ?>

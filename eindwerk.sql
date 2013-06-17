@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50150
 File Encoding         : 65001
 
-Date: 2013-06-16 17:59:57
+Date: 2013-06-17 22:00:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,21 +28,16 @@ CREATE TABLE `basket` (
   `creationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changeDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`basketId`),
+  UNIQUE KEY `userId` (`userId`,`productId`),
   KEY `productId` (`productId`),
-  KEY `basket_ibfk_1` (`userId`),
   CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
   CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of basket
 -- ----------------------------
-INSERT INTO `basket` VALUES ('2', '1', '1', 'm8a5oet6tfc38dip90k7uvt5g3', '20', '0000-00-00 00:00:00', '2013-06-16 06:57:32');
-INSERT INTO `basket` VALUES ('3', '3', '1', 'mhrhn9ds31m4j98pgjqejkj1d0', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `basket` VALUES ('4', '1', '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '2013-06-16 15:46:20');
-INSERT INTO `basket` VALUES ('9', '12', '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '2013-06-16 17:23:46');
-INSERT INTO `basket` VALUES ('10', '13', '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '2013-06-16 17:30:07');
-INSERT INTO `basket` VALUES ('12', null, '1', 'pnevigr2ll1cg4bqrkcks5dh02', '58', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `basket` VALUES ('27', '3', '1', '02clos8m3o1r5s1685ciq7j9p5', '12', '0000-00-00 00:00:00', '2013-06-17 16:59:23');
 
 -- ----------------------------
 -- Table structure for `category`
@@ -315,7 +310,7 @@ CREATE TABLE `order` (
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `order_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of order
@@ -340,6 +335,13 @@ INSERT INTO `order` VALUES ('18', '11', 'test123', '2013-06-16 17:22:05', '0000-
 INSERT INTO `order` VALUES ('19', '11', 'test58', '2013-06-16 17:23:16', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `order` VALUES ('20', '14', 'test1', '2013-06-16 17:33:50', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `order` VALUES ('21', '15', 'test', '2013-06-16 17:46:43', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('22', '18', 'Test Bjorn', '2013-06-17 08:17:06', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('23', '19', 'thomas', '2013-06-17 08:36:48', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('24', '3', 'test xavier', '2013-06-17 09:00:53', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('25', '3', 'test xavier', '2013-06-17 09:02:18', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('26', '3', 'jhfkgfkj', '2013-06-17 09:02:55', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('27', '3', 'jhfkgfkj', '2013-06-17 09:03:42', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `order` VALUES ('28', '3', 'illijlijglk', '2013-06-17 09:04:00', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -364,7 +366,7 @@ CREATE TABLE `orderdetail` (
   CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `order` (`orderId`),
   CONSTRAINT `orderdetail_ibfk_4` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `orderdetail_ibfk_5` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of orderdetail
@@ -375,6 +377,12 @@ INSERT INTO `orderdetail` VALUES ('3', '1', '17', '58', '11.00', '2013-06-16 17:
 INSERT INTO `orderdetail` VALUES ('4', '1', '18', '58', '11.00', '2013-06-16 17:22:05', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `orderdetail` VALUES ('5', '1', '19', '58', '11.00', '2013-06-16 17:23:16', '0000-00-00 00:00:00', '2', null);
 INSERT INTO `orderdetail` VALUES ('6', '1', '20', '1', '11.00', '2013-06-16 17:33:50', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('7', '1', '22', '2', '11.00', '2013-06-17 08:17:06', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('8', '1', '23', '2', '11.00', '2013-06-17 08:36:48', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('9', '1', '24', '2', '11.00', '2013-06-17 09:00:53', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('10', '1', '24', '2', '11.00', '2013-06-17 09:00:53', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('11', '1', '27', '2', '11.00', '2013-06-17 09:03:42', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `orderdetail` VALUES ('12', '1', '28', '2', '11.00', '2013-06-17 09:04:00', '0000-00-00 00:00:00', '2', null);
 
 -- ----------------------------
 -- Table structure for `page`
@@ -443,23 +451,15 @@ DROP TABLE IF EXISTS `photo`;
 CREATE TABLE `photo` (
   `photoId` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(255) NOT NULL,
-  `fileName` varchar(250) NOT NULL,
   `fileNameOrig` varchar(250) DEFAULT NULL,
-  `screenName` varchar(250) DEFAULT NULL,
-  `mimeType` varchar(80) DEFAULT NULL,
   `fileSize` int(11) DEFAULT NULL,
-  `filePath` text,
-  `identifier` int(11) DEFAULT NULL,
-  `thumb` varchar(250) DEFAULT NULL,
-  `creationDate` int(10) DEFAULT NULL,
-  `lastUpdate` int(10) DEFAULT NULL,
   PRIMARY KEY (`photoId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of photo
 -- ----------------------------
-INSERT INTO `photo` VALUES ('19', 'koe', 'koe.jpg', null, null, null, null, null, null, null, null, null);
+INSERT INTO `photo` VALUES ('23', 'aardbei.jpg', 'aardbei.jpg', '10399');
 
 -- ----------------------------
 -- Table structure for `photolocale`
@@ -481,17 +481,15 @@ CREATE TABLE `photolocale` (
   KEY `localeId` (`localeId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
-  CONSTRAINT `photolocale_ibfk_1` FOREIGN KEY (`photoId`) REFERENCES `photo` (`photoId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `photolocale_ibfk_1` FOREIGN KEY (`photoId`) REFERENCES `photo` (`photoId`) ON DELETE CASCADE,
   CONSTRAINT `photolocale_ibfk_2` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`),
   CONSTRAINT `photolocale_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `photolocale_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of photolocale
 -- ----------------------------
-INSERT INTO `photolocale` VALUES ('11', 'koe2', 'Koe in de wei2', '19', '1', '1', '2013-06-15 09:46:43', '2013-06-15 11:30:34', '2', '2');
-INSERT INTO `photolocale` VALUES ('12', 'Cow2', 'Cow in the meadow2', '19', '2', '1', '2013-06-15 09:46:43', '2013-06-15 11:30:34', '2', '2');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -548,13 +546,15 @@ CREATE TABLE `productlocale` (
   CONSTRAINT `productlocale_ibfk_2` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`),
   CONSTRAINT `productlocale_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `productlocale_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of productlocale
 -- ----------------------------
 INSERT INTO `productlocale` VALUES ('3', '10', 'test NL', 'Teaser NL', 'Content NL', '1', '1', '2013-06-15 21:01:22', '2013-06-15 21:01:22', '2', '2');
 INSERT INTO `productlocale` VALUES ('4', '10', 'Title EN', 'Tease EN', 'Content EN', '2', '1', '2013-06-15 21:01:22', '2013-06-15 21:01:22', '2', '2');
+INSERT INTO `productlocale` VALUES ('5', '1', 'Kast', 'Kast voro in de living', 'Mooie eiken kast', '1', '1', '2013-06-17 09:42:45', null, '2', null);
+INSERT INTO `productlocale` VALUES ('6', '1', 'Closet', 'Closet for the house', 'Nice oak closet', '2', '1', '2013-06-17 09:43:52', '2013-06-17 09:43:55', '2', null);
 
 -- ----------------------------
 -- Table structure for `productphoto`
@@ -569,21 +569,19 @@ CREATE TABLE `productphoto` (
   `creationUserId` int(11) NOT NULL,
   `changeUserId` int(11) DEFAULT NULL,
   PRIMARY KEY (`productPhotoId`),
-  KEY `photoId` (`photoId`),
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
   KEY `productphoto_ibfk_1` (`productId`),
+  KEY `productphoto_ibfk_2` (`photoId`),
   CONSTRAINT `productphoto_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`) ON DELETE CASCADE,
-  CONSTRAINT `productphoto_ibfk_2` FOREIGN KEY (`photoId`) REFERENCES `photo` (`photoId`),
+  CONSTRAINT `productphoto_ibfk_2` FOREIGN KEY (`photoId`) REFERENCES `photo` (`photoId`) ON DELETE CASCADE,
   CONSTRAINT `productphoto_ibfk_3` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
   CONSTRAINT `productphoto_ibfk_4` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of productphoto
 -- ----------------------------
-INSERT INTO `productphoto` VALUES ('6', '2', '19', '2013-06-15 16:16:30', null, '2', null);
-INSERT INTO `productphoto` VALUES ('9', '1', '19', '2013-06-15 16:20:40', null, '2', null);
 
 -- ----------------------------
 -- Table structure for `role`
@@ -622,9 +620,9 @@ CREATE TABLE `translate` (
   `translation` varchar(50) NOT NULL,
   `translated` tinyint(4) NOT NULL,
   PRIMARY KEY (`translateId`),
-  KEY `localeId` (`localeId`),
+  UNIQUE KEY `localeId` (`localeId`,`tag`),
   CONSTRAINT `translate_ibfk_1` FOREIGN KEY (`localeId`) REFERENCES `locale` (`localeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of translate
@@ -639,44 +637,94 @@ INSERT INTO `translate` VALUES ('9', '1', 'lbl_Bedankt om in te loggen', 'Bedank
 INSERT INTO `translate` VALUES ('10', '2', 'lbl_Bedankt om in te loggen', 'Thank you for the log in', '1');
 INSERT INTO `translate` VALUES ('11', '1', 'lbl_Welkom', 'Welkom', '1');
 INSERT INTO `translate` VALUES ('12', '2', 'lbl_Welkom', 'Welcome', '1');
-INSERT INTO `translate` VALUES ('13', '1', 'prijs', 'prijs', '1');
-INSERT INTO `translate` VALUES ('14', '2', 'prijs', 'price', '1');
-INSERT INTO `translate` VALUES ('15', '1', 'Aantal', 'Aantal', '1');
-INSERT INTO `translate` VALUES ('16', '2', 'Aantal', 'Quantity', '1');
-INSERT INTO `translate` VALUES ('17', '1', 'toevoegen', 'toevoegen', '1');
-INSERT INTO `translate` VALUES ('18', '2', 'toevoegen', 'add', '1');
-INSERT INTO `translate` VALUES ('19', '1', 'Winkelmand overzicht', 'Winkelmand overzicht', '1');
-INSERT INTO `translate` VALUES ('20', '2', 'Winkelmand overzicht', 'Basket overview', '1');
-INSERT INTO `translate` VALUES ('21', '1', 'delete', 'Verwijderen', '1');
-INSERT INTO `translate` VALUES ('22', '2', 'delete', 'Delete', '1');
-INSERT INTO `translate` VALUES ('23', '1', 'Menus overzicht', 'Menus overzicht', '1');
-INSERT INTO `translate` VALUES ('24', '2', 'Menus overzicht', 'Menu overview', '1');
-INSERT INTO `translate` VALUES ('25', '1', 'Filename', 'Bestandsnaam', '1');
-INSERT INTO `translate` VALUES ('26', '2', 'Filename', 'Filename', '1');
-INSERT INTO `translate` VALUES ('27', '1', 'Verwijderen', 'Verwijderen', '1');
-INSERT INTO `translate` VALUES ('28', '2', 'Verwijderen', 'Delete', '1');
-INSERT INTO `translate` VALUES ('29', '1', 'logout', 'Uitloggen', '1');
-INSERT INTO `translate` VALUES ('30', '2', 'logout', 'Logout', '1');
-INSERT INTO `translate` VALUES ('31', '1', 'Winkelmand', 'Winkelmand', '1');
-INSERT INTO `translate` VALUES ('32', '2', 'Winkelmand', 'Basket', '1');
-INSERT INTO `translate` VALUES ('33', '1', 'Naam', 'Naam', '1');
-INSERT INTO `translate` VALUES ('34', '2', 'Naam', 'Name', '1');
-INSERT INTO `translate` VALUES ('35', '1', 'Prijs', 'Prijs', '1');
-INSERT INTO `translate` VALUES ('36', '2', 'Prijs', 'Price', '1');
-INSERT INTO `translate` VALUES ('37', '1', 'Description', 'Omschrijving', '1');
-INSERT INTO `translate` VALUES ('38', '2', 'Description', 'Description', '1');
-INSERT INTO `translate` VALUES ('39', '1', 'search', 'Zoeken', '1');
-INSERT INTO `translate` VALUES ('40', '2', 'search', 'Search', '1');
-INSERT INTO `translate` VALUES ('41', '1', 'Name', 'Naam', '1');
-INSERT INTO `translate` VALUES ('42', '2', 'Name', 'Name', '1');
-INSERT INTO `translate` VALUES ('43', '1', 'Role', 'Rechten', '1');
-INSERT INTO `translate` VALUES ('44', '2', 'Role', 'Role', '1');
-INSERT INTO `translate` VALUES ('45', '1', 'order', 'Bestel', '1');
-INSERT INTO `translate` VALUES ('46', '2', 'order', 'Order', '1');
-INSERT INTO `translate` VALUES ('47', '1', 'Congratulations with your order', 'Gefeliciteerd met uw order', '1');
-INSERT INTO `translate` VALUES ('48', '2', 'Congratulations with your order', 'Congratulations with your order', '1');
-INSERT INTO `translate` VALUES ('49', '1', 'Reference', 'Referentie', '1');
-INSERT INTO `translate` VALUES ('50', '2', 'Reference', 'Reference', '1');
+INSERT INTO `translate` VALUES ('13', '1', 'lbl_price', 'prijs', '1');
+INSERT INTO `translate` VALUES ('14', '2', 'lbl_price', 'price', '1');
+INSERT INTO `translate` VALUES ('15', '1', 'lbl_quantity', 'Aantal', '1');
+INSERT INTO `translate` VALUES ('16', '2', 'lbl_quantity', 'Quantity', '1');
+INSERT INTO `translate` VALUES ('17', '1', 'lbl_add', 'toevoegen', '1');
+INSERT INTO `translate` VALUES ('18', '2', 'lbl_add', 'add', '1');
+INSERT INTO `translate` VALUES ('19', '1', 'lbl_basketoverview', 'Winkelmand overzicht', '1');
+INSERT INTO `translate` VALUES ('20', '2', 'lbl_basketoverview', 'Basket overview', '1');
+INSERT INTO `translate` VALUES ('21', '1', 'lbl_delete', 'Verwijderen', '1');
+INSERT INTO `translate` VALUES ('22', '2', 'lbl_delete', 'Delete', '1');
+INSERT INTO `translate` VALUES ('23', '1', 'lbl_menuoverview', 'Menus overzicht', '1');
+INSERT INTO `translate` VALUES ('24', '2', 'lbl_menuoverview', 'Menu overview', '1');
+INSERT INTO `translate` VALUES ('25', '1', 'lbl_filename', 'Bestandsnaam', '1');
+INSERT INTO `translate` VALUES ('26', '2', 'lbl_filename', 'Filename', '1');
+INSERT INTO `translate` VALUES ('29', '1', 'lbl_logout', 'Uitloggen', '1');
+INSERT INTO `translate` VALUES ('30', '2', 'lbl_logout', 'Logout', '1');
+INSERT INTO `translate` VALUES ('31', '1', 'lbl_basket', 'Winkelmand', '1');
+INSERT INTO `translate` VALUES ('32', '2', 'lbl_basket', 'Basket', '1');
+INSERT INTO `translate` VALUES ('33', '1', 'lbl_name', 'Naam', '1');
+INSERT INTO `translate` VALUES ('34', '2', 'lbl_name', 'Name', '1');
+INSERT INTO `translate` VALUES ('37', '1', 'lbl_description', 'Omschrijving', '1');
+INSERT INTO `translate` VALUES ('38', '2', 'lbl_description', 'Description', '1');
+INSERT INTO `translate` VALUES ('39', '1', 'lbl_search', 'Zoeken', '1');
+INSERT INTO `translate` VALUES ('40', '2', 'lbl_search', 'Search', '1');
+INSERT INTO `translate` VALUES ('43', '1', 'lbl_role', 'Rechten', '1');
+INSERT INTO `translate` VALUES ('44', '2', 'lbl_role', 'Role', '1');
+INSERT INTO `translate` VALUES ('45', '1', 'lbl_order', 'Bestel', '1');
+INSERT INTO `translate` VALUES ('46', '2', 'lbl_order', 'Order', '1');
+INSERT INTO `translate` VALUES ('47', '1', 'lbl_Congratulations', 'Gefeliciteerd met uw order', '1');
+INSERT INTO `translate` VALUES ('48', '2', 'lbl_Congratulations', 'Congratulations with your order', '1');
+INSERT INTO `translate` VALUES ('49', '1', 'lbl_reference', 'Referentie', '1');
+INSERT INTO `translate` VALUES ('50', '2', 'lbl_reference', 'Reference', '1');
+INSERT INTO `translate` VALUES ('51', '1', 'lbl_emptytable', 'Geen records', '1');
+INSERT INTO `translate` VALUES ('52', '2', 'lbl_emptytable', 'No records', '1');
+INSERT INTO `translate` VALUES ('53', '1', 'lbl_welcome', 'Welkom', '1');
+INSERT INTO `translate` VALUES ('54', '2', 'lbl_welcome', 'Welcome', '1');
+INSERT INTO `translate` VALUES ('55', '1', 'lbl_loginhere', 'Hier kan je inloggen', '1');
+INSERT INTO `translate` VALUES ('56', '2', 'lbl_loginhere', 'Click here to login', '1');
+INSERT INTO `translate` VALUES ('57', '1', 'lbl_loginthanks', 'Bedankt om in te loggen', '1');
+INSERT INTO `translate` VALUES ('58', '2', 'lbl_loginthanks', 'Thanks to login', '1');
+INSERT INTO `translate` VALUES ('59', '1', 'lbl_total', 'Totaal', '1');
+INSERT INTO `translate` VALUES ('60', '2', 'lbl_total', 'Total', '1');
+INSERT INTO `translate` VALUES ('61', '1', 'lbl_user', 'Gebruiker', '1');
+INSERT INTO `translate` VALUES ('62', '2', 'lbl_user', 'User', '1');
+INSERT INTO `translate` VALUES ('63', '1', 'lbl_details', 'Details', '1');
+INSERT INTO `translate` VALUES ('64', '2', 'lbl_details', 'Details', '1');
+INSERT INTO `translate` VALUES ('65', '1', 'lbl_label', 'Label', '1');
+INSERT INTO `translate` VALUES ('66', '2', 'lbl_label', 'Label', '1');
+INSERT INTO `translate` VALUES ('67', '1', 'lbl_highlight', 'In de kijker', '1');
+INSERT INTO `translate` VALUES ('68', '2', 'lbl_highlight', 'Highlight', '1');
+INSERT INTO `translate` VALUES ('69', '1', 'lbl_slug', 'Slug', '1');
+INSERT INTO `translate` VALUES ('70', '2', 'lbl_slug', 'Slug', '1');
+INSERT INTO `translate` VALUES ('71', '1', 'lbl_action', 'Action', '1');
+INSERT INTO `translate` VALUES ('72', '2', 'lbl_action', 'Action', '1');
+INSERT INTO `translate` VALUES ('73', '1', 'lbl_module', 'Module', '1');
+INSERT INTO `translate` VALUES ('74', '2', 'lbl_module', 'Module', '1');
+INSERT INTO `translate` VALUES ('75', '1', 'lbl_controller', 'Controller', '1');
+INSERT INTO `translate` VALUES ('76', '2', 'lbl_controller', 'Controller', '1');
+INSERT INTO `translate` VALUES ('77', '1', 'lbl_product', 'Product', '1');
+INSERT INTO `translate` VALUES ('78', '2', 'lbl_product', 'Product', '1');
+INSERT INTO `translate` VALUES ('79', '2', 'lbl_passwordconfirm', 'Confirm password', '1');
+INSERT INTO `translate` VALUES ('80', '1', 'lbl_passwordconfirm', 'Bevestig wachtwoord', '1');
+INSERT INTO `translate` VALUES ('81', '1', 'lbl_change', 'Wijzigen', '1');
+INSERT INTO `translate` VALUES ('82', '2', 'lbl_change', 'Change', '1');
+INSERT INTO `translate` VALUES ('84', '1', 'lbl_login', 'Login', '1');
+INSERT INTO `translate` VALUES ('85', '2', 'lbl_login', 'Login', '1');
+INSERT INTO `translate` VALUES ('86', '1', 'lbl_register', 'Registreer', '1');
+INSERT INTO `translate` VALUES ('87', '2', 'lbl_register', 'Register', '1');
+INSERT INTO `translate` VALUES ('88', '1', 'lbl_descriptionNL', 'Omschrijving NL', '1');
+INSERT INTO `translate` VALUES ('89', '2', 'lbl_descriptionNL', 'Description NL', '1');
+INSERT INTO `translate` VALUES ('90', '1', 'lbl_descriptionEN', 'Omschrijving EN', '1');
+INSERT INTO `translate` VALUES ('91', '2', 'lbl_descriptionEN', 'Description EN', '1');
+INSERT INTO `translate` VALUES ('92', '1', 'lbl_lostpassword', 'Wachtwoord vergeten?', '1');
+INSERT INTO `translate` VALUES ('93', '2', 'lbl_lostpassword', 'Lost password?', '1');
+INSERT INTO `translate` VALUES ('94', '1', 'lbl_send', 'Verzenden', '1');
+INSERT INTO `translate` VALUES ('95', '2', 'lbl_send', 'Send', '1');
+INSERT INTO `translate` VALUES ('96', '1', 'lbl_email', 'Email', '1');
+INSERT INTO `translate` VALUES ('97', '2', 'lbl_email', 'Email', '1');
+INSERT INTO `translate` VALUES ('98', '1', 'lbl_wrongemail', 'Verkeerd email adres', '1');
+INSERT INTO `translate` VALUES ('99', '2', 'lbl_wrongemail', 'Wrong email address', '1');
+INSERT INTO `translate` VALUES ('100', '1', 'lbl_passwordnew', 'Nieuw wachtwoord', '1');
+INSERT INTO `translate` VALUES ('101', '2', 'lbl_passwordnew', 'New password', '1');
+INSERT INTO `translate` VALUES ('102', '1', 'lbl_passwordnewconfirm', 'Bevestig nieuw wachtwoord', '1');
+INSERT INTO `translate` VALUES ('103', '2', 'lbl_passwordnewconfirm', 'Confirm new password', '1');
+INSERT INTO `translate` VALUES ('104', '1', 'lbl_continue', 'Verder', '1');
+INSERT INTO `translate` VALUES ('105', '2', 'lbl_continue', 'Continue', '1');
+INSERT INTO `translate` VALUES ('106', '1', 'lbl_addphoto', 'Toevoegen foto', '1');
+INSERT INTO `translate` VALUES ('107', '2', 'lbl_addphoto', 'Add photo', '1');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -687,6 +735,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
+  `eId` varchar(32) DEFAULT NULL,
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `roleId` int(11) NOT NULL,
   `localeId` int(11) NOT NULL,
@@ -699,22 +748,25 @@ CREATE TABLE `user` (
   KEY `creationUserId` (`creationUserId`),
   KEY `changeUserId` (`changeUserId`),
   KEY `localeId` (`localeId`),
-  CONSTRAINT `user_ibfk_4` FOREIGN KEY (`localeId`) REFERENCES `user` (`userId`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `role` (`roleId`),
   CONSTRAINT `user_ibfk_2` FOREIGN KEY (`creationUserId`) REFERENCES `user` (`userId`),
-  CONSTRAINT `user_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+  CONSTRAINT `user_ibfk_3` FOREIGN KEY (`changeUserId`) REFERENCES `user` (`userId`),
+  CONSTRAINT `user_ibfk_4` FOREIGN KEY (`localeId`) REFERENCES `user` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'kris.planckaert@winsol.eu', '03e13700e25563c0c0a8ffdb48dbbc19', 'kris', 'active', '4', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:41', '1', '2');
-INSERT INTO `user` VALUES ('2', 'thomas.vanhuysse@winsol.eu', 'ef6e65efc188e7dffd7335b646a85a21', 'thomas', 'active', '3', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:43', '1', null);
-INSERT INTO `user` VALUES ('3', 'xavier@dxsolutions.be', '0f5366b3b19afc3184d23bc73d8cd311', 'xavier', 'active', '2', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:44', '1', '2');
-INSERT INTO `user` VALUES ('11', 'test', '098f6bcd4621d373cade4e832627b4f6', 'test', 'active', '2', '1', '2013-06-16 07:44:34', '2013-06-16 17:36:44', '2', null);
-INSERT INTO `user` VALUES ('12', 'test58', 'e947c4e3d3091991356d1564d09ddac2', 'test58', 'active', '2', '1', '2013-06-16 17:23:46', '2013-06-16 17:36:45', '2', null);
-INSERT INTO `user` VALUES ('13', 'test59', 'debdcbab258bf9e208b9f2e6e6d1779b', 'test59', 'active', '2', '1', '2013-06-16 17:30:07', '2013-06-16 17:36:45', '2', null);
-INSERT INTO `user` VALUES ('14', 'test1', '5a105e8b9d40e1329780d62ea2265d8a', 'test1', 'active', '2', '1', '2013-06-16 17:33:31', '2013-06-16 17:36:46', '2', null);
-INSERT INTO `user` VALUES ('15', 'testtest', '05a671c66aefea124cc08b76ea6d30bb', 'testtest', 'active', '2', '2', '2013-06-16 17:46:27', '0000-00-00 00:00:00', '2', null);
-INSERT INTO `user` VALUES ('16', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2', 'active', '2', '1', '2013-06-16 17:55:39', '0000-00-00 00:00:00', '2', null);
-INSERT INTO `user` VALUES ('17', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3', 'active', '2', '2', '2013-06-16 17:58:47', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('1', 'kris.planckaert@winsol.eu', '098f6bcd4621d373cade4e832627b4f6', 'kris', '1.51bef33f9aad37.38926575', 'active', '4', '1', '0000-00-00 00:00:00', '2013-06-17 13:30:07', '1', '2');
+INSERT INTO `user` VALUES ('2', 'thomas.vanhuysse@winsol.eu', 'ef6e65efc188e7dffd7335b646a85a21', 'thomas', null, 'active', '3', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:43', '1', null);
+INSERT INTO `user` VALUES ('3', 'xavier@dxsolutions.be', '0f5366b3b19afc3184d23bc73d8cd311', 'xavier', null, 'active', '2', '1', '0000-00-00 00:00:00', '2013-06-16 17:36:44', '1', '2');
+INSERT INTO `user` VALUES ('11', 'test', '098f6bcd4621d373cade4e832627b4f6', 'test', null, 'active', '2', '1', '2013-06-16 07:44:34', '2013-06-16 17:36:44', '2', null);
+INSERT INTO `user` VALUES ('12', 'test58', 'e947c4e3d3091991356d1564d09ddac2', 'test58', null, 'active', '2', '1', '2013-06-16 17:23:46', '2013-06-16 17:36:45', '2', null);
+INSERT INTO `user` VALUES ('13', 'test59', 'debdcbab258bf9e208b9f2e6e6d1779b', 'test59', null, 'active', '2', '1', '2013-06-16 17:30:07', '2013-06-16 17:36:45', '2', null);
+INSERT INTO `user` VALUES ('14', 'test1', '5a105e8b9d40e1329780d62ea2265d8a', 'test1', null, 'active', '2', '1', '2013-06-16 17:33:31', '2013-06-16 17:36:46', '2', null);
+INSERT INTO `user` VALUES ('15', 'testtest', '05a671c66aefea124cc08b76ea6d30bb', 'testtest', null, 'active', '2', '2', '2013-06-16 17:46:27', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('16', 'test2', 'ad0234829205b9033196ba818f7a872b', 'test2', null, 'active', '2', '1', '2013-06-16 17:55:39', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('17', 'test3', '8ad8757baa8564dc136c1e07507f4a98', 'test3', null, 'active', '2', '2', '2013-06-16 17:58:47', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('18', 'test123', 'cc03e747a6afbbcbf8be7668acfebee5', 'test123', null, 'active', '2', '2', '2013-06-17 08:16:54', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('19', 'trtzer', '202cb962ac59075b964b07152d234b70', 'tzes', null, 'active', '2', '2', '2013-06-17 08:36:33', '0000-00-00 00:00:00', '2', null);
+INSERT INTO `user` VALUES ('20', 'tetete', '098f6bcd4621d373cade4e832627b4f6', 'tetete', null, 'active', '2', '2', '2013-06-17 11:19:23', '0000-00-00 00:00:00', '2', null);

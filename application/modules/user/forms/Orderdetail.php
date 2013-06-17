@@ -33,9 +33,8 @@ class User_Form_Orderdetail extends My_Form {
             )));
         
          // element button
-        $this->addElement(new Zend_Form_Element_Button('toevoegen', array(
+        $this->addElement(new Zend_Form_Element_Button('lbl_add', array(
             'type'=>"submit",
-            'value'=>'Toevoegen',
             'required'=> false,
             'ignore'=> true
             )));

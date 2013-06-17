@@ -1,8 +1,0 @@
-<?php 
-foreach($this->winkelmanden as $winkelmand) { ?>
-    <div style="float:left;border:1px solid black;padding:50px;">
-        <span><?php echo $winkelmand['naam'];?></span><br>
-        <span><?php echo 'prijs : '.$winkelmand['prijs'];?></span><br> 
-        <a href="/index/detail/id/<?php echo $winkelmand['id']; ?>">Detail</a>
-    </div>
-<?php } ?>

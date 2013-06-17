@@ -24,7 +24,14 @@ class Application_Model_User extends My_Model
         return $userId;
     }
    
-    
+    public function saveIdentifier($id){
+        $eId = uniqid($id . '.', true);
+        $dbFields = array(
+            'eId' => $eId,
+        );
+        $this->updateById($dbFields,$id);
+        return $eId;
+    }
     
 }
 ?>

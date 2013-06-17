@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('Admin-Menu'));
+$this->placeholder('mainTitle')->set('Admin-Menu');
 
 $module = 'admin';
 $controller = 'menu';
@@ -9,12 +9,12 @@ $controller = 'menu';
 </a>
 <table>
     <tr>
-        <th><?php echo $this->translate('Label');?></th>
-        <th><?php echo $this->translate('Module');?></th>
-        <th><?php echo $this->translate('Controller');?></th>
-        <th><?php echo $this->translate('Action');?></th>
-        <th><?php echo $this->translate('Slug');?></th>
-        <th><?php echo $this->translate('Status');?></th>
+        <th><?php echo $this->translate('lbl_label');?></th>
+        <th><?php echo $this->translate('lbl_module');?></th>
+        <th><?php echo $this->translate('lbl_controller');?></th>
+        <th><?php echo $this->translate('lbl_action');?></th>
+        <th><?php echo $this->translate('lbl_slug');?></th>
+        <th><?php echo $this->translate('lbl_status');?></th>
     </tr>
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
@@ -31,12 +31,12 @@ $controller = 'menu';
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'menuId' => $row['menuId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'menuId' => $row['menuId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('lbl_delete'); ?>?')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>
             </tr>
 <?php   } ?>            
 
-<?php } else $this->translate('leeg bestand'); ?>            
+<?php } else $this->translate('lbl_emptytable'); ?>
 </table>

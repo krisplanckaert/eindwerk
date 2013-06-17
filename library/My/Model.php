@@ -223,9 +223,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
             $data['creationUserId'] = 2;  //TODO!!!
             $data['creationDate'] = $currentTime;
     	}
-        //Zend_Debug::dump($data);exit;
         $id = parent::insert($data);
-        //Zend_Debug::dump($id);exit;
         return $id;
     }
 
@@ -285,7 +283,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         return $result;
     }
     
-    public function getLocale($result) {
+    public function getLocale($result, $array=false) {
         $locale = Zend_Registry::get('Zend_Locale');
         $localeModel = new Application_Model_Locale();
         $localeRow = $localeModel->getOneByField('locale',$locale);        
@@ -295,7 +293,20 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $childLocaleModel = new $childLocaleModelName;
         
         $parentKey = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1)).'Id';
+        if($array) {
+            $resultArray = array();
+            foreach($result as $k=>$v) {
+                $resultArray[$k] = $this->getLocaleExec($v, $parentKey, $childLocaleModel, $localeRow);
+            }
+            $result = $resultArray;
+        } else {
+            $result = $this->getLocaleExec($result, $parentKey, $childLocaleModel, $localeRow);
+        }
+        return $result;
+    }
 
+    private function getLocaleExec($result, $parentKey, $childLocaleModel, $localeRow) 
+    {
         if(!isset($result[$parentKey])) {
             foreach($result as $k => $v) {
                 $where = $parentKey.'='.$v[$parentKey].' and localeId = ' . $localeRow['localeId'];
@@ -310,11 +321,10 @@ abstract class My_Model extends Zend_Db_Table_Abstract
             if($childLocale) {
                 $result['locale'] = $childLocale[0];
             }
-            
         }
         return $result;
     }
-
+    
     public function remove($id)
     {
          $where  = $this->getAdapter()->quoteInto($this->_primary . '= ?', $id);

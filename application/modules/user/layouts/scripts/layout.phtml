@@ -33,19 +33,19 @@
                                 </div><hr />
                                 <div id="winkelmand">
                                     <span style="float:left">
-<?php                                       if($this->winkelmanden) { ?>
-                                                <h1>Winkelmand</h1>
-                                                <table id="tbl_winkelmand">
+<?php                                       if($this->basket) { ?>
+                                                <h1><?php echo $this->translate('lbl_basket');?></h1>
+                                                <table id="tbl_basket">
                                                     <tr>
-                                                        <th>Naam</th>
-                                                        <th>Prijs</th>
-                                                        <th>Aantal</th>
+                                                        <th><?php echo $this->translate('lbl_name');?></th>
+                                                        <th><?php echo $this->translate('lbl_price');?></th>
+                                                        <th><?php echo $this->translate('lbl_quantity');?></th>
                                                     </tr>
-<?php                                               foreach($this->winkelmanden as $winkelmand) { ?>
+<?php                                               foreach($this->basket as $basket) { ?>
                                                         <tr>
-                                                            <td class="td_winkelmand"><?= $winkelmand['naam'];?></td>
-                                                            <td class="td_winkelmand"><?= $winkelmand['prijs'];?></td>
-                                                            <td class="td_winkelmand"><?= $winkelmand['aantal'];?></td>
+                                                            <td class="td_basket"><?= $basket['label'];?></td>
+                                                            <td class="td_basket"><?= $basket['price'];?></td>
+                                                            <td class="td_basket"><?= $basket['quantity'];?></td>
                                                         </tr>
 <?php                                               } ?>
                                                 </table>

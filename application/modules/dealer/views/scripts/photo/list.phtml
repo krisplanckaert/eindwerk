@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('Dealer-Module : Photo'));
+$this->placeholder('mainTitle')->set('Dealer-Module : Photo');
 
 $module = 'dealer';
 $controller = 'photo';
@@ -9,24 +9,24 @@ $controller = 'photo';
 </a>
 <table>
     <tr>
-        <th><?php echo $this->translate('Filename');?></th>
+        <th><?php echo $this->translate('lbl_filename');?></th>
     </tr>
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
             <tr>
-                <td><?php echo $row['fileName']?></td>
+                <td><?php echo $row['label']?></td>
                 <td>
                     <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'photoId' => $row['photoId']),NULL,TRUE); ?>">
                         <img src="/base/images/icons/edit.png">
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'photoId' => $row['photoId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'photoId' => $row['photoId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('lbl_delete'); ?>?')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>
             </tr>
 <?php   } ?>            
 
-<?php } else $this->translate('leeg bestand'); ?>            
+<?php } else $this->translate('lbl_emptytable'); ?>
 </table>

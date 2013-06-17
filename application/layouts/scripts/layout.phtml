@@ -4,6 +4,11 @@
         <title>ZF Shop</title>
         <link href="/css/style.css" rel="stylesheet" />
         <meta charset="UTF-8" />
+<?php
+            echo $this->jQuery().PHP_EOL;
+            echo $this->headScript();
+        ?>
+        
     </head>
     <body class="normalpage">
         <section id="page">
@@ -42,12 +47,12 @@
                                 <article id="basketArticle">
                                     <span>
 <?php                                       if($this->basket) { ?>
-                                                <h1><?php echo $this->translate('Winkelmand');?></h1>
+                                                <h1><?php echo $this->translate('lbl_basket');?></h1>
                                                 <table id="tbl_basket">
                                                     <tr>
-                                                        <th><?php echo $this->translate('Naam');?></th>
-                                                        <th><?php echo $this->translate('Prijs');?></th>
-                                                        <th><?php echo $this->translate('Aantal');?></th>
+                                                        <th><?php echo $this->translate('lbl_name');?></th>
+                                                        <th><?php echo $this->translate('lbl_price');?></th>
+                                                        <th><?php echo $this->translate('lbl_quantity');?></th>
                                                     </tr>
 <?php                                               foreach($this->basket as $basket) { ?>
                                                         <tr>
@@ -63,7 +68,7 @@
 <?php                           if($this->basket) { ?>
                                     <article id="orderArticle">
                                         <span>
-                                            <?php echo $this->orderForm($this->orderForm); ?>
+                                            <?php echo $this->orderstartForm($this->orderstartForm); ?>
                                         </span>
                                     </article>   
 <?php                           } ?>

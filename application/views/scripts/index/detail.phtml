@@ -1,8 +1,7 @@
 
     <div id="productDiv">
-        <span><?php echo $this->product['label'];?></span><br>
-        <span><?php echo $this->translate('prijs').' : '.$this->product['price'];?></span><br> 
+        <span><?php echo isset($this->product['locale']['title']) ? $this->product['locale']['title'] : $this->product['label'];?></span><br>
+        <span><?php echo $this->translate('lbl_price').' : '.$this->product['price'];?></span><br> 
         <?php echo $this->basketForm; ?>
-        <!--a href="/index/mand/id/<?php echo $this->product['productId']; ?>">Bestel</a-->
     </div>
 

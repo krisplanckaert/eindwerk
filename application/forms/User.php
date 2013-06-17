@@ -11,7 +11,7 @@ class Application_Form_User extends My_Form {
      
         // element name
         $this->addElement(new Zend_Form_Element_Text('name',array(
-            'label'=>"Name",
+            'label'=>"lbl_name",
             'required'=>true,
             // filters
             'filters' => array('StringTrim')
@@ -19,7 +19,7 @@ class Application_Form_User extends My_Form {
         
         // element email
         $this->addElement(new Zend_Form_Element_Text('email',array(
-            'label'=>"Email",
+            'label'=>"lbl_email",
             'required'=>true,
             // filters
             'filters' => array('StringTrim')
@@ -27,14 +27,14 @@ class Application_Form_User extends My_Form {
         
         // element wachtwoord
         $this->addElement(new Zend_Form_Element_Password('password',array(
-            'label'=>"Password",
+            'label'=>"lbl_password",
             // filters
             'filters' => array('StringTrim')
             )));
         
         // Repeat password
         $password2 = new Zend_Form_Element_Password('repeatPassword');
-        $password2->setLabel('Confirm password')
+        $password2->setLabel('lbl_passwordconfirm')
                        ->addFilter('StringTrim')
                        ->addFilter('StripTags')
                        ->addValidator('NotEmpty')

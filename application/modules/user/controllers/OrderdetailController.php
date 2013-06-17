@@ -18,7 +18,7 @@ class User_OrderdetailController extends My_Controller_Action
         $orderDetail = $orderdetailModel->find($orderDetailId)->current(); 
                
         $form = new User_Form_Orderdetail($orderDetailId);
-        $order = $order->toArray();
+        $orderDetail = $orderDetail->toArray();
         
         $form->populate($orderDetail);
                 

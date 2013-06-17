@@ -130,6 +130,7 @@ nav a:hover{
     overflow: auto;
     padding: 20px 20px 20px 20px;
     float:none;
+    border: 1px solid black;
 }
 #orderArticle{ 
     overflow: auto;

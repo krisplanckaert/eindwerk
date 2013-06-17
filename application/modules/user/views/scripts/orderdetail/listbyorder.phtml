@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('User-Module : Orderdetail'));
+$this->placeholder('mainTitle')->set('User-Module : Orderdetail');
 
 $module = 'user';
 $controller = 'orderdetail';
@@ -10,10 +10,10 @@ if($this->authUserRow['roleId']>2) { ?>
 <?php } ?>
 <table>
     <tr>
-        <th><?php echo $this->translate('Product');?></th>
-        <th><?php echo $this->translate('Price');?></th>
-        <th><?php echo $this->translate('Quantity');?></th>
-        <th><?php echo $this->translate('Total');?></th>
+        <th><?php echo $this->translate('lbl_product');?></th>
+        <th><?php echo $this->translate('lbl_price');?></th>
+        <th><?php echo $this->translate('lbl_quantity');?></th>
+        <th><?php echo $this->translate('lbl_total');?></th>
     </tr>
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
@@ -29,7 +29,7 @@ if($this->authUserRow['roleId']>2) { ?>
                         </a>
                     </td>
                     <td>
-                        <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Delete'); ?>?')">
+                        <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('lbl_delete'); ?>?')">
                             <img src="/base/images/icons/cross.png">
                         </a>
                     </td>
@@ -37,6 +37,6 @@ if($this->authUserRow['roleId']>2) { ?>
             </tr>
 <?php   } ?>            
 
-<?php } else $this->translate('leeg bestand'); ?>            
+<?php } else $this->translate('lbl_emptytable'); ?>            
 </table>
 

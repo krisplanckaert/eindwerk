@@ -32,7 +32,7 @@ class BasketController extends My_Controller_Action
            
             if ($this->view->form->isValid($postParams)) {                                                           
                   
-                unset($postParams['toevoegen']);
+                unset($postParams['lbl_add']);
                 $basketModel->save($postParams, $basketId);
                 
                 $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'list')));

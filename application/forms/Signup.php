@@ -28,18 +28,18 @@ class Application_Form_Signup extends Zend_Form {
          // element button
         $this->addElement(new Zend_Form_Element_Button('login', array(
             'type'=>"submit",
-            'value'=>'login',
+            'label' => 'lbl_login',
             'required'=> false,
             'ignore'=> true
             )));
         
         // element button
-        $this->addElement(new Zend_Form_Element_Button('register', array(
+        /*$this->addElement(new Zend_Form_Element_Button('register', array(
             'type'=>"submit",
-            'value'=>'Register',
+            'label' => 'lbl_register',
             'required'=> false,
             'ignore'=> true
-            )));
+            )));*/
     }
     
 }

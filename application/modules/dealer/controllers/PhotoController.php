@@ -59,6 +59,40 @@ class Dealer_PhotoController extends My_Controller_Action
         $this->_redirect($this->view->url(array('controller'=> 'Photo', 'action'=> 'index')));
     }
 
+    public function ajaxUploadAction() {
+        $this->_helper->layout->disableLayout();
+
+        $data = $this->getRequest()->getPost();
+        if (empty($_FILES) ) {
+                echo 'No files to upload'; exit;
+        }
+        $photoModel = new Application_Model_Photo();
+        // ini
+        $fileElem   = 'Filedata';
+        $tempFile   = $_FILES[$fileElem]['tmp_name'];
+        $targetPath = $photoModel->getPathUpload();
+        $prefix     = date('d.m.Y.H.i.s').'_';
+
+        $fileNameOrig = $_FILES[$fileElem]['name']; //preg_replace("/(\s|%20)/","_",$_FILES['Filedata']['name']); # replace all white spaces and %20 with _
+        $fileName    = $fileNameOrig;
+        $fileName    = str_replace(" ","_", $fileName);
+        $fileName    = str_replace("(","_", $fileName);
+        $fileName    = str_replace(")","_", $fileName);
+        $targetFile  = str_replace('//','/',$targetPath) . trim($fileName);
+        $response = 0;
+        if (move_uploaded_file($tempFile,$targetFile)){             
+            $fileData = $v= array(
+                            'label'     => trim($fileName),
+                            'fileNameOrig' => $fileNameOrig,
+                            'fileSize'      => filesize($targetFile),
+            );
+            $fileId = $photoModel->insert($fileData);
+            if (!empty($fileId)){
+                $response=1;
+            }
+        }
+        $this->view->response=$response;
+   }
 
 }
 

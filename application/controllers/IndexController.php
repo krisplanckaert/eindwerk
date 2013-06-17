@@ -5,6 +5,8 @@ class IndexController extends My_Controller_Action
 
     public function init()
     {
+        $this->mail = new My_Controller_Plugin_Mail();
+        
         $this->authUser = (array)Zend_Auth::getInstance()->getIdentity();
         if($this->authUser) {
             $userModel = new Application_Model_User();
@@ -19,7 +21,8 @@ class IndexController extends My_Controller_Action
         $categoryModel = new Application_Model_Category();
 
         if($categoryId) {
-            $this->view->producten = $productModel->getProductsByCategory($categoryId);
+            $products = $productModel->getProductsByCategory($categoryId);
+            $this->view->products = $productModel->getLocale($products, true);
         }
         
         $this->view->categories = $categoryModel->getAllCategories();
@@ -32,7 +35,7 @@ class IndexController extends My_Controller_Action
         $productModel = new Application_Model_Product();
         $basketModel = new Application_Model_Basket();
         $product = $productModel->find($id)->current();
-        $this->view->product = $product;
+        $this->view->product = $productModel->getLocale($product->toArray());
         
         $fields = array(
             'session' => session_id(),
@@ -54,64 +57,19 @@ class IndexController extends My_Controller_Action
                 'productId' => $postParams['productId'],
                 'quantity' => $postParams['quantity'],
             );
-            $this->addToBasket($data);
+            $basketModel->addToBasket($data);
         }
     }
     
     public function basketAction()
     {
         $productId = $this->_getParam('id');
-        
+        $basketModel = new Application_Model_Basket();        
         $data = array('productId' => $productId);
-        $this->addToBasket($data);
+        $basketModel->addToBasket($data);
         
     }
     
-    public function addToBasket($data) {
-        $basketModel = new Application_Model_Basket();
-        $userModel = new Application_Model_User();
-                
-        $quantity = isset($data['quantity']) ? $data['quantity'] : 1;
-
-        $userId = $userModel->getUserId();
-        
-        if($userId) {
-            //check winkelmand met userId
-            $fields = array(
-                'session' => session_id(),
-                'userId' => $userId,
-                'productId' => $data['productId'],
-            );
-            
-            $basket = $basketModel->getOneByFields($fields);
-        } else {
-            //check winkelmand met sessionId
-            $fields = array(
-                'session' => session_id(),
-                'userId' => null,
-                'productId' => $data['productId'],
-            );
-            $basket = $basketModel->getOneByFields($fields);
-        }
-        
-        if($basket) {
-            $quantity = $basket['quantity'] + $quantity;
-            $params = array(
-                'quantity' => $quantity,
-            );
-            //Zend_Debug::dump($basket);exit;
-            $basketModel->updateById($params, $basket['basketId']);
-        } else {
-            $params = array(
-                'productId' => $data['productId'],
-                'userId' => $userId,
-                'session' => session_id(),
-                'quantity' => $quantity,
-            );
-            $basketModel->insert($params);
-        }
-        $this->view->basket=$basketModel->getBasket();
-    }
     
     public function highlightAction() {
         $productModel = new Application_Model_Product();
@@ -127,7 +85,8 @@ class IndexController extends My_Controller_Action
         if($this->getRequest()->getPost()) {
             $postParams = $this->getRequest()->getPost();
             if($form->isValid($postParams)) {
-                $this->view->products = $productModel->getAllByDescription($locale, $postParams);
+                $products = $productModel->getAllByDescription($locale, $postParams);
+                $this->view->products = $productModel->getLocale($products, true);
             }
         }
     }
@@ -142,11 +101,7 @@ class IndexController extends My_Controller_Action
                     $this->login($postParams);
                 } 
             }
-            if(isset($postParams['register'])) {
-                $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'register')));
-            }
         }
-
     }
     
     public function logoutAction()
@@ -192,7 +147,6 @@ class IndexController extends My_Controller_Action
             $this->authUserRow = $userModel->getUserByIdentity($this->authUser);
             $localeModel = new Application_Model_Locale();
             $locale = $localeModel->getOne($this->authUserRow['localeId']);
-            $basketModel = new Application_Model_Basket();
             $basket = $basketModel->getAll('userId='.$this->authUserRow['userId']);
             $action = !$basket ? 'index' : $action;
             $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> $action, 'lang' => $locale['locale'])));
@@ -204,25 +158,111 @@ class IndexController extends My_Controller_Action
     }
         
     public function orderAction() {
+        $redirect = $this->_getParam('redirect',null);
         $form = new Application_Form_Order();
         $this->view->form = $form;
         $orderId = null;
-        if($this->getRequest()->getPost()) {
+        if($this->getRequest()->getPost() and !$redirect) {
             $postParams = $this->getRequest()->getPost();
-            if($form->isValid($postParams)) {
-                if(isset($postParams['reference'])) {
-                    $postParams['userId'] = $this->authUserRow['userId'];
-                    unset($postParams['order']);
-                    $orderModel = new Application_Model_Order();
-                    $orderId = $orderModel->createOrder($postParams);
-                    if($orderId) {
-                        $this->view->orderData = $postParams;
-                    }   
-                } else {
-                    $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'register')));
+            if(isset($postParams['orderstart'])) {
+                $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'order', 'redirect' => true)));
+            } else {
+                if($form->isValid($postParams)) {
+                    if(isset($postParams['reference'])) {
+                        $postParams['userId'] = $this->authUserRow['userId'];
+                        unset($postParams['order']);
+                        $orderModel = new Application_Model_Order();
+                        $orderId = $orderModel->createOrder($postParams);
+                        if($orderId) {
+                            $this->view->orderData = $postParams;
+                        }   
+                    } else {
+                        $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'register')));
+                    }
                 }
             }
         } 
         $this->view->orderId = $orderId;
     }
+    
+    public function lostpasswordAction() {
+        $this->view->form = new Application_Form_Lostpassword();
+        if (!$this->getRequest()->isPost()) {
+            $this->view->data = $this->getRequest()->getParams();
+            return;
+        }
+        $data =  $this->_request->getPost();
+        if (empty($data['email'])){
+            return;
+        }
+        $userModel = new Application_Model_User();
+        $userRow   = $data = $userModel->getOneByField('email',$data['email']);
+        if (empty($userRow)){
+            $this->view->error = 'lbl_wrongemail';
+            return;
+        }
+        try {
+            $templateName = My_Controller_Plugin_Mail::TEMPLATE_LOST_PASSWORD;
+            $data['eId'] = $userModel->saveIdentifier($userRow['userId']);
+            $data['email'] = $userRow['email'];
+            $data['url']   = '/index/reset/eId/' . $data['eId'];
+            $this->mail->send($templateName,$data);
+            $this->_redirect('/index/index');
+        } catch (Exception $e){
+            throw $e;
+        }
+    }
+    
+    public function resetAction(){
+        $this->view->form = new Application_Form_Reset();
+        
+    	$data = $this->getRequest()->getParams();
+    	$save = false;
+
+        $eId = $this->getRequest()->getParam('eId');
+    	
+    	if ($this->getRequest()->isPost()) {    	  
+    	    //submit
+    	    $data =  $this->_request->getPost();
+    	    $save = true;   
+    	}
+    	$this->view->data = $data;
+    	$userModel = new Application_Model_User();
+    	$userRow   = $userModel->getOneByField('eId',(string)$eId);
+    	if (empty($userRow)){ 
+    	    $url = '/' . $this->getRequest()->getControllerName().'/reset/eId/'.$eId.'/err/3';
+    	    $this->_redirect($url);    	    
+            return;
+    	}
+    	$this->view->user = $userRow;
+    	if (!$save){
+    		return;
+    	}
+        if (empty($data['password1'])){
+            $url = '/' . $this->getRequest()->getControllerName().'/reset/eId/'.$eId.'/err/1';
+            $this->_redirect($url);
+            return;
+        }
+        if ($data['password1'] !==$data['password2']){
+            $url = '/' . $this->getRequest()->getControllerName().'/reset/eId/'.$eId.'/err/2';
+            $this->_redirect($url);
+            $this->_helper->redirector('reset',$this->getRequest()->getControllerName(),false,array('eId' => $eId,'err' => 2));
+            return;
+        }
+    	//save new password
+        try{
+            $dbFields = array(
+                                    'eId' => null,
+                                    'password' => md5($data['password1']),
+            );
+            $userModel->updateById($dbFields,$userRow['userId']);
+            $this->_helper->redirector('index',$this->getRequest()->getControllerName(),false,array('msg' => 1));
+        }
+        catch (Exception $e){
+            $url = '/' . $this->getRequest()->getControllerName().'/reset/eId/'.$eId.'/err/3';
+            $this->_redirect($url);
+        }
+    }
+    
+    
 }

@@ -10,7 +10,7 @@ class Application_Form_Basket extends Zend_Form {
         
         // element aantal
         $this->addElement(new Zend_Form_Element_Text('quantity',array(
-            'label'=>"Aantal",
+            'label'=>"lbl_quantity",
             'required'=>true,
             // filters
             'filters' => array('Int')
@@ -20,9 +20,9 @@ class Application_Form_Basket extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Hidden('productId',array()));
         
          // element button
-        $this->addElement(new Zend_Form_Element_Button('toevoegen', array(
+        $this->addElement(new Zend_Form_Element_Button('add', array(
             'type'=>"submit",
-            'value'=>'Toevoegen',
+            'name'=>'lbl_add',
             'required'=> false,
             'ignore'=> true
             )));

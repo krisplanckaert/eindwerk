@@ -1,7 +1,7 @@
 
 <?php 
 if($this->orderId) {
-    echo $this->translate('Congratulations with your order').' '.$this->orderId. ' ('.$this->translate('Reference').'="'.$this->orderData['reference'].'")';
+    echo $this->translate('lbl_congratulations').' '.$this->orderId. ' ('.$this->translate('lbl_reference').'="'.$this->orderData['reference'].'")';
 } else {
     echo $this->form;
 }

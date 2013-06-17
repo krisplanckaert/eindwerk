@@ -62,9 +62,15 @@ abstract class My_Controller_Action extends Zend_Controller_Action
 
     public function init($options = null)
     {
+        $this->mail = new My_Controller_Plugin_Mail();
+        
     	$this->authUser = (array)Zend_Auth::getInstance()->getIdentity();
-        $userModel = new Application_Model_User();
-        $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+        if($this->authUser) {
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+        } else {
+            $this->authUserRow = null;
+        }
 
         $this->entity = empty($this->entity) ? strstr(get_class($this), 'Controller', TRUE) : $this->entity;
         $this->flashMessenger = $this->_helper->getHelper('FlashMessenger');

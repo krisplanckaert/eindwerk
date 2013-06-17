@@ -22,7 +22,7 @@ class Dealer_Form_Category extends Zend_Form {
         $locale = $localeModel->getAll();
         foreach($locale as $k => $v) {
             $this->addElement(new Zend_Form_Element_Text($v['localeId'], array(
-                'label' => 'Description'.' '.$v['short'],
+                'label' => 'lbl_description'.$v['short'],
                 'belongsto' => 'description',
                 'filters' => array('StringTrim'),
                 //'validator' => 'NotEmpty',

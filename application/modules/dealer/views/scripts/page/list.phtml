@@ -1,5 +1,5 @@
 <?php 
-$this->placeholder('mainTitle')->set($this->translate('Dealer-Module : Page'));
+$this->placeholder('mainTitle')->set('Dealer-Module : Page');
 
 $module = 'dealer';
 $controller = 'page';
@@ -9,8 +9,8 @@ $controller = 'page';
 </a>
 <table>
     <tr>
-        <th><?php echo $this->translate('Label');?></th>
-        <th><?php echo $this->translate('Slug');?></th>
+        <th><?php echo $this->translate('lbl_label');?></th>
+        <th><?php echo $this->translate('lbl_slug');?></th>
     </tr>
 <?php if($this->rows) { ?>
 <?php   foreach($this->rows as $row) { ?>
@@ -23,13 +23,13 @@ $controller = 'page';
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'pageId' => $row['pageId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('Verwijderen'); ?>?')">
+                    <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'delete', 'pageId' => $row['pageId']),NULL,TRUE); ?>" onclick="return confirm('<?php echo $this->translate('lbl_delete'); ?>?')">
                         <img src="/base/images/icons/cross.png">
                     </a>
                 </td>
             </tr>
 <?php   } ?>            
 
-<?php } else $this->translate('leeg bestand'); ?>            
+<?php } else $this->translate('lbl_emptytable'); ?>            
 </table>
 

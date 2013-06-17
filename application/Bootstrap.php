@@ -10,8 +10,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::addHelper($signup);
         $search = Zend_Controller_Action_HelperBroker::getStaticHelper('Search');
         Zend_Controller_Action_HelperBroker::addHelper($search);
-        $order = Zend_Controller_Action_HelperBroker::getStaticHelper('Order');
-        Zend_Controller_Action_HelperBroker::addHelper($order);
+        $orderstart = Zend_Controller_Action_HelperBroker::getStaticHelper('Orderstart');
+        Zend_Controller_Action_HelperBroker::addHelper($orderstart);
         
     }
 
@@ -76,6 +76,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'action'     => 'index',
             )));
     }*/
+    protected function _initView()
+    {
+        $view = new Zend_View();
+        ZendX_JQuery::enableView($view);	
+        $jqueryTheme = 'smoothness';
+        $view->jQuery()->setLocalPath('/base/js/jquery/jquery.min.js')
+                       ->setUiLocalPath('/base/js/jquery/jquery-ui.min.js')                                   
+//				   ->addStyleSheet('/base/js/jquery/css/'.$jqueryTheme.'/jquery.ui.all.css')		                   
+                       ->addStyleSheet('/base/js/jquery/css/'.$jqueryTheme.'/jquery-ui.custom.css')
+                       ;
+
+        $view->jQuery()->enable();
+        $view->jQuery()->uiEnable();
+        $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
+        $viewRenderer->setView($view);
+        Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
+                       return $view;
+    }
 
 }
 
