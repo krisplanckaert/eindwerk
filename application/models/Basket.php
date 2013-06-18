@@ -87,7 +87,6 @@ class Application_Model_Basket extends My_Model
             );
             $this->insert($params);
         }
-        $this->view->basket=$this->getBasket();
     }
     
 }

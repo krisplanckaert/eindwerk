@@ -25,7 +25,7 @@ class My_Form extends Zend_Form {
             foreach($modelObject->getLocaleFields() as $k => $localeFields) {
                 $prefix = preg_match("/\\d/", $k) > 0 ? '' : $k;
                 foreach($locales as $locale) {
-                    $allElements[$prefix.$locale['localeId']]->setValue($values[$localeFields][$locale['localeId']]);
+                    $allElements[$prefix.$locale['localeId']]->setValue($values[$localeFields][$prefix.$locale['localeId']]);
                 }
             }
         }

@@ -9,7 +9,7 @@ class Application_Model_Photo extends My_Model
     protected $pathUpload;
     
     public function __construct(){
-        $this->pathUpload = APPLICATION_PATH . '/modules/dealer/uploads/photos/';
+        $this->pathUpload = 'uploads/photos/';
         //$this->pathUpload = PROJECT_PATH . 'httpdocs/com/uploads/orders/';
         parent::__construct();
     }
@@ -31,5 +31,22 @@ class Application_Model_Photo extends My_Model
     public function getPathUpload(){
         return $this->pathUpload;
     }    
+
+    public function insertLocale($photoId) {
+        $localeModel = new Application_Model_Locale();
+        $locales = $localeModel->getAll();
+        foreach($locales as $locale) {
+            $photoLocaleModel = new Application_Model_Photolocale();
+            $data = array(
+                $this->_primary => $photoId,
+                'localeId' => $locale['localeId'],
+                'translated' => 0,
+            );
+            foreach($this->localeFields as $localeField) {
+                $data[$localeField] = '';
+            }
+            $photoLocaleModel->insert($data);
+        }
+    }
 }
 ?>

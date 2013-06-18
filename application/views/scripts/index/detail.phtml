@@ -1,7 +1,10 @@
 
-    <div id="productDiv">
-        <span><?php echo isset($this->product['locale']['title']) ? $this->product['locale']['title'] : $this->product['label'];?></span><br>
-        <span><?php echo $this->translate('lbl_price').' : '.$this->product['price'];?></span><br> 
-        <?php echo $this->basketForm; ?>
-    </div>
+<article id="productDetailArticle">
+    <span><?php echo isset($this->product['locale']['title']) ? $this->product['locale']['title'] : $this->product['label'];?></span><br>
+    <span><?php echo $this->translate('lbl_price').' : '.$this->product['price'];?></span><br> 
+<?php echo $this->basketForm; 
+        foreach($this->product['productPhotos'] as $productPhoto) { ?>
+        <img class="photoImage" src="/uploads/photos/<?php echo $productPhoto['label'];?>" >
+<?php } ?>
+</article>
 

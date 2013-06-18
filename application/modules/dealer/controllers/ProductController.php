@@ -20,7 +20,6 @@ class Dealer_ProductController extends My_Controller_Action
         foreach($productPhotos as $productPhoto) {
             $product['photosId'][] = $productPhoto['photoId'];
         }
-        
         $form->populate($product);
                 
         $this->view->form = $form;

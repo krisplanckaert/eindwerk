@@ -4,11 +4,19 @@ class Application_Model_User extends My_Model
     protected $_name = 'user';
     protected $_primary = 'userId';
     
+    protected $autoCompleteFields=false;
+    
+    public function init() {
+        $this->db = $this->getAdapter();
+
+        //parent::init();
+    }
+    
     public function getUserByIdentity($identity) 
     {
         $select = $this->select()->where('name = ?', $identity);
         $result = $this->fetchAll($select)->current();
-        
+
         return $result;
     }
     

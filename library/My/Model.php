@@ -45,11 +45,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
 
         /*$this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
         $userModel = new Application_Model_User();
-        $fields = array(
-            'username' => $this->authUser
-        );
-        $this->authUserRow = $userModel->getOneByFields($fields);*/
-        
+        $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();*/
         
         $session = new Zend_Session_Namespace('translation');
    	    if (isset($session->translate) && !empty($session->translate)){
@@ -115,7 +111,11 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     {
     	$where  = '';
         if(!$colName) {
-            $colName = $this->_primary;
+            if(is_array($this->_primary)) {
+                $colName = $this->_primary[1];
+            } else {
+                $colName = $this->_primary;
+            }
         }
     	$where .= $colName . ' = ' .(int)$id;
         $row = parent::fetchRow($where);            
@@ -220,7 +220,10 @@ abstract class My_Model extends Zend_Db_Table_Abstract
     public function insert($data) {
     	if ($this->autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
-            $data['creationUserId'] = 2;  //TODO!!!
+            $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();            
+            $data['creationUserId'] = $this->authUserRow['userId'];
             $data['creationDate'] = $currentTime;
     	}
         $id = parent::insert($data);
@@ -236,7 +239,10 @@ abstract class My_Model extends Zend_Db_Table_Abstract
        }
        if ($this->autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
-            $data['changeUserId'] = 2;
+            $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+            $data['changeUserId'] = $this->authUserRow['userId'];
             $data['changeDate'] = $currentTime;
        }
        return parent::update($data,$primaryKey . ' = ' . (int)$id); 	
@@ -255,7 +261,10 @@ abstract class My_Model extends Zend_Db_Table_Abstract
             return $this->updateById($data,(int)$where);
     	}
     	if ($this->autoCompleteFields){
-            $data['changeUserId'] = 2; //(int)$this->userId;
+            $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+            $data['changeUserId'] = $this->authUserRow['userId'];
     	}
         return parent::update($data, $where);
     }
@@ -272,17 +281,29 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $parentKey = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1)).'Id';
 
         $where = $parentKey.'='.$result[$parentKey];
-        $locales = $childLocaleModel->getAll($where);
-        foreach($this->localeFields as $localeField) {
+        $childLocales = $childLocaleModel->getAll($where);
+        
+        $localeModel = new Application_Model_Locale();
+        $locales = $localeModel->getAll();
+        
+        foreach($this->localeFields as $k => $localeField) {
             $resultArray=null;
-            foreach($locales as $locale) {
-                $resultArray[$locale['localeId']] = $locale[$localeField];
+            $keyPrefix = !is_numeric($k) ? $k : '';            
+            foreach($childLocales as $childLocale) {
+                
+                $resultArray[$keyPrefix.$childLocale['localeId']] = $childLocale[$localeField];
+            }
+            foreach($locales as $localeRow) {
+                if(!isset($resultArray[$keyPrefix.$localeRow['localeId']])) {
+                    $resultArray[$keyPrefix.$localeRow['localeId']] = '';
+                } 
             }
             if($resultArray) $result[$localeField] = $resultArray;
         }
         return $result;
     }
     
+   
     public function getLocale($result, $array=false) {
         $locale = Zend_Registry::get('Zend_Locale');
         $localeModel = new Application_Model_Locale();

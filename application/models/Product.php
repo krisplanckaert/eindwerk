@@ -8,6 +8,12 @@ class Application_Model_Product extends My_Model
     
     public function init() {
         $this->localeFields = array('title'=>'title','teaser'=>'teaser','content'=>'content');
+        
+        $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
+        if($this->authUser) {
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();
+        }
     }
     
     public function getProductsByCategory($categoryId) {
@@ -18,6 +24,29 @@ class Application_Model_Product extends My_Model
         $result = $this->fetchAll($select);
         return $result->toArray();
         
+    }
+    
+    public function getPhotos($products, $array=false) {
+        if($array) {
+            foreach($products as $k => $product) {
+                $products[$k]['productPhotos'] = $this->getPhotoDetail($product);
+            }
+        } else {
+            $products['productPhotos'] = $this->getPhotoDetail($products);
+        }
+        return $products;
+    }
+
+    public function getPhotoDetail($product) {
+        $productPhotoModel = new Application_Model_Productphoto();        
+        $photoModel = new Application_Model_Photo();        
+        $where = 'productId='.$product['productId'];
+        $productPhotos = $productPhotoModel->getAll($where);
+        foreach($productPhotos as $k2 => $productPhoto) {
+            $photo = $photoModel->getOne($productPhoto['photoId']);
+            $productPhotos[$k2] = $photo;
+        }
+        return $productPhotos;
     }
     
     public function getProductsList() {

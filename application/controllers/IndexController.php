@@ -22,7 +22,10 @@ class IndexController extends My_Controller_Action
 
         if($categoryId) {
             $products = $productModel->getProductsByCategory($categoryId);
+            $products = $productModel->getPhotos($products, true);
             $this->view->products = $productModel->getLocale($products, true);
+        } else {
+            $this->view->products = null;
         }
         
         $this->view->categories = $categoryModel->getAllCategories();
@@ -34,8 +37,9 @@ class IndexController extends My_Controller_Action
         
         $productModel = new Application_Model_Product();
         $basketModel = new Application_Model_Basket();
-        $product = $productModel->find($id)->current();
-        $this->view->product = $productModel->getLocale($product->toArray());
+        $product = $productModel->find($id)->current()->toArray();
+        $product = $productModel->getPhotos($product);        
+        $this->view->product = $productModel->getLocale($product);
         
         $fields = array(
             'session' => session_id(),
@@ -59,22 +63,26 @@ class IndexController extends My_Controller_Action
             );
             $basketModel->addToBasket($data);
         }
+        $this->view->basket=$basketModel->getBasket();        
     }
     
-    public function basketAction()
+/*    public function basketAction()
     {
         $productId = $this->_getParam('id');
         $basketModel = new Application_Model_Basket();        
         $data = array('productId' => $productId);
         $basketModel->addToBasket($data);
+        $this->view->basket=$basketModel->getBasket();                
         
-    }
+    }*/
     
     
     public function highlightAction() {
         $productModel = new Application_Model_Product();
         $where = 'highlight=1';
-        $this->view->products = $productModel->getAll($where);
+        $products = $productModel->getAll($where);
+        $products = $productModel->getPhotos($products, true);        
+        $this->view->products = $productModel->getLocale($products, true);
     }
     
     public function searchAction()
@@ -86,6 +94,7 @@ class IndexController extends My_Controller_Action
             $postParams = $this->getRequest()->getPost();
             if($form->isValid($postParams)) {
                 $products = $productModel->getAllByDescription($locale, $postParams);
+                $products = $productModel->getPhotos($products, true);                
                 $this->view->products = $productModel->getLocale($products, true);
             }
         }
@@ -264,5 +273,7 @@ class IndexController extends My_Controller_Action
         }
     }
     
-    
+    public function myprofileAction(){
+        $this->view->form = new Application_Form_Myprofile();
+    }
 }

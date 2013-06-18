@@ -23,6 +23,9 @@ class Dealer_Form_Product extends Zend_Form {
             // filters
             'filters' => array('StringTrim')
             )));
+        $this->addElement(new Zend_Form_Element_Checkbox('highlight',array(
+            'label'=>"Highlight",
+            )));
         $this->addElement(new Zend_Form_Element_Checkbox('status',array(
             'label'=>"Status",
             )));

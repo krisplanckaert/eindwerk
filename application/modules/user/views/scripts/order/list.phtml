@@ -1,9 +1,11 @@
 <?php 
 $this->placeholder('mainTitle')->set('User-Module : Order');
 
+$roleIdUser = 2;
 $module = 'user';
 $controller = 'order';
-if($this->authUserRow['roleId']>2) { ?>  
+
+if($this->authUserRow['roleId']>$roleIdUser) { ?>  
     <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'add'),NULL,TRUE); ?>">
         <img src="/base/images/icons/create.png">
     </a>
@@ -20,7 +22,7 @@ if($this->authUserRow['roleId']>2) { ?>
                 <td><?php echo $row['orderId']?></td>
                 <td><?php echo $row['userId']?></td>
                 <td><?php echo $row['reference']?></td>
-<?php           if($this->authUser['roleId']>2) { ?>                
+<?php           if($this->authUserRow['roleId']>$roleIdUser) { ?>                
                     <td>
                         <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderId' => $row['orderId']),NULL,TRUE); ?>">
                             <img src="/base/images/icons/edit.png">

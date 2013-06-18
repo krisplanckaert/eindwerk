@@ -8,12 +8,12 @@ class Application_Model_Order extends My_Model
     public function init()
     {
         $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
-        $userModel = new Application_Model_User();
-        $fields = array(
-            'name' => $this->authUser
-        );
-        $this->authUserRow = $userModel->getOneByFields($fields);
+        if($this->authUser) {
+            $userModel = new Application_Model_User();
+            $this->authUserRow = $userModel->getUserByIdentity($this->authUser)->toArray();     
+        }
     }
+    
     public function createOrder($data) {
         $basketModel = new Application_Model_Basket();
         $orderdetailModel = new Application_Model_Orderdetail();

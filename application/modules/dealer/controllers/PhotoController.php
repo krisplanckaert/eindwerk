@@ -9,11 +9,11 @@ class Dealer_PhotoController extends My_Controller_Action
                 
         $photoModel = new Application_Model_Photo();
         $photo = $photoModel->find($photoId)->current()->toArray(); 
-
+        $photo = $photoModel->getLocale($photo);
         $form = new Dealer_Form_Photo();
         
         $photo = $photoModel->getLocales($photo);
-        //Zend_Debug::dump($photo);exit;
+
         $form->populate($photo);
         
         $this->view->form = $form;
@@ -66,11 +66,10 @@ class Dealer_PhotoController extends My_Controller_Action
         if (empty($_FILES) ) {
                 echo 'No files to upload'; exit;
         }
-        $photoModel = new Application_Model_Photo();
         // ini
         $fileElem   = 'Filedata';
         $tempFile   = $_FILES[$fileElem]['tmp_name'];
-        $targetPath = $photoModel->getPathUpload();
+        $targetPath = $this->model->getPathUpload();
         $prefix     = date('d.m.Y.H.i.s').'_';
 
         $fileNameOrig = $_FILES[$fileElem]['name']; //preg_replace("/(\s|%20)/","_",$_FILES['Filedata']['name']); # replace all white spaces and %20 with _
@@ -86,14 +85,14 @@ class Dealer_PhotoController extends My_Controller_Action
                             'fileNameOrig' => $fileNameOrig,
                             'fileSize'      => filesize($targetFile),
             );
-            $fileId = $photoModel->insert($fileData);
-            if (!empty($fileId)){
+            $photoId = $this->model->insert($fileData);
+            //$this->model->insertLocale($photoId);
+            if (!empty($photoId)){
                 $response=1;
             }
         }
         $this->view->response=$response;
    }
-
 }
 
 

@@ -16,7 +16,7 @@ class Application_Model_Page extends My_Model
         $select = $this->select()
                 ->where('status=1');
         $result = $this->fetchAll($select)->toArray();
-        $result = $this->getLocale($result);
+        $result = $this->getLocale($result, true);
 
         return $result;
     }

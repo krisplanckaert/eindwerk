@@ -20,7 +20,6 @@ class Dealer_CategoryController extends My_Controller_Action
         foreach($categoryProducts as $categoryProduct) {
             $category['productsId'][] = $categoryProduct['productId'];
         }
-        
         $form->populate($category);
                 
         $this->view->form = $form;

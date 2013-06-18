@@ -1,6 +1,6 @@
 <?php 
 $this->placeholder('mainTitle')->set('User-Module : Orderdetail');
-
+$roleIdUser = 2;
 $module = 'user';
 $controller = 'orderdetail';
 if($this->authUserRow['roleId']>2) { ?>   
@@ -22,7 +22,7 @@ if($this->authUserRow['roleId']>2) { ?>
                 <td><?php echo $row['price']?></td>
                 <td><?php echo $row['quantity']?></td>
                 <td><?php echo $row['price']*$row['quantity']?></td>
-<?php           if($this->authUserRow['roleId']>2) { ?>                
+<?php           if($this->authUserRow['roleId']>$roleIdUser) { ?>                
                     <td>
                         <a href="<?php echo $this->url(array('module'=> $module,'controller' => $controller, 'action' => 'change', 'orderDetailId' => $row['orderDetailId']),NULL,TRUE); ?>">
                             <img src="/base/images/icons/edit.png">
