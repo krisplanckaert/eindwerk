@@ -27,13 +27,19 @@
                     <div id="contents">
                         <header>
                             <div id="right">
-                                <div id="login">
+                                <article id="searchArticle">
                                     <span style="float:right">
+                                        <?php echo $this->searchForm($this->searchForm); ?>
+                                    </span>
+                                </article>
+                                <article id="loginArticle">
+                                    <span>
                                         <?php echo $this->signupForm($this->signupForm); ?>
                                     </span>
-                                </div><hr />
-                                <div id="winkelmand">
-                                    <span style="float:left">
+                                </article>
+
+                                <article id="basketArticle">
+                                    <span>
 <?php                                       if($this->basket) { ?>
                                                 <h1><?php echo $this->translate('lbl_basket');?></h1>
                                                 <table id="tbl_basket">
@@ -52,7 +58,14 @@
                                                 </table>
 <?php                                       } ?>
                                     </span>
-                                </div>
+                                </article>
+<?php                           if($this->basket) { ?>
+                                    <article id="orderArticle">
+                                        <span>
+                                            <?php echo $this->orderstartForm($this->orderstartForm); ?>
+                                        </span>
+                                    </article>   
+<?php                           } ?>
                             </div>
                         </header>
                         <section id="content">

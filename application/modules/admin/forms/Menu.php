@@ -2,7 +2,7 @@
 
 class Admin_Form_Menu extends My_Form {
    
-    public function init(){
+    public function init($options = null){
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
         //$this->setAttrib('enctype', 'multiparts/form-data');

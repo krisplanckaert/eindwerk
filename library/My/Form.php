@@ -13,7 +13,7 @@ class My_Form extends Zend_Form {
         } 
     }
     
-    public function populate($values) {
+    public function populate(array $values) {
         $thisClass = get_class($this);
         $thisClassModel = new $thisClass;
         $modelName = 'Application_Model_'.substr(strstr(substr(strstr(get_class($this), '_', false),1), '_', FALSE),1);

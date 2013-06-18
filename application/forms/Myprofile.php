@@ -2,7 +2,7 @@
 
 class Application_Form_Myprofile extends My_Form {
    
-    public function init(){
+    public function init($options = null){
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);

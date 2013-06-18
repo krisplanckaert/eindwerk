@@ -2,7 +2,7 @@
 
 class Application_Form_Orderstart extends My_Form {
    
-    public function init(){
+    public function init($options = null){
         parent::init();
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);

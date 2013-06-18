@@ -2,7 +2,7 @@
 
 class Dealer_Form_Photo extends My_Form {
    
-    public function init(){
+    public function init($options = null){
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);

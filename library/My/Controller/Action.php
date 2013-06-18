@@ -60,7 +60,7 @@ abstract class My_Controller_Action extends Zend_Controller_Action
     }
 
 
-    public function init($options = null)
+    public function init()
     {
         $this->mail = new My_Controller_Plugin_Mail();
         
@@ -169,11 +169,11 @@ abstract class My_Controller_Action extends Zend_Controller_Action
     /**
     * Detail, create or update
     */
-    public function detailAction($options = NULL)
+/*    public function detailAction($options = NULL)
     {    	
        $this->id = $this->getRequest()->getParam('id'); 
        $this->processDetail($options); 
-    }    
+    } */   
     
       /**
      * Create/update
@@ -181,7 +181,7 @@ abstract class My_Controller_Action extends Zend_Controller_Action
      * @param array $options
      * @param array $params
      */
-    protected function processDetail($options = NULL,$params = NULL)
+/*    protected function processDetail($options = NULL,$params = NULL)
     {
         $this->view->messages = $this->flashMessenger->getMessages();
         $form = $this->getForm(ucfirst($this->entity),$this->id,$this->formOptions,$params);
@@ -233,7 +233,7 @@ abstract class My_Controller_Action extends Zend_Controller_Action
             return;
         }		
     }
-    
+    */
 /**
      * Create/update a child form 
      * A child always have a parent

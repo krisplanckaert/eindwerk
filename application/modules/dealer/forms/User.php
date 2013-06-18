@@ -2,7 +2,7 @@
 
 class Dealer_Form_User extends My_Form {
    
-    public function init(){
+    public function init($options = null){
         // set the defaults
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);

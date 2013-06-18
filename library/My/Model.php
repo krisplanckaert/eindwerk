@@ -217,7 +217,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
      * Insert
      * @return int last insert ID
      */
-    public function insert($data) {
+    public function insert(array $data) {
     	if ($this->autoCompleteFields){
             $currentTime = date("Y-m-d H:i:s");
             $this->authUser = (array) Zend_Auth::getInstance()->getIdentity();
@@ -256,7 +256,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
      * @param mixed int/string $where : 
      * @return int numbers of rows updated
      */
-    public function update($data, $where) {
+    public function update(array $data, $where) {
     	if (preg_match('/^([0-9])+$/', $where)) {
             return $this->updateById($data,(int)$where);
     	}

@@ -31,7 +31,7 @@ class IndexController extends My_Controller_Action
         $this->view->categories = $categoryModel->getAllCategories();
     }
 
-    public function detailAction()
+    public function detailAction($options = NULL)
     {
         $id = $this->_getParam('id');
         
