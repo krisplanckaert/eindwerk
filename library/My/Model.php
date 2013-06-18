@@ -310,7 +310,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         $localeRow = $localeModel->getOneByField('locale',$locale);        
         
         $thisClass = get_class($this);
-        $childLocaleModelName = $thisClass.'Locale'; 
+        $childLocaleModelName = $thisClass.'locale'; 
         $childLocaleModel = new $childLocaleModelName;
         
         $parentKey = lcfirst(substr(strstr(substr(strstr(get_class($this), '_', FALSE),1), '_', FALSE),1)).'Id';
