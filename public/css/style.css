@@ -133,9 +133,10 @@ nav a:hover{
 }
 #searchArticle{ 
     overflow: auto;
-    /*padding: 2.85px 2.85px 2.85px 2.850px;*/
+    padding: 2.85px 2.85px 2.85px 2.850px;
     float:none;
     border: 1px solid black;
+    hight:100px;
 }
 #orderArticle{ 
     overflow: auto;
