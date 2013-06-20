@@ -9,7 +9,6 @@ class Application_Model_User extends My_Model
     public function init() {
         $this->db = $this->getAdapter();
 
-        //parent::init();
     }
     
     public function getUserByIdentity($identity) 

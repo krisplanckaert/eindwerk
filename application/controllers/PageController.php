@@ -16,7 +16,6 @@ class PageController extends Zend_Controller_Action
         $pageModel = new Application_Model_Page();
 
         $page = $pageModel->getPage($locale, $slug);
-        //Zend_Debug::dump($page);exit;
         $this->view->page = $page;
 
     }

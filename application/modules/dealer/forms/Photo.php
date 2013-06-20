@@ -18,13 +18,11 @@ class Dealer_Form_Photo extends My_Form {
                 'label' => 'title'.' '.$v['short'],
                 'belongsto' => 'title',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
             $this->addElement(new Zend_Form_Element_Text('teaser'.$v['localeId'], array(
                 'label' => 'teaser'.' '.$v['short'],
                 'belongsto' => 'teaser',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
         }
         

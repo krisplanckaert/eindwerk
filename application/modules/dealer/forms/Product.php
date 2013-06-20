@@ -5,7 +5,6 @@ class Dealer_Form_Product extends Zend_Form {
     public function init($options = null){
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
         
         // element label
@@ -37,19 +36,16 @@ class Dealer_Form_Product extends Zend_Form {
                 'label' => 'Title'.' '.$v['short'],
                 'belongsto' => 'title',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
             $this->addElement(new Zend_Form_Element_Text('teaser'.$v['localeId'], array(
                 'label' => 'Teaser'.' '.$v['short'],
                 'belongsto' => 'teaser',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
-            $this->addElement(new Zend_Form_Element_Text('content'.$v['localeId'], array(
+            $this->addElement(new Zend_Form_Element_Textarea('content'.$v['localeId'], array(
                 'label' => 'Content'.' '.$v['short'],
                 'belongsto' => 'content',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
         }
         $photoModel = new Application_Model_Photo();

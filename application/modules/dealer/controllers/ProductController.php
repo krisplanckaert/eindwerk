@@ -84,7 +84,6 @@ class Dealer_ProductController extends My_Controller_Action
                     'productId' => $productId,
                     'photoId' => $photoId,
                 );
-//Zend_Debug::dump($fields);exit;
                 $productPhoto = $productPhotoModel->getOneByFields($fields);
                 if(!$productPhoto) {
                     $data = array(

@@ -5,12 +5,14 @@ class Application_Model_Basket extends My_Model
     protected $_name = 'basket';
     protected $_primary = 'basketId';
     
-    public function init() {
+    public function init() 
+    {
         $this->autoCompleteFields = false;   
         parent::init();
     }
     
-    public function getBasket() {
+    public function getBasket() 
+    {
         $userModel = new Application_Model_User();
         $userId = $userModel->getUserId();
         $localeModel = new Application_Model_Locale();
@@ -21,11 +23,12 @@ class Application_Model_Basket extends My_Model
         $select->joinleft(array('pl' => 'productlocale'), 'pl.productId = p.productId and pl.localeId='.$localeId);
         $where = $userId ? 'b.userId = '.$userId : "session='" . session_id()."' and b.userId is null";
         $select->where($where);
-        //echo $select; exit;
+
         return $this->db->fetchAll($select);
     }
     
-    public function linkUser() {
+    public function linkUser() 
+    {
         $userModel = new Application_Model_User();
         $userId = $userModel->getUserId();
         $where = "session='".session_id()."' and userId is null";
@@ -51,7 +54,8 @@ class Application_Model_Basket extends My_Model
         }
     }
     
-    public function addToBasket($data) {
+    public function addToBasket($data) 
+    {
         $userModel = new Application_Model_User();
         $quantity = isset($data['quantity']) ? $data['quantity'] : 1;
         $userId = $userModel->getUserId();

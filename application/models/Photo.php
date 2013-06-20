@@ -10,7 +10,6 @@ class Application_Model_Photo extends My_Model
     
     public function __construct(){
         $this->pathUpload = 'uploads/photos/';
-        //$this->pathUpload = PROJECT_PATH . 'httpdocs/com/uploads/orders/';
         parent::__construct();
     }
     

@@ -1,38 +1,32 @@
 <?php
 
-class Application_Form_User extends My_Form {
+class Application_Form_User extends My_Form 
+{
    
-    public function init($options = null){
+    public function init($options = null)
+    {
         // set the defaults
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
      
-        // element name
         $this->addElement(new Zend_Form_Element_Text('name',array(
             'label'=>"lbl_name",
             'required'=>true,
-            // filters
             'filters' => array('StringTrim')
             )));
         
-        // element email
         $this->addElement(new Zend_Form_Element_Text('email',array(
             'label'=>"lbl_email",
             'required'=>true,
-            // filters
             'filters' => array('StringTrim')
             )));
         
-        // element wachtwoord
         $this->addElement(new Zend_Form_Element_Password('password',array(
             'label'=>"lbl_password",
-            // filters
             'filters' => array('StringTrim')
             )));
         
-        // Repeat password
         $password2 = new Zend_Form_Element_Password('repeatPassword');
         $password2->setLabel('lbl_passwordconfirm')
                        ->addFilter('StringTrim')

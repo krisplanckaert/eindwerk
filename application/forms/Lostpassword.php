@@ -1,11 +1,12 @@
 <?php
 
-class Application_Form_Lostpassword extends Zend_Form {
+class Application_Form_Lostpassword extends Zend_Form 
+{
    
-    public function init($options = null){
+    public function init($options = null)
+    {
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
         
         // element naam

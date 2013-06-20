@@ -2,14 +2,13 @@
 
 class Application_Form_Signup extends Zend_Form {
    
-    public function init($options = null){
+    public function init($options = null)
+    {
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
         $this->setAction('/index/login');
         
-        // element naam
         $this->addElement(new Zend_Form_Element_Text('name',array(
             'label'=>"lbl_Naam",
             'required'=>true,
@@ -17,7 +16,6 @@ class Application_Form_Signup extends Zend_Form {
             'filters' => array('StringTrim')
             )));
         
-        // element wachtwoord
         $this->addElement(new Zend_Form_Element_Password('password',array(
             'label'=>"lbl_Wachtwoord",
             'required'=>true,
@@ -25,7 +23,6 @@ class Application_Form_Signup extends Zend_Form {
             'filters' => array('StringTrim')
             )));
         
-         // element button
         $this->addElement(new Zend_Form_Element_Button('login', array(
             'type'=>"submit",
             'label' => 'lbl_login',
@@ -33,13 +30,6 @@ class Application_Form_Signup extends Zend_Form {
             'ignore'=> true
             )));
         
-        // element button
-        /*$this->addElement(new Zend_Form_Element_Button('register', array(
-            'type'=>"submit",
-            'label' => 'lbl_register',
-            'required'=> false,
-            'ignore'=> true
-            )));*/
     }
     
 }

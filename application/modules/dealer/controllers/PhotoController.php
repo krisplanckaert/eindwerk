@@ -86,7 +86,6 @@ class Dealer_PhotoController extends My_Controller_Action
                             'fileSize'      => filesize($targetFile),
             );
             $photoId = $this->model->insert($fileData);
-            //$this->model->insertLocale($photoId);
             if (!empty($photoId)){
                 $response=1;
             }

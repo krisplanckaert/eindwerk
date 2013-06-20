@@ -5,7 +5,6 @@ class Dealer_Form_Category extends Zend_Form {
     public function init($options = null){
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
         
         $this->addElement(new Zend_Form_Element_Text('categoryId',array('hidden'=>true)));
@@ -13,7 +12,6 @@ class Dealer_Form_Category extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text('label',array(
             'label'=>"Label",
             'required'=>true,
-            // filters
             'filters' => array('StringTrim')
             )));
         
@@ -25,7 +23,6 @@ class Dealer_Form_Category extends Zend_Form {
                 'label' => 'lbl_description'.$v['short'],
                 'belongsto' => 'description',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
         }
         

@@ -13,11 +13,6 @@ class Application_Model_Translation extends My_Model
         return $result;
     }    
     
-    /**
-     * 
-     * @param Zend_Locale $locale
-     * @return Zend_Db_Table_Abstract $result
-     */
     public function getTranslationByLang($lang)
     {
         $localeModel = new Application_Model_Locale();

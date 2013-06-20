@@ -20,7 +20,6 @@ class Dealer_UserController extends My_Controller_Action
                
         $form = new Dealer_Form_User($userId);
         $user = $user->toArray();
-        //Zend_Debug::dump($user);exit;
         $form->populate($user);
                 
         $this->view->form = $form;

@@ -12,7 +12,6 @@ class BasketController extends My_Controller_Action
     
     public function listAction() {
        $this->view->rows = $this->model->getBasket();
-       //Zend_Debug::dump($this->view->rows);exit;
     } 
     
     public function changeAction()
@@ -66,7 +65,6 @@ class BasketController extends My_Controller_Action
         $basketModel->remove($basketId);
         $this->_redirect($this->view->url(array('controller'=> 'Basket', 'action'=> 'list')));
     }
-
 
 }
 

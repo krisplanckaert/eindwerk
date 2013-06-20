@@ -46,9 +46,6 @@ class Zend_View_Helper_Translate extends Zend_View_Helper_Abstract
             return NULL;
         }
         
-        //echo '<br />** ' . $tag . ' = ' . $translatedValue;exit;
-        //return $this->view->escape($translatedValue);
-
         if (in_array($convert,array(1,2))){
             if ($convert == 1){
                 $this->view->setEscape('htmlentities');
@@ -58,11 +55,7 @@ class Zend_View_Helper_Translate extends Zend_View_Helper_Abstract
             }
             $translatedValue = $this->view->escape($translatedValue);
         }
-        //return $translatedValue;
-
-        //echo ' ----------> ' . $translatedValue;
-        //echo '** tag = ' . $tag;
-         return $autoBreak ? nl2br($translatedValue) : $translatedValue;
+        return $autoBreak ? nl2br($translatedValue) : $translatedValue;
     }
  	
 }

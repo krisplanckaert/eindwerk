@@ -30,9 +30,9 @@
                     
                 </section>
                 <section id="container">
-                    <div id="contents">
+                    <section id="contents">
                         <header>
-                            <div id="right">
+                            <section id="rightSection">
                                 <article id="searchArticle">
                                     <span style="float:right">
                                         <?php echo $this->searchForm($this->searchForm); ?>
@@ -72,16 +72,16 @@
                                         </span>
                                     </article>   
 <?php                           } ?>
-                            </div>
+                            </section>
+                            <section id="content">
+                                <div class="mainTitle" ><br/><?php echo $this->escape($this->placeholder('mainTitle')); ?></div>
+                                <?php echo $this->layout()->content; ?>
+                            </section>
                         </header>
-                        <section id="content">
-                            <div class="mainTitle" ><br/><?php echo $this->escape($this->placeholder('mainTitle')); ?></div>
-                            <?php echo $this->layout()->content; ?>
-                        </section>
 
                         <footer>Footer</footer>
                         <br class="clear" />
-                    </div>
+                    </section>
                 </section>
             </div>
         </section>

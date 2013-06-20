@@ -66,18 +66,9 @@ class IndexController extends My_Controller_Action
         $this->view->basket=$basketModel->getBasket();        
     }
     
-/*    public function basketAction()
+    
+    public function highlightAction() 
     {
-        $productId = $this->_getParam('id');
-        $basketModel = new Application_Model_Basket();        
-        $data = array('productId' => $productId);
-        $basketModel->addToBasket($data);
-        $this->view->basket=$basketModel->getBasket();                
-        
-    }*/
-    
-    
-    public function highlightAction() {
         $productModel = new Application_Model_Product();
         $where = 'highlight=1';
         $products = $productModel->getAll($where);
@@ -159,8 +150,7 @@ class IndexController extends My_Controller_Action
             $basket = $basketModel->getAll('userId='.$this->authUserRow['userId']);
             $action = !$basket ? 'index' : $action;
             $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> $action, 'lang' => $locale['locale'])));
-            //echo 'U bent ingelogd!';
-        } else {
+            } else {
             //alle foutmeldingen weergeven op het scherm
             $this->view->messages = $result->getMessages();
         }        

@@ -34,9 +34,9 @@ class Application_Model_Page extends My_Model
                 ->where('pl.localeId = ?', $localeRow['localeId'])
                 ->where('p.slug = ?', $slug);
         $result = $this->fetchAll($select)->toArray();
-        //Zend_Debug::dump($result);exit;
+        
         $result = $this->getLocale($result);
-        //Zend_Debug::dump($result[0]);exit;
+        
         return $result[0];
     }
 }

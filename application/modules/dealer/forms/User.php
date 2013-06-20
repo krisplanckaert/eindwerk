@@ -6,32 +6,20 @@ class Dealer_Form_User extends My_Form {
         // set the defaults
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
         
         // element email
         $this->addElement(new Zend_Form_Element_Text('email',array(
             'label'=>"Email",
             'required'=>true,
-            // filters
             'filters' => array('StringTrim')
             )));
         
-        // element wachtwoord
         $this->addElement(new Zend_Form_Element_Password('password',array(
             'label'=>"Password",
-            // filters
             'filters' => array('StringTrim')
             )));
-        /*// element wachtwoord
-        $this->addElement(new Zend_Form_Element_Password('passwordConfirm',array(
-            'label'=>"Password Confirm",
-            // filters
-            'validator' => new My_Validate_IdenticalField('password'), 
-            'filters' => array('StringTrim')
-            )));*/
         
-        // Repeat password
         $password2 = new Zend_Form_Element_Password('repeatPassword');
         $password2->setLabel('Confirm password')
                        ->addFilter('StringTrim')

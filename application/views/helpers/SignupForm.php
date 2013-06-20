@@ -17,7 +17,6 @@ class Zend_View_Helper_SignupForm extends Zend_View_Helper_Abstract
         
         
         $html = '<p>'.$this->view->translate('lbl_loginhere').'</p>';
-        //$html = '<p>lbl_Hier kan je inloggen</p>';
         if($form->processed) {
 
             $html .= '<p>'.$view->translate('lbl_loginthanks') . '</p>';

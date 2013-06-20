@@ -31,7 +31,6 @@ class Admin_MenuController extends My_Controller_Action
         foreach($menuRoles as $menuRole) {
             $menuArr['rolesId'][] = $menuRole['roleId'];
         }
-        //Zend_Debug::dump($menuArr);
                 
         $this->view->form = $form;
         $this->view->form->populate((array)$menuArr);
@@ -44,7 +43,7 @@ class Admin_MenuController extends My_Controller_Action
                 $this->toevoegenMenuRoles($postParams, $menuId);                
                 unset($postParams['rolesId']);
                 $menuModel->save($postParams, $menuId);
-//exit;                
+
                 $this->_redirect($this->view->url(array('controller'=> 'Menu', 'action'=> 'list')));
             }  
         }
@@ -63,7 +62,7 @@ class Admin_MenuController extends My_Controller_Action
                 $saveData = $postParams;
                 unset($saveData['rolesId']);
                 $menuModel = new Application_Model_Menu();
-                //Zend_Debug::dump($saveData);exit;
+
                 $menuId = $menuModel->save($saveData);
                 
                 $this->toevoegenMenuRoles($postParams, $menuId);

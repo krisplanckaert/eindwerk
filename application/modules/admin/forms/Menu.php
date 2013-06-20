@@ -5,7 +5,7 @@ class Admin_Form_Menu extends My_Form {
     public function init($options = null){
         // set the defaults
         $this->setMethod(Zend_Form::METHOD_POST);
-        //$this->setAttrib('enctype', 'multiparts/form-data');
+
         $this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
 
         // element label
@@ -51,7 +51,6 @@ class Admin_Form_Menu extends My_Form {
                 'label' => 'Description'.' '.$v['short'],
                 'belongsto' => 'description',
                 'filters' => array('StringTrim'),
-                //'validator' => 'NotEmpty',
              )));
         }
         
@@ -59,14 +58,12 @@ class Admin_Form_Menu extends My_Form {
         $this->addElement(new Zend_Form_Element_Text('slug',array(
             'label'=>"Slug",
             'required'=>true,
-            // filters
             'filters' => array('StringTrim')
             )));
         
         // element roles
         $rolesModel = new Application_Model_Role();
         $rolesList = $rolesModel->getRolesList();
-        //Zend_Debug::dump($rolesList);exit;
         $roles = new Zend_Form_Element_MultiCheckbox('rolesId', array(
             'label' => 'Role',
         ));
