@@ -1,7 +1,10 @@
 
 <div id="messagesDiv">
-<?php foreach($this->messages as $message) { ?>
-            <?php echo $message;?>
-<?php } ?>    
+<?php 
+if($this->messages) {
+    foreach($this->messages as $message) { ?>
+        <?php echo $message;?>
+<?php } 
+} ?>    
 </div>
 
