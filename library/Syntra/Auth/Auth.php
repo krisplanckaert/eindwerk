@@ -12,6 +12,7 @@ class Syntra_Auth_Auth extends Zend_Controller_Plugin_Abstract
         
         //if user is not logged in and is not requesting the login page
         // - redirect to login page
+        $resource = $request->getModuleName().'-'.$request->getControllerName();        
         
         if($auth->hasIdentity()) {
             $acl = Zend_Registry::get('Zend_Acl');
@@ -22,7 +23,6 @@ class Syntra_Auth_Auth extends Zend_Controller_Plugin_Abstract
             $roleModel = new Application_Model_Role();
             $user = $usersModel->getUserByIdentity($identity);
             $role = $roleModel->getOne($user->roleId);
-            $resource = $request->getModuleName().'-'.$request->getControllerName();
             if($acl->has($resource)) {
                 //role is een veld binnen onze user tabel
                 $isAllowed = $acl->isAllowed($role['role'],  // -> role, moet uit Db komen
@@ -32,8 +32,12 @@ class Syntra_Auth_Auth extends Zend_Controller_Plugin_Abstract
                     $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
                     $redirector->gotoUrl('/noaccess');
                 }
-            }
-        } 
+            } 
+        } else {
+            if($request->getModuleName()!='default') {
+                $redirector->gotoUrl('/noaccess');
+            } 
+        }
     }
 }
 
