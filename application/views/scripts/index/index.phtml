@@ -1,10 +1,11 @@
 <section id="categorySection">
-    <ul>
-<?php 
-        foreach($this->categories as $category) { ?>
-            <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'category' => $category['categoryId']),NULL,TRUE); ?>"><?php echo $category['locale']['description'];?></a></li>
-<?php   } ?>    
-    </ul>
+    <article>
+        <ul>
+<?php       foreach($this->categories as $category) { ?>
+                <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'category' => $category['categoryId']),NULL,TRUE); ?>"><?php echo $category['locale']['description'];?></a></li>
+<?php       } ?>    
+        </ul>
+    </article>
 </section>
 <section id="productSection">
     <?php echo $this->partial('partials/products.phtml',null,array('products' => $this->products)); ?>
