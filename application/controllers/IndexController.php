@@ -204,7 +204,7 @@ class IndexController extends My_Controller_Action
             $templateName = My_Controller_Plugin_Mail::TEMPLATE_LOST_PASSWORD;
             $data['eId'] = $userModel->saveIdentifier($userRow['userId']);
             $data['email'] = $userRow['email'];
-            $data['url']   = '/index/reset/eId/' . $data['eId'];
+            $data['url']   = $this->getFullUrl() .'/index/reset/eId/' . $data['eId'];
             $this->mail->send($templateName,$data);
             $this->_redirect('/index/index');
         } catch (Exception $e){
