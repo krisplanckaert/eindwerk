@@ -121,6 +121,7 @@ class IndexController extends My_Controller_Action
             $postParams['roleId']=2;
             $userModel = new Application_Model_User();
             $userId = $userModel->save($postParams);
+            //Zend_Debug::dump($userId);exit;
             if($userId) {
                 $this->login($postParams, 'order');
              }
@@ -149,8 +150,8 @@ class IndexController extends My_Controller_Action
             $locale = $localeModel->getOne($this->authUserRow['localeId']);
             $basket = $basketModel->getAll('userId='.$this->authUserRow['userId']);
             $action = !$basket ? 'index' : $action;
-            $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> $action, 'lang' => $locale['locale'])));
-            } else {
+            $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> $action, 'lang' => $locale['locale'], 'redirect' => false)));
+        } else {
             //alle foutmeldingen weergeven op het scherm
             $this->view->messages = $result->getMessages();
         }        
@@ -181,6 +182,9 @@ class IndexController extends My_Controller_Action
                 }
             }
         } 
+        if($redirect and !$this->authUser) {
+            $this->_redirect($this->view->url(array('controller'=> 'index', 'action'=> 'register')));                        
+        }
         $this->view->orderId = $orderId;
     }
     
