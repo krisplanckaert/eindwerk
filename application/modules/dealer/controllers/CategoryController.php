@@ -72,7 +72,7 @@ class Dealer_CategoryController extends My_Controller_Action
     }
 
     public function toevoegenCategoryProducts($postParams, $categoryId) {
-        $categoryProductModel = new Application_Model_CategoryProduct();
+        $categoryProductModel = new Application_Model_Categoryproduct();
         $where = 'categoryId='.$categoryId;
         $categoryProducts = $categoryProductModel->getAll($where);
         foreach($categoryProducts as $categoryProduct) {
