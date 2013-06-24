@@ -363,7 +363,7 @@ abstract class My_Model extends Zend_Db_Table_Abstract
         if (!empty($id)) {
             $this->update($modelData,$id);
         } else {
-            if(isset($modelData[$this->_primary])) unset($modelData[$this->_primary]);
+            if(isset($modelData[$this->_primary[1]])) unset($modelData[$this->_primary[1]]);
             $id = $this->insert($modelData);
             }
         $thisClass = get_class($this);
