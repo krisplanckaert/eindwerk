@@ -4,6 +4,11 @@
         <title>ZF Shop</title>
         <link href="/css/style.css" rel="stylesheet" />
         <meta charset="UTF-8" />
+<?php
+            echo $this->jQuery().PHP_EOL;
+            echo $this->headScript();
+        ?>
+        
     </head>
     <body class="normalpage">
         <section id="page">
@@ -13,7 +18,8 @@
                         <h1 id="sitename">
                             <a href="#">Portfolio | Premium CSS Template </a>
                         </h1>
-                        <?php echo $this->navigation()->menu(); ?>
+                        <?php echo $this->navigation()->menu();?>
+
                     </nav>
 <?php               foreach($this->locales as $locale) { ?>
                         <a href="<?php echo $this->url(array('controller' => 'index','action' => 'index','lang' => $locale['locale']),NULL,TRUE);?>" 
@@ -21,13 +27,14 @@
                                <?php echo $locale['short'];?>
                         </a> |
 <?php               } ?>
+                    
                 </section>
                 <section id="container">
-                    <div id="contents">
+                    <section id="contents">
                         <header>
-                            <div id="right">
+                            <section id="rightSection">
                                 <article id="searchArticle">
-                                    <span style="float:right">
+                                    <span >
                                         <?php echo $this->searchForm($this->searchForm); ?>
                                     </span>
                                 </article>
@@ -65,16 +72,16 @@
                                         </span>
                                     </article>   
 <?php                           } ?>
-                            </div>
+                            </section>
+                            <section id="content">
+                                <div class="mainTitle" ><br/><?php echo $this->escape($this->placeholder('mainTitle')); ?></div>
+                                <?php echo $this->layout()->content; ?>
+                            </section>
                         </header>
-                        <section id="content">
-                            <div class="mainTitle" ><br/><?php echo $this->escape($this->placeholder('mainTitle')); ?></div>
-                            <?php echo $this->layout()->content; ?>
-                        </section>
 
                         <footer>Footer</footer>
                         <br class="clear" />
-                    </div>
+                    </section>
                 </section>
             </div>
         </section>
